@@ -4,6 +4,8 @@ const SignIn = () => {
   return (
     <div className="min-h-screen flex flex-col lg:flex-row">
   {/* Background Image Section */}
+
+  <h1>Register</h1>
   <div className="w-full lg:w-[70%] bg-[url('/assets/Hero.jpg')] bg-cover bg-center min-h-[400px] lg:min-h-screen">
     <h1 className="mt-4 ml-4 text-white font-bold text-2xl md:text-5xl lg:text-6xl max-w-[90%]">
       Connect, Collaborate, and Conquer Your Studies Together!
