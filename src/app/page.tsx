@@ -3,11 +3,11 @@ import { useRouter } from "next/navigation";
 
 
 export default function Home() {
+  const { push } = useRouter();
 
-  const router = useRouter();
 
   const navigate = () => { 
-    router.push("/login-register");
+    push("../login-register");
   };
 
   return (
