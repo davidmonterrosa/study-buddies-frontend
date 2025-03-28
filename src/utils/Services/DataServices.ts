@@ -2,7 +2,7 @@ import { IUserCredentials, IUserNameId } from "../Interfaces/UserInterfaces";
 
 const url = "https://studybuddies-g9bmedddeah6aqe7.westus-01.azurewebsites.net/";
 
-let userCredentials: IUserCredentials;
+// let userCredentials: IUserCredentials;
 
 export const createAccount = async (user: IUserNameId) => {
     const response: Response = await fetch(`${url}/User/register`, {
@@ -33,7 +33,7 @@ export const login = async (user: IUserNameId) => {
     });
 
     if(!response.ok) {
-        const data = await response.json();
+        // const data = await response.json();
         console.log("Log in failed: Username or password doesn't match system");
         return null;
     }
