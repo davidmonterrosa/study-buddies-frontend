@@ -8,3 +8,7 @@ export interface IUserNameId {
     id: number
     username: string
 }
+
+export interface Itoken {
+    token: string
+}

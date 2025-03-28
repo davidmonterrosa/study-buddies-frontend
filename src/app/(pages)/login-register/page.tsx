@@ -1,6 +1,53 @@
-import React from 'react';
+'use client'
+import { Itoken } from '@/utils/Interfaces/UserInterfaces';
+import { createAccount, login } from '@/utils/Services/DataServices';
+import { useRouter } from 'next/navigation';
+import React, { useState } from 'react';
 
 const SignIn = () => {
+  const [isUserAlready, setIsUserAlready] = useState<boolean>(false);
+  const [username, setUsername] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+
+  const router = useRouter();
+
+  const toggleLogIn = () => {
+    setIsUserAlready(!isUserAlready);
+  }
+
+  const handleSubmit = async () => {
+    let inputCredentials = {
+      username: username,
+      password: password
+    }
+
+    console.log(inputCredentials);
+
+    if(!isUserAlready){
+      // Create Account Logic
+      let result = await createAccount(inputCredentials);
+
+      result ? alert("Account Created") : alert("Username already exists");
+
+    } else {
+      // Login Logic
+      let token: Itoken = await login(inputCredentials);
+
+      if(token != null) {
+        if(typeof window != null) {
+          localStorage.setItem("Token", token.token);
+          console.log(token.token);
+
+          // await getLoggedInUserData(username)
+          router.push('/Dashboard');
+        }
+      } else {
+        alert("Login was no good from password or something");
+      }
+
+    }
+
+  }
   return (
     <div className="min-h-screen flex flex-col lg:flex-row">
       {/* Background Image Section */}
@@ -19,7 +66,7 @@ const SignIn = () => {
          
           <form>
             {/* First and Last Name Row */}
-            <div className="mb-4 flex space-x-4">
+            {isUserAlready ? null : (<div className="mb-4 flex space-x-4">
               <div className="flex-1">
                 <label className="block text-[20px] font-medium mb-2" htmlFor="firstName">First Name:</label>
                 <input
@@ -43,10 +90,10 @@ const SignIn = () => {
                   required
                 />
               </div>
-            </div>
+            </div>)}
 
             {/* Birthday */}
-            <div className="mb-4">
+           {isUserAlready ? null : (<div className="mb-4">
               <label className="block text-[20px] font-medium mb-2" htmlFor="birthday">Birthday:</label>
               <input
                 type="date"
@@ -55,7 +102,7 @@ const SignIn = () => {
                 className="w-full p-3 bg-[#F6F6F6] text-[#9A9A9A] rounded-[15px] text-[20px] lg:p-4"
                 required
               />
-            </div>
+            </div>)}
 
             {/* Email */}
             <div className="mb-4">
@@ -67,6 +114,7 @@ const SignIn = () => {
                 className="w-full p-3 bg-[#F6F6F6] text-[#9A9A9A] rounded-[15px] text-[20px] lg:p-4"
                 placeholder="Email"
                 required
+                onChange={(e) => setUsername(e.target.value)}
               />
             </div>
 
@@ -80,13 +128,14 @@ const SignIn = () => {
                 className="w-full p-3 bg-[#F6F6F6] text-[#9A9A9A] rounded-[15px] text-[20px] lg:p-4"
                 placeholder="Password"
                 required
+                onChange={(e) => setPassword(e.target.value)}
               />
             </div>
 
             {/* Sign Up Button */}
             <div className="mb-4 mt-[40px]">
-              <button type="submit" className="bg-[#3730A3] text-xl text-white p-3 w-full h-[70px] border rounded-[15px]">
-                Sign Up
+              <button onClick={handleSubmit} type="reset" className="bg-[#3730A3] text-xl text-white p-3 w-full h-[70px] border rounded-[15px]">
+                {isUserAlready ? "Log In" : "Sign Up"}
               </button>
             </div>
           </form>
@@ -94,9 +143,11 @@ const SignIn = () => {
           {/* Already have an account prompt */}
           <div className="text-center mt-4">
             <p className="text-lg font-medium">
-              Already have an account?{' '}
+              {isUserAlready ? "Not a study buddy yet?": "Already have an account?"}
               <span className="text-[#3730A3] hover:underline cursor-pointer">
-                Log In
+                <button onClick={toggleLogIn}>
+                  {isUserAlready ? "Create Account" : "Log In"}
+                </button>
               </span>
             </p>
           </div>
