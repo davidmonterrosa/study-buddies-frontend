@@ -127,7 +127,7 @@ const SignIn = () => {
             </div>
 
             <div className="mb-4 mt-[40px]">
-              <button onClick={handleSubmit} type="reset" className="bg-[#3730A3] text-xl text-white p-3 w-full h-[70px] border rounded-[15px]">
+              <button onClick={handleSubmit} type="reset" className="bg-[#3730A3] text-xl text-white p-3 w-full h-[70px] border rounded-[15px] cursor-pointer">
                 {isUserAlready ? "Log In" : "Sign Up"}
               </button>
             </div>
@@ -136,8 +136,8 @@ const SignIn = () => {
           <div className="text-center mt-4">
             <p className="text-lg font-medium">
               {isUserAlready ? "Not a study buddy yet?" : "Already have an account?"}
-              <span className="text-[#3730A3] hover:underline cursor-pointer">
-                <button onClick={toggleLogIn}>
+              <span className="text-[#3730A3]">
+                <button className='hover:underline cursor-pointer' onClick={toggleLogIn}>
                   {isUserAlready ? "Create Account" : "Log In"}
                 </button>
               </span>

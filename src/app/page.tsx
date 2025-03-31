@@ -30,7 +30,7 @@ export default function Home() {
               <button
                 type="button"
                 onClick={() => navigate('register')}  // Pass "register" mode
-                className="bg-[#3730A3] text-xl md:text-2xl text-white p-3 w-full h-[80px] border rounded-[15px]"
+                className="bg-[#3730A3] text-xl md:text-2xl text-white p-3 w-full h-[80px] border rounded-[15px] cursor-pointer"
               >
                 Register
               </button>
@@ -39,7 +39,7 @@ export default function Home() {
               <button
                 type="button"
                 onClick={() => navigate('login')}  // Pass "login" mode
-                className="bg-[#3730A3] text-xl md:text-2xl text-white p-3 w-full h-[80px] border rounded-[15px]"
+                className="bg-[#3730A3] text-xl md:text-2xl text-white p-3 w-full h-[80px] border rounded-[15px] cursor-pointer"
               >
                 Login
               </button>
