@@ -1,13 +1,12 @@
 "use client";
 import { useRouter } from "next/navigation";
 
-
 export default function Home() {
   const { push } = useRouter();
 
-
-  const navigate = () => { 
-    push("../login-register");
+  // Navigate with query parameter
+  const navigate = (mode:string) => {
+    push(`../login-register?mode=${mode}`);
   };
 
   return (
@@ -30,7 +29,7 @@ export default function Home() {
             <div className="mb-4">
               <button
                 type="button"
-                onClick={navigate}
+                onClick={() => navigate('register')}  // Pass "register" mode
                 className="bg-[#3730A3] text-xl md:text-2xl text-white p-3 w-full h-[80px] border rounded-[15px]"
               >
                 Register
@@ -39,7 +38,7 @@ export default function Home() {
             <div className="mb-4">
               <button
                 type="button"
-                onClick={navigate}
+                onClick={() => navigate('login')}  // Pass "login" mode
                 className="bg-[#3730A3] text-xl md:text-2xl text-white p-3 w-full h-[80px] border rounded-[15px]"
               >
                 Login
