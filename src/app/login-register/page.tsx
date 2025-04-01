@@ -65,7 +65,7 @@ const SignIn = () => {
       </div>
 
       {/* Form Section */}
-      <div className="w-full lg:w-[30%] bg-white flex items-center justify-center rounded-t-[15px] lg:rounded-l-[15px] p-8">
+      <div className="w-full lg:w-[30%] bg-white dark:bg-linear-to-b dark:from-[#271E55] dark:to-[#100B28] dark:border-[1px] dark:border-[#aa7dfc40] flex items-center justify-center rounded-t-[15px] lg:rounded-l-[15px] p-8">
         <div className="w-full max-w-[700px] mx-auto">
           <div className="flex justify-center mb-8">
             <img src="/assets/SBLogo.png" alt="Logo" className="w-24 h-24" />
@@ -79,7 +79,7 @@ const SignIn = () => {
                   <label className="block text-[20px] font-medium mb-2">First Name:</label>
                   <input
                     type="text"
-                    className="w-full p-3 bg-[#F6F6F6] rounded-[15px]"
+                    className="w-full p-3 bg-[#F6F6F6] text-black rounded-[15px]"
                     placeholder="First Name"
                     required
                   />
@@ -88,7 +88,7 @@ const SignIn = () => {
                   <label className="block text-[20px] font-medium mb-2">Last Name:</label>
                   <input
                     type="text"
-                    className="w-full p-3 bg-[#F6F6F6] rounded-[15px]"
+                    className="w-full p-3 bg-[#F6F6F6] text-black rounded-[15px]"
                     placeholder="Last Name"
                     required
                   />
@@ -97,7 +97,7 @@ const SignIn = () => {
                   <label className="block text-[20px] font-medium mb-2">Birthday:</label>
                   <input
                     type="date"
-                    className="w-full p-3 bg-[#F6F6F6] rounded-[15px]"
+                    className="w-full p-3 bg-[#F6F6F6] text-black rounded-[15px]"
                     required
                   />
                 </div>
@@ -108,7 +108,7 @@ const SignIn = () => {
               <label className="block text-[20px] font-medium mb-2">Email:</label>
               <input
                 type="email"
-                className="w-full p-3 bg-[#F6F6F6] rounded-[15px]"
+                className="w-full p-3 bg-[#F6F6F6] text-black rounded-[15px]"
                 placeholder="Email"
                 required
                 onChange={(e) => setUsername(e.target.value)}
@@ -119,7 +119,7 @@ const SignIn = () => {
               <label className="block text-[20px] font-medium mb-2">Password:</label>
               <input
                 type="password"
-                className="w-full p-3 bg-[#F6F6F6] rounded-[15px]"
+                className="w-full p-3 bg-[#F6F6F6] text-black rounded-[15px]"
                 placeholder="Password"
                 required
                 onChange={(e) => setPassword(e.target.value)}
@@ -127,7 +127,7 @@ const SignIn = () => {
             </div>
 
             <div className="mb-4 mt-[40px]">
-              <button onClick={handleSubmit} type="reset" className="bg-[#3730A3] text-xl text-white p-3 w-full h-[70px] border rounded-[15px] cursor-pointer">
+              <button onClick={handleSubmit} type="reset" className="bg-linear-to-r from-[#6F58DA] to-[#5131E7] text-xl text-white p-3 w-full h-[70px] border rounded-[15px] cursor-pointer">
                 {isUserAlready ? "Log In" : "Sign Up"}
               </button>
             </div>
@@ -136,7 +136,7 @@ const SignIn = () => {
           <div className="text-center mt-4">
             <p className="text-lg font-medium">
               {isUserAlready ? "Not a study buddy yet?" : "Already have an account?"}
-              <span className="text-[#3730A3]">
+              <span className="text-[#aa7dfc] px-2">
                 <button className='hover:underline cursor-pointer' onClick={toggleLogIn}>
                   {isUserAlready ? "Create Account" : "Log In"}
                 </button>

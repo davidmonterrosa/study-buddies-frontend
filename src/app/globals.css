@@ -5,6 +5,11 @@
 
 @custom-variant dark (&:is(.dark *));
 
+.darkBg{
+  background: linear-gradient(to bottom, #271E55, #100B28);
+  border: 1px solid #aa7dfc40;
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
