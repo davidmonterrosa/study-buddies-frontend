@@ -47,7 +47,7 @@ const SignIn = () => {
         if (typeof window != null) {
           localStorage.setItem("Token", token.token);
           console.log(token.token);
-          router.push('/Dashboard');
+          router.push('/landing');
         }
       } else {
         alert("Invalid credentials");
