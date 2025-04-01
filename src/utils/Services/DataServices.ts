@@ -2,10 +2,11 @@ import { IUserCredentials, IUserNameId } from "../Interfaces/UserInterfaces";
 
 const url = "https://studybuddies-g9bmedddeah6aqe7.westus-01.azurewebsites.net/";
 
-let userCredentials: IUserCredentials;
+// let userCredentials: IUserCredentials;
 
-export const createAccount = async (user: IUserNameId) => {
-    const response: Response = await fetch(`${url}/User/register`, {
+export const createAccount = async (user: IUserCredentials) => {
+    console.log(user)
+    const response = await fetch(`${url}UserControllers/register`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -23,8 +24,8 @@ export const createAccount = async (user: IUserNameId) => {
     return data.success;
 }
 
-export const login = async (user: IUserNameId) => {
-    const response: Response = await fetch(`${url}/User/login`, {
+export const login = async (user: IUserCredentials) => {
+    const response = await fetch(`${url}UserControllers/login`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
