@@ -5,7 +5,6 @@ import React from 'react'
 const Dashboard: React.FC = () => {
   return (
     <div className='bg-white'>
-      <NavBarComponent />
       <h1 className='text-black'> Welcome to the Dashboard</h1>
       <div className='w-full bg-white rounded-lg dark:bg-linear-to-b dark:from-[#271E55] dark:to-[#100B28] dark:border-[2px] dark:border-[#aa7dfc40] max-w-full lg:max-w-[80%] h-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 grid-rows-4 gap-4 2xl:grid-cols-4 drop-shadow-[0_3px_4px_rgba(0,0,0,0.25)] p-4'>
         <CommunityCard 
