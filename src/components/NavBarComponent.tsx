@@ -10,6 +10,10 @@ import {
   NavbarLink,
   NavbarToggle,
   Popover,
+  Dropdown,
+  DropdownItem,
+  DropdownDivider,
+  ToggleSwitch,
 } from "flowbite-react";
 import Link from "next/link";
 import React, { useState } from "react";
@@ -22,6 +26,7 @@ const NavBarComponent = () => {
   const [isOpenRight, setIsOpenRight] = useState(false);
   const closeNotifications = () => setIsOpenRight(false);
   const [openModal, setOpenModal] = useState(false);
+  const [publicOrPrivate, setPrivate] = useState(false);
 
   const content = (
     <div className="w-64 text-sm text-gray-500 dark:text-gray-400">
@@ -86,28 +91,91 @@ const NavBarComponent = () => {
         <p className="text-xl">+</p>
         <p className="hidden lg:block">Create</p>
       </button>
-      <Modal show={openModal} onClose={() => setOpenModal(false)}>
-        <ModalHeader className="flex items-center justify-center">
+      {/* Modal */}
+      <Modal
+        className="rounded-15px sm:w-full sm:max-h-screen sm:overflow-auto sm:max-w-full"
+        show={openModal}
+        onClose={() => setOpenModal(false)}
+      >
+        {/* Modal Content */}
+        <div className="flex flex-col items-center justify-center p-4">
           <div className="bg-[#818CF8] w-[50px] h-[50px] rounded-full flex items-center justify-center">
             <img className="w-[25px] h-[25px]" src="/assets/join.svg" alt="" />
           </div>
-        </ModalHeader>
-        <ModalBody>
-          <div className="space-y-6">
-            <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-              With less than a month to go before the European Union enacts new
-              consumer privacy laws for its citizens, companies around the world
-              are updating their terms of service agreements to comply.
-            </p>
-            <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-              The European Union’s General Data Protection Regulation (G.D.P.R.)
-              goes into effect on May 25 and is meant to ensure a common set of
-              data rights in the European Union. It requires organizations to
-              notify users as soon as possible of high-risk data breaches that
-              could personally affect them.
-            </p>
+          <h1 className="text-xl font-bold mt-2">Create a Community</h1>
+        </div>
+
+        {/* Responsive Grid Layout */}
+        <div className="grid md:grid-cols-2 grid-cols-1 gap-4 mt-4 p-4">
+          {/* Community Name */}
+          <div className="flex flex-col">
+            <p className="font-medium">Community Name</p>
+            <input
+              type="text"
+              placeholder="Enter community name"
+              className="w-full p-2 border rounded-md"
+            />
           </div>
-        </ModalBody>
+
+          {/* Visibility (Public or Private) */}
+          <div className="flex flex-col">
+            <p className="font-medium">Privacy</p>
+            <div className="flex items-center gap-2">
+              <p>Private</p>
+              <ToggleSwitch checked={publicOrPrivate} onChange={setPrivate} />
+              <p>Public</p>
+            </div>
+          </div>
+
+          {/* Subject Selection */}
+          <div className="flex flex-col">
+            <p className="font-medium">Subject Area</p>
+            <Dropdown
+              className="w-full text-[16px] bg-gradient-to-r from-[#6F58DA] to-[#5131E7] text-white rounded-[10px]"
+              label="Select a subject"
+            >
+              <DropdownItem>Mathematics</DropdownItem>
+              <DropdownItem>Science</DropdownItem>
+              <DropdownItem>Language Arts</DropdownItem>
+              <DropdownDivider />
+              <DropdownItem>Other</DropdownItem>
+            </Dropdown>
+          </div>
+
+          {/* Difficulty Selection */}
+          <div className="flex flex-col">
+            <p className="font-medium">Difficulty Level</p>
+            <Dropdown
+              className="w-full text-[16px] bg-gradient-to-r from-[#6F58DA] to-[#5131E7] text-white rounded-[10px]"
+              label="Select difficulty level"
+            >
+              <DropdownItem>Beginner</DropdownItem>
+              <DropdownItem>Intermediate</DropdownItem>
+              <DropdownItem>Advanced</DropdownItem>
+              <DropdownDivider />
+              <DropdownItem>Anyone</DropdownItem>
+            </Dropdown>
+          </div>
+        </div>
+
+        {/* Description Field */}
+        <div className="flex flex-col p-4">
+          <p className="font-medium">Community Description</p>
+          <textarea
+            placeholder="Write a short description about your community..."
+            className="w-full p-2 h-32 border rounded-md resize-none"
+          />
+        </div>
+
+        {/* Buttons */}
+        <div className="flex flex-col gap-4 p-4 sm:flex-row sm:gap-6 sm:w-full sm:justify-between">
+          <button className="bg-red-500 font-bold text-white rounded-[10px] px-4 py-2 w-full sm:w-auto">
+            Cancel
+          </button>
+          <button className="bg-gradient-to-r from-[#6F58DA] to-[#5131E7] text-white rounded-[10px] font-bold px-4 py-2 w-full sm:w-auto">
+            Create Community
+          </button>
+        </div>
       </Modal>
 
       {/* Notifications Panel */}
