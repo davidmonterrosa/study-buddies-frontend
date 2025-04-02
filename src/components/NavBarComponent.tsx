@@ -1,5 +1,5 @@
 'use client'
-import { Drawer, Modal, ModalBody, ModalHeader, Navbar, NavbarBrand, NavbarCollapse, NavbarLink, NavbarToggle } from 'flowbite-react'
+import { Drawer, Modal, ModalBody, ModalHeader, Navbar, NavbarBrand, NavbarCollapse, NavbarLink, NavbarToggle, Popover } from 'flowbite-react'
 import Link from 'next/link'
 import React, { useState } from 'react'
 import { NavigationMenu, NavigationMenuList } from './ui/navigation-menu'
@@ -12,13 +12,20 @@ const NavBarComponent = () => {
     const closeNotifications = () => setIsOpenRight(false);
     const [openModal, setOpenModal] = useState(false);
 
+    const content = (
+        <div className="w-64 text-sm text-gray-500 dark:text-gray-400">
+          <div className="border-b border-gray-200 bg-gray-100 px-3 py-2 dark:border-gray-600 dark:bg-gray-700">
+            <h3 className="font-semibold text-gray-900 dark:text-white">Popover title</h3>
+          </div>
+          <div className="px-3 py-2">
+            <p>And here's some amazing content. It's very engaging. Right?</p>
+          </div>
+        </div>
+      );
+
 
   return (
-    <Navbar className='bg-[#818CF8] dark:bg-[#110C29]' fluid>
-        <NavbarBrand as={Link} href="/" className='order-2'>
-            <img src="/assets/SBLogo.png" className="mr-3 h-6 sm:h-9" alt="Flowbite React Logo" />
-            <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">Study Buddies</span>
-        </NavbarBrand>
+    <Navbar className=' bg-[#818CF8] dark:bg-[#110C29]' fluid>
         {/* Open My Communities panel button*/}
         <div className="flex lg:hidden items-center justify-center">
             <button className='size-10' onClick={() => setIsOpenLeft(true)}>
@@ -29,12 +36,18 @@ const NavBarComponent = () => {
             {/* This is where the My Communities panel will be located on tablet and smaller */}
         </Drawer>
 
+        <NavbarBrand as={Link} href="/" className=''>
+            <img src="/assets/SBLogo.png" className="mr-3 h-6 sm:h-9" alt="Flowbite React Logo" />
+            <span className="self-center whitespace-nowrap text-[32px] font-semibold dark:text-white">Study Buddies</span>
+        </NavbarBrand>
+        
+
         {/* Search Bar */}
-        <div className='flex bg-white items-center rounded-2xl border-2 px-3 py-1.5 order-3'>
-            <button className='size-10'>
+        <div className='flex bg-white items-center w-2xl rounded-2xl border-2 px-3 py-[3px]'>
+            <button className='size-10 mx-2.5'>
                 <img src="../assets/searchIcon.svg" alt="Search Icon" />
             </button>
-            <Input className='border-0' placeholder='Search for Learning Communities'/>
+            <Input className='border-0 ' placeholder='Search for Learning Communities'/>
         </div>
 
         {/* Create Button modal */}
@@ -62,13 +75,15 @@ const NavBarComponent = () => {
         {/* Notifications Panel */}
         <div className="flex items-center justify-center">
             <button onClick={() => setIsOpenRight(true)}>
-                <img src="/assets/Bell.svg" alt="Notification Bell" />
+                <img className='' src="/assets/Bell.svg" alt="Notification Bell" />
             </button>
         </div>
       <Drawer open={isOpenRight} onClose={closeNotifications} position="right">
-        
+        {/* Notifications Panel */}
       </Drawer>
-        <NavbarLink className='order-6' href="#">Contact</NavbarLink>
+      <Popover content={content} placement="bottom">
+        <button className='rounded-full size-12 font-bold bg-white dark:bg-linear-to-b from-[#6F58DA] to-[#5131E7]'>AL</button>
+      </Popover>
     </Navbar>
   )
 }
