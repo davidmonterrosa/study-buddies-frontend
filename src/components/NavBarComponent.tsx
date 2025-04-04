@@ -22,11 +22,7 @@ const NavBarComponent: React.FC = () => {
       {/* Hamburger Menu */}
       <div className="flex lg:hidden items-center justify-center">
         <button className="size-10" onClick={() => setIsOpenLeft(true)}>
-          <img
-            className="size-10"
-            src="/assets/menu-burger.svg"
-            alt="Open My Communities panel"
-          />
+          <img className="size-10 dark:invert" src="/assets/menu-burger.svg" alt="Open My Communities panel"/>
         </button>
       </div>
 
