@@ -14,7 +14,7 @@ export interface ICommunityData {
     communityDescription: string
 }
 
-interface CommunityMember {
+export interface CommunityMember {
     id: number
     userId: number
     role: string
