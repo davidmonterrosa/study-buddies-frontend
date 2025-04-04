@@ -35,7 +35,7 @@ export const login = async (user: IUserCredentials) => {
     });
 
     if(!response.ok) {
-        const data = await response.json();
+        // const data = await response.json();
         console.log("Log in failed: Username or password doesn't match system");
         return null;
     }
@@ -85,6 +85,39 @@ export const createNewCommunity = async (community: ICommunityData, token: strin
     });
 
     if(!response.ok) {
-        
+        const errorData = await response.json();
+        const message = errorData.message;
+        console.log(message);
+        return false;
     }
+    const data = await response.json();
+    return data.success;
+}
+
+export const upDateCommunity = async (community: ICommunityData, token: string) => {
+    const response = await fetch(`${url}CommunityControllers/updateCommunity`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer" + token,
+        },
+        body:JSON.stringify(community)
+    });
+
+    if(!response.ok) {
+        const errorData = await response.json();
+        const message = errorData.message;
+        console.log(message);
+        return false;
+    }
+    const data = await response.json();
+    return data.success;
+}
+
+export const deleteCommunity = async (community: ICommunityData, token: string) => {
+    const response = await fetch (`${url}CommunityControllers/`)
+}
+
+export const getToken = () => {
+    return localStorage.getItem("Token") ?? "";
 }
