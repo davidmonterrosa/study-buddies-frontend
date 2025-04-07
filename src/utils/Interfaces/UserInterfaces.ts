@@ -31,6 +31,11 @@ export interface IUserNameId {
     username: string
 }
 
+// export interface IFirstAndLastName {
+//     firstName: string
+//     lastName: string
+// }
+
 export interface Itoken {
     token: string
 }

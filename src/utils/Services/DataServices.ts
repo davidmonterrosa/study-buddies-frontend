@@ -1,9 +1,9 @@
-import { resolve } from "path";
 import { ICommunityData, IUserCredentials, IUserNameId } from "../Interfaces/UserInterfaces";
 
-const url = "https://studybuddies-g9bmedddeah6aqe7.westus-01.azurewebsites.net/";
+const url = "https://study-buddys-backend.azurewebsites.net/";
 
 let userData: IUserNameId;
+// let displayName: IFirstAndLastName;
 
 export const createAccount = async (user: IUserCredentials) => {
     console.log(user)
@@ -114,9 +114,9 @@ export const upDateCommunity = async (community: ICommunityData, token: string) 
     return data.success;
 }
 
-export const deleteCommunity = async (community: ICommunityData, token: string) => {
-    const response = await fetch (`${url}CommunityControllers/`)
-}
+// export const deleteCommunity = async (community: ICommunityData, token: string) => {
+//     const response = await fetch (`${url}CommunityControllers/`)
+// }
 
 export const getToken = () => {
     return localStorage.getItem("Token") ?? "";
