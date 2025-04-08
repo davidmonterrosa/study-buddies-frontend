@@ -1,6 +1,6 @@
 import { ICommunityData, IUserCredentials, IUserNameId } from "../Interfaces/UserInterfaces";
 
-const url = "https://study-buddys-backend.azurewebsites.net/";
+const url = "https://studybuddies-g9bmedddeah6aqe7.westus-01.azurewebsites.net/";
 
 let userData: IUserNameId;
 // let displayName: IFirstAndLastName;
