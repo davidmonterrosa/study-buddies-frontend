@@ -22,6 +22,17 @@ const SignIn = () => {
     }
   }, [mode]);
 
+  useEffect(() => {
+    const getDataBack = async () => {
+      const response = await fetch('https://study-buddys-backend.azurewebsites.net/Community/getAllCommunities');
+      if(response.ok) {
+        const data = await response.json();
+        console.log(data);
+      }
+    }; 
+    getDataBack();
+  }, [])
+
   const toggleLogIn = () => {
     setIsUserAlready(!isUserAlready);
   }

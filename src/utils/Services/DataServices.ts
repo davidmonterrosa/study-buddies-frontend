@@ -5,9 +5,10 @@ const url = "https://study-buddys-backend.azurewebsites.net/";
 let userData: IUserNameId;
 // let displayName: IFirstAndLastName;
 
+
 export const createAccount = async (user: IUserCredentials) => {
     console.log(user)
-    const response = await fetch(`${url}UserControllers/register`, {
+    const response = await fetch(`${url}User/register`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -26,7 +27,7 @@ export const createAccount = async (user: IUserCredentials) => {
 }
 
 export const login = async (user: IUserCredentials) => {
-    const response = await fetch(`${url}UserControllers/login`, {
+    const response = await fetch(`${url}User/login`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -45,7 +46,7 @@ export const login = async (user: IUserCredentials) => {
 }
 
 export const getLoggedInUserData = async (userID: number) => {
-    const response = await fetch(`${url}UserControllers/getUserInfo/${userID}`);
+    const response = await fetch(`${url}User/getUserInfo/${userID}`);
 
     if(!response.ok) {
         const data = await response.json();
@@ -75,11 +76,11 @@ export const checkToken = () => {
 }
 
 export const createNewCommunity = async (community: ICommunityData, token: string) => {
-    const response = await fetch(`${url}CommunityControllers/addCommunity`, {
+    const response = await fetch(`${url}Community/addCommunity`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
-            "Authorization": "Bearer" + token,
+            "Authorization": "Bearer " + token,
         },
         body:JSON.stringify(community)
     });
@@ -95,11 +96,11 @@ export const createNewCommunity = async (community: ICommunityData, token: strin
 }
 
 export const upDateCommunity = async (community: ICommunityData, token: string) => {
-    const response = await fetch(`${url}CommunityControllers/updateCommunity`, {
+    const response = await fetch(`${url}Community/updateCommunity`, {
         method: "PUT",
         headers: {
             "Content-Type": "application/json",
-            "Authorization": "Bearer" + token,
+            "Authorization": "Bearer " + token,
         },
         body:JSON.stringify(community)
     });
