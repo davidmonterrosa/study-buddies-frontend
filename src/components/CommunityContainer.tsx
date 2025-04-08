@@ -1,4 +1,3 @@
-// components/CommunityContainer.tsx
 import CommunityCard from '@/components/CommunityCard'
 import React from 'react'
 
