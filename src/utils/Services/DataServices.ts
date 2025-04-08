@@ -75,6 +75,24 @@ export const checkToken = () => {
     return result;
 }
 
+export const getAllCommunities = async (token: string) => {
+    const response = await fetch(`${url}Community/getAllCommunities`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + token
+        }
+    });
+    if(!response.ok) {
+        const errorData = await response.json();
+        const message = errorData.message;
+        console.log(message);
+        return [];
+    }
+    const data = await response.json();
+    return data;
+}
+
 export const createNewCommunity = async (community: ICommunityData, token: string) => {
     const response = await fetch(`${url}Community/addCommunity`, {
         method: "POST",
