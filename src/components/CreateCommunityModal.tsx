@@ -44,8 +44,10 @@ const CreateCommunityModal: React.FC<CreateCommunityModalProps> = ({ isOpen, onC
   useEffect(() => {
     const getLoggedInData = async () => {
       const loggedIn = currentUser();
-      setComOwnerId(loggedIn.user.id);
-      setOwnerName(loggedIn.user.username);
+      if(loggedIn) {
+        setComOwnerId(loggedIn.user.id);
+        setOwnerName(loggedIn.user.username);
+      }
 
     }
 

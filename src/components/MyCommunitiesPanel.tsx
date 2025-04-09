@@ -15,8 +15,8 @@ const MyCommunitiesPanel = () => {
 
       // const data = await getAllCommunities(getToken());
       const data = await getMyCommunities(loggedInUser.user.id, getToken());
-      console.log(data.communities);
-      setCommmunityGroups(data.communities);
+      console.log(data);
+      setCommmunityGroups(data);
     }
     fetchMyCommunities();
   }, []);
