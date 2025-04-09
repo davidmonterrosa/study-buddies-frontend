@@ -15,7 +15,7 @@ const NavBarComponent: React.FC = () => {
   const [isOpenLeft, setIsOpenLeft] = useState<boolean>(false);  // State for the sidebar
 
   const closeMyCommunities = () => setIsOpenLeft(false); // Close sidebar handler
-  const closeNotifications = () => setIsOpenNotifications(false);
+  // const closeNotifications = () => setIsOpenNotifications(false);
 
   return (
     <Navbar className="bg-[#818CF8] dark:bg-[#110C29]" fluid>
