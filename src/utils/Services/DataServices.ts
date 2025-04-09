@@ -45,8 +45,8 @@ export const login = async (user: IUserCredentials) => {
     return data;
 }
 
-export const getLoggedInUserData = async (userID: number) => {
-    const response = await fetch(`${url}User/getUserInfo/${userID}`);
+export const getLoggedInUserData = async (userName: string) => {
+    const response = await fetch(`${url}User/getUserInfo/${userName}`);
 
     if(!response.ok) {
         const data = await response.json();
@@ -56,6 +56,7 @@ export const getLoggedInUserData = async (userID: number) => {
     }
 
     userData = await response.json();
+    console.log(userData);
     return userData;
 
 }
@@ -90,6 +91,27 @@ export const getAllCommunities = async (token: string) => {
         return [];
     }
     const data = await response.json();
+    console.log(data);
+    return data;
+}
+
+export const getMyCommunities = async (userId: number, token: string) => {
+    console.log(userId, token)
+    console.log("Community Fetch line 100")
+    const response = await fetch(`${url}Community/FilterUserIdFromCommunityAsync/${userId}`, {
+        method: "GET",
+        headers: {
+            "Authorization": "Bearer " + token,
+        }
+    });
+    if(!response.ok) {
+        const errorData = await response.json();
+        const message = errorData.message;
+        console.log(message);
+        return [];
+    }
+    const data = await response.json();
+    console.log("getMyCommunities(left sidebar):", data);
     return data;
 }
 

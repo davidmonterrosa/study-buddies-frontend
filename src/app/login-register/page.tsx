@@ -1,6 +1,6 @@
 'use client'
 import { Itoken } from '@/utils/Interfaces/UserInterfaces';
-import { createAccount, login } from '@/utils/Services/DataServices';
+import { createAccount, getLoggedInUserData, login } from '@/utils/Services/DataServices';
 import { useRouter, useSearchParams } from 'next/navigation';
 import React, { useState, useEffect } from 'react';
 
@@ -43,7 +43,6 @@ const SignIn = () => {
       password: password
     }
 
-    console.log(inputCredentials);
 
     if (!isUserAlready) {
       // Create Account Logic
@@ -57,7 +56,7 @@ const SignIn = () => {
       if (token != null) {
         if (typeof window != null) {
           localStorage.setItem("Token", token.token);
-          console.log(token.token);
+          await getLoggedInUserData(username);
           router.push('/landing');
         }
       } else {

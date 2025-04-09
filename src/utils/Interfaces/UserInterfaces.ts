@@ -1,7 +1,7 @@
 export interface ICommunityData {
     id: number
-    communityOwnerId: number
-    communityIsCommunityOwner: boolean
+    communityOwnerID: number
+    isCommunityOwner: boolean
     communityIsPublic: boolean
     communityIsDeleted: boolean
     communityOwnerName: string
@@ -27,8 +27,14 @@ export interface IUserCredentials {
 }
 
 export interface IUserNameId {
-    id: number
-    username: string
+    success: boolean
+    user: {
+        id: number
+        username: string
+        ownedCommunities: number[]
+        joinedCommunities: number[]
+        communityRequests: number[]
+    }
 }
 
 // export interface IFirstAndLastName {

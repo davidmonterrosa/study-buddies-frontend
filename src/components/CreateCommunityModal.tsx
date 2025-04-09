@@ -44,8 +44,9 @@ const CreateCommunityModal: React.FC<CreateCommunityModalProps> = ({ isOpen, onC
   useEffect(() => {
     const getLoggedInData = async () => {
       const loggedIn = currentUser();
-      setComOwnerId(loggedIn.id);
-      setOwnerName(loggedIn.username);
+      console.log( loggedIn);
+      setComOwnerId(loggedIn.user.id);
+      setOwnerName(loggedIn.user.username);
     }
 
     if(!checkToken()) {
@@ -60,6 +61,7 @@ const CreateCommunityModal: React.FC<CreateCommunityModalProps> = ({ isOpen, onC
 
   }, [])
 
+  
   const handleCommunityName = (e: React.ChangeEvent<HTMLInputElement>) => setComName(e.target.value);
   const handleCommunityDescription = (e: React.ChangeEvent<HTMLTextAreaElement>) => setComDescription(e.target.value);
   const handleCommunitySubject = (subject: string) => setComSubject(subject);
@@ -70,11 +72,13 @@ const CreateCommunityModal: React.FC<CreateCommunityModalProps> = ({ isOpen, onC
   };
 
   const handleSubmit = async () => {
+    console.log(comOwnerId);
+    console.log(ownerName);
 
     const communityGroup: ICommunityData = {
       id: 0,
-      communityOwnerId: comOwnerId,
-      communityIsCommunityOwner: true,
+      communityOwnerID: comOwnerId,
+      isCommunityOwner: true,
       communityIsPublic: isPublic,
       communityIsDeleted: false,
       communityOwnerName: ownerName,
@@ -87,7 +91,12 @@ const CreateCommunityModal: React.FC<CreateCommunityModalProps> = ({ isOpen, onC
       communityDescription: comDescription,
     }
     console.log(communityGroup);
-    await createNewCommunity(communityGroup, getToken())
+    const result = await createNewCommunity(communityGroup, getToken());
+    if(result == true) {
+      console.log("Successfully created group")
+    } else {
+      console.log("Not created")
+    }
   }
 
   return (
@@ -157,7 +166,7 @@ const CreateCommunityModal: React.FC<CreateCommunityModalProps> = ({ isOpen, onC
         <button className="bg-red-500 font-bold text-white rounded-[10px] px-4 py-2 w-full sm:w-auto cursor-pointer" onClick={onClose}>
           Cancel
         </button>
-        <button type="submit" className="bg-gradient-to-r from-[#6F58DA] to-[#5131E7] text-white rounded-[10px] font-bold px-4 py-2 w-full sm:w-auto cursor-pointer" onClick={handleSubmit}>
+        <button className="bg-gradient-to-r from-[#6F58DA] to-[#5131E7] text-white rounded-[10px] font-bold px-4 py-2 w-full sm:w-auto cursor-pointer" onClick={handleSubmit}>
           Create Community
         </button>
       </div>
