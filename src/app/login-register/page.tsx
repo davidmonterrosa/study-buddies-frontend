@@ -2,7 +2,7 @@
 import { Itoken } from '@/utils/Interfaces/UserInterfaces';
 import { createAccount, getLoggedInUserData, login } from '@/utils/Services/DataServices';
 import { useRouter, useSearchParams } from 'next/navigation';
-import React, { useState, useEffect } from 'react';
+import React, { Suspense, useState, useEffect } from 'react';
 
 const SignIn = () => {
   const [isUserAlready, setIsUserAlready] = useState<boolean>(false);
@@ -10,6 +10,7 @@ const SignIn = () => {
   const [password, setPassword] = useState<string>("");
   
   const router = useRouter();
+
   const searchParams = useSearchParams();
   const mode = searchParams.get('mode');  // Get the mode from query params
 
@@ -38,7 +39,7 @@ const SignIn = () => {
   }
 
   const handleSubmit = async () => {
-    let inputCredentials = {
+    const inputCredentials = {
       username: username,
       password: password
     }
@@ -46,12 +47,17 @@ const SignIn = () => {
 
     if (!isUserAlready) {
       // Create Account Logic
-      let result = await createAccount(inputCredentials);
+      const result = await createAccount(inputCredentials);
 
-      result ? alert("Account Created") : alert("Username already exists");
+      if (result){
+        console.log("Account Created")
+      } else {
+        console.log("Username already exists");
+      } 
+
     } else {
       // Login Logic
-      let token: Itoken = await login(inputCredentials);
+      const token: Itoken = await login(inputCredentials);
 
       if (token != null) {
         if (typeof window != null) {
@@ -159,4 +165,12 @@ const SignIn = () => {
   );
 };
 
-export default SignIn;
+const SignInWithSuspense = () => (
+  <Suspense fallback={<div>Loading...</div>}>
+    <SignIn />
+  </Suspense>
+);
+
+export default SignInWithSuspense;
+
+// export default SignIn;

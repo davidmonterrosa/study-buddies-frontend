@@ -1,8 +1,8 @@
 'use client'
 import React, { useEffect, useState } from "react";
-import { Modal, ToggleSwitch, Dropdown, DropdownItem, DropdownDivider } from "flowbite-react";
-import { CommunityMember, ICommunityData } from "@/utils/Interfaces/UserInterfaces";
-import { checkToken, createNewCommunity, currentUser, getLoggedInUserData, getToken } from "@/utils/Services/DataServices";
+import { Modal, Dropdown, DropdownItem, DropdownDivider } from "flowbite-react";
+import { ICommunityData } from "@/utils/Interfaces/UserInterfaces";
+import { checkToken, createNewCommunity, currentUser, getToken } from "@/utils/Services/DataServices";
 import { useRouter } from "next/navigation";
 
 interface CreateCommunityModalProps {
@@ -19,8 +19,8 @@ const CreateCommunityModal: React.FC<CreateCommunityModalProps> = ({ isOpen, onC
   const [ownerName, setOwnerName] = useState<string>("");
   const [comName, setComName] = useState<string>("")
   const [comSubject, setComSubject] = useState<string>("")
-  const [comMembers, setComMembers] = useState<CommunityMember[]>([])
-  const [comRequests, setComRequests] = useState<number[]>([])
+  // const [comMembers, setComMembers] = useState<CommunityMember[]>()
+  // const [comRequests, setComRequests] = useState<number[]>([])
   const [comDifficulty, setComDifficulty] = useState<string>("")
   const [comDescription, setComDescription] = useState<string>("")
   // const [communityGroup, setCommunityGroup] = useState<ICommunityData>({
@@ -44,9 +44,9 @@ const CreateCommunityModal: React.FC<CreateCommunityModalProps> = ({ isOpen, onC
   useEffect(() => {
     const getLoggedInData = async () => {
       const loggedIn = currentUser();
-      console.log( loggedIn);
-      setComOwnerId(loggedIn.user.id);
-      setOwnerName(loggedIn.user.username);
+      setComOwnerId(loggedIn.id);
+      setOwnerName(loggedIn.username);
+
     }
 
     if(!checkToken()) {
@@ -56,12 +56,20 @@ const CreateCommunityModal: React.FC<CreateCommunityModalProps> = ({ isOpen, onC
     }
   }, [])
 
-  useEffect(() => {
-    
+  // useEffect(() => {
+  //   const newMember: CommunityMember = {
+  //       id: 0,
+  //       userId: comOwnerId,
+  //       role: "owner",
+  //   }
+  //   if(!checkToken()) {
+  //     router.push('/');
+  //   } else {
+  //     setComMembers([newMember]);
+  //   }
 
-  }, [])
+  // }, [comOwnerId])
 
-  
   const handleCommunityName = (e: React.ChangeEvent<HTMLInputElement>) => setComName(e.target.value);
   const handleCommunityDescription = (e: React.ChangeEvent<HTMLTextAreaElement>) => setComDescription(e.target.value);
   const handleCommunitySubject = (subject: string) => setComSubject(subject);
@@ -70,6 +78,7 @@ const CreateCommunityModal: React.FC<CreateCommunityModalProps> = ({ isOpen, onC
     setPublicOrPrivate(!publicOrPrivate)
     setIsPublic(!isPublic);
   };
+  
 
   const handleSubmit = async () => {
     console.log(comOwnerId);
@@ -85,8 +94,12 @@ const CreateCommunityModal: React.FC<CreateCommunityModalProps> = ({ isOpen, onC
       communityName: comName,
       communitySubject: comSubject,
       communityMemberCount: 1,
-      communityMembers: comMembers,
-      communityRequests: comRequests,
+      communityMembers:  [{
+        id: 0,
+        userId: comOwnerId,
+        role: "owner",
+      }],
+      communityRequests: [-1],
       communityDifficulty: comDifficulty,
       communityDescription: comDescription,
     }
