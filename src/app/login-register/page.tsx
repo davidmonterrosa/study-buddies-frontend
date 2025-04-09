@@ -2,7 +2,7 @@
 import { Itoken } from '@/utils/Interfaces/UserInterfaces';
 import { createAccount, login } from '@/utils/Services/DataServices';
 import { useRouter, useSearchParams } from 'next/navigation';
-import React, { useState, useEffect } from 'react';
+import React, { Suspense, useState, useEffect } from 'react';
 
 const SignIn = () => {
   const [isUserAlready, setIsUserAlready] = useState<boolean>(false);
@@ -10,6 +10,7 @@ const SignIn = () => {
   const [password, setPassword] = useState<string>("");
   
   const router = useRouter();
+
   const searchParams = useSearchParams();
   const mode = searchParams.get('mode');  // Get the mode from query params
 
@@ -54,7 +55,7 @@ const SignIn = () => {
       } else {
         console.log("Username already exists");
       } 
-      
+
     } else {
       // Login Logic
       const token: Itoken = await login(inputCredentials);
@@ -165,4 +166,12 @@ const SignIn = () => {
   );
 };
 
-export default SignIn;
+const SignInWithSuspense = () => (
+  <Suspense fallback={<div>Loading...</div>}>
+    <SignIn />
+  </Suspense>
+);
+
+export default SignInWithSuspense;
+
+// export default SignIn;
