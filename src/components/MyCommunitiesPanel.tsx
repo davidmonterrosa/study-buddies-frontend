@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import ViewCommunityButton from './ViewCommunityButton';
 import { ICommunityData } from '@/utils/Interfaces/UserInterfaces';
-import { currentUser, getAllCommunities, getMyCommunities, getToken } from '@/utils/Services/DataServices';
+import { currentUser, getMyCommunities, getToken } from '@/utils/Services/DataServices';
 
 
 const MyCommunitiesPanel = () => {
