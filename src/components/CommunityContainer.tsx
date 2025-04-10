@@ -1,7 +1,7 @@
 'use client'
 import CommunityCard from '@/components/CommunityCard'
 import { ICommunityData } from '@/utils/Interfaces/UserInterfaces';
-import { currentUser, getAllCommunities, getToken } from '@/utils/Services/DataServices';
+import { getAllCommunities, getToken } from '@/utils/Services/DataServices';
 import React, { useEffect, useState } from 'react'
 
 const CommunityContainer: React.FC = () => {

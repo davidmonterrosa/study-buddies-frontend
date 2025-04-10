@@ -74,11 +74,11 @@ const CreateCommunityModal: React.FC<CreateCommunityModalProps> = ({ isOpen, onC
     const result = await createNewCommunity(communityGroup, getToken());
     if(result == true) {
       console.log("Successfully created group")
+      onClose();
     } else {
       console.log("Not created")
     }
 
-    onClose;
   }
 
   return (
