@@ -19,26 +19,8 @@ const CreateCommunityModal: React.FC<CreateCommunityModalProps> = ({ isOpen, onC
   const [ownerName, setOwnerName] = useState<string>("");
   const [comName, setComName] = useState<string>("")
   const [comSubject, setComSubject] = useState<string>("")
-  // const [comMembers, setComMembers] = useState<CommunityMember[]>()
-  // const [comRequests, setComRequests] = useState<number[]>([])
   const [comDifficulty, setComDifficulty] = useState<string>("")
   const [comDescription, setComDescription] = useState<string>("")
-  // const [communityGroup, setCommunityGroup] = useState<ICommunityData>({
-  //   id: 0,
-  //   communityOwnerId: ,
-  //   communityIsCommunityOwner: ,
-  //   communityIsPublic: ,
-  //   communityIsDeleted: ,
-  //   communityOwnerName: ,
-  //   communityName: ,
-  //   communitySubject: ,
-  //   communityMemberCount: ,
-  //   communityMembers: ,
-  //   communityRequests: ,
-  //   communityDifficulty: ,
-  //   communityDescription: ,
-  // })
-
   const router = useRouter();
 
   useEffect(() => {
@@ -58,20 +40,6 @@ const CreateCommunityModal: React.FC<CreateCommunityModalProps> = ({ isOpen, onC
     }
   }, [])
 
-  // useEffect(() => {
-  //   const newMember: CommunityMember = {
-  //       id: 0,
-  //       userId: comOwnerId,
-  //       role: "owner",
-  //   }
-  //   if(!checkToken()) {
-  //     router.push('/');
-  //   } else {
-  //     setComMembers([newMember]);
-  //   }
-
-  // }, [comOwnerId])
-
   const handleCommunityName = (e: React.ChangeEvent<HTMLInputElement>) => setComName(e.target.value);
   const handleCommunityDescription = (e: React.ChangeEvent<HTMLTextAreaElement>) => setComDescription(e.target.value);
   const handleCommunitySubject = (subject: string) => setComSubject(subject);
@@ -83,9 +51,6 @@ const CreateCommunityModal: React.FC<CreateCommunityModalProps> = ({ isOpen, onC
   
 
   const handleSubmit = async () => {
-    console.log(comOwnerId);
-    console.log(ownerName);
-
     const communityGroup: ICommunityData = {
       id: 0,
       communityOwnerID: comOwnerId,
@@ -112,6 +77,8 @@ const CreateCommunityModal: React.FC<CreateCommunityModalProps> = ({ isOpen, onC
     } else {
       console.log("Not created")
     }
+
+    onClose;
   }
 
   return (

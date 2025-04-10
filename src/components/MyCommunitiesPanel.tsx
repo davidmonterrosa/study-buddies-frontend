@@ -12,15 +12,14 @@ const MyCommunitiesPanel = () => {
   useEffect(() => {
     const fetchMyCommunities = async () => {
       const loggedInUser = currentUser();
-
-      // const data = await getAllCommunities(getToken());
-      const data = await getMyCommunities(loggedInUser.user.id, getToken());
-      console.log(data);
-      setCommmunityGroups(data);
+      if(loggedInUser) {
+        const data = await getMyCommunities(loggedInUser.user.id, getToken());
+        setCommmunityGroups(data);
+        console.log(data);
+      }
     }
     fetchMyCommunities();
   }, []);
-  // const communities = ['Spanish', 'French', 'German', 'Italian'];
 
   return (
     <main className='lg:flex flex-col w-1/5 h-auto hidden shadow-[0_0px_5px_rgba(0,0,0,0.25)] dark:bg-linear-to-b dark:from-[#271E55] dark:to-[#100B28] dark:border-[2px] dark:border-[#aa7dfc40] rounded-lg p-4'>
