@@ -162,3 +162,4 @@ export const upDateCommunity = async (community: ICommunityData, token: string) 
 export const getToken = () => {
     return localStorage.getItem("Token") ?? "";
 }
+
