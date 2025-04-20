@@ -1,4 +1,5 @@
 import React from 'react';
+import { getDifficultyColor } from '@/utils/Services/StyleHelpers';
 
 interface CommunityCardProps {
   communityName: string;
@@ -13,25 +14,13 @@ interface CommunityCardProps {
 const CommunityCard: React.FC<CommunityCardProps> = ({
   communityName,
   subject,
-  buddies,
+  buddies, 
   difficulty,
   initials,
   userName,
   isPublic,
 }) => {
   // Function to determine background color based on difficulty level
-  const getDifficultyColor = (difficulty: string) => {
-    switch (difficulty) {
-      case 'Beginner':
-        return 'bg-[#12D393]'; // Green for Beginner
-      case 'Intermediate':
-        return 'bg-[#F59E0B]'; // Yellow for Intermediate
-      case 'Advanced':
-        return 'bg-[#FF5C7F]'; // Red for Advanced
-      default:
-        return 'bg-[#000000]'; // Default color if no difficulty
-    }
-  };
 
   return (
     <div className='bg-linear-to-b from-[#473FCB] to-[#231E6D] dark:bg-linear-to-b dark:from-[#271E55] dark:to-[#100B28] dark:border-[2px] dark:border-[#aa7dfc40] dark:hover:shadow-[0_2px_15px_#6f58da] w-full h-[175px] rounded-[15px] text-white p-2 cursor-pointer light:drop-shadow-[0_3px_4px_rgba(0,0,0,0.25)]'>
