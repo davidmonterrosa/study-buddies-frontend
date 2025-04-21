@@ -7,6 +7,6 @@ export const getDifficultyColor = (difficulty: string) => {
       case 'Advanced':
         return 'bg-[#FF5C7F]'; // Red for Advanced
       default:
-        return 'bg-[#000000]'; // Default color if no difficulty
+        return 'bg-[#818CF8] text-white'; // Default color if no difficulty
     }
   };

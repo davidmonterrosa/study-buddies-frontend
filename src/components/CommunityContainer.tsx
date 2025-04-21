@@ -38,8 +38,10 @@ const CommunityContainer: React.FC = () => {
 
         }
       </div>
+
+      
     </div>
-  )
-}
+  );
+};
 
 export default CommunityContainer;
