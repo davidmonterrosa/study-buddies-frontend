@@ -6,10 +6,11 @@ import React from 'react'
 const Dashboard: React.FC = () => {
   return (
     <div className='bg-white dark:bg-[#110C29] min-h-[calc(100vh-70px)]'>
-      <section className='flex flex-row gap-6 lg:p-6'>
+      <section className='flex flex-row gap-6 lg:p-4
+      '>
         <MyCommunitiesPanel />
-        {/* <CommunityContainer /> */}
-        <CommunityDashboard/>
+       <CommunityContainer /> 
+        {/* <CommunityDashboard/> */}
       </section>
     </div>
   )
