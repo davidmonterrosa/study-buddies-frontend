@@ -1,13 +1,15 @@
 import CommunityContainer from '@/components/CommunityContainer'
+import CommunityDashboard from '@/components/CommunityDashboard'
 import MyCommunitiesPanel from '@/components/MyCommunitiesPanel'
 import React from 'react'
 
 const Dashboard: React.FC = () => {
   return (
-    <div className="bg-white dark:bg-[#110C29] min-h-screen flex flex-col">
-      <section className="flex flex-col lg:flex-row gap-6 p-4 lg:p-6 flex-grow">
+    <div className='bg-white dark:bg-[#110C29] min-h-[calc(100vh-70px)]'>
+      <section className='flex flex-row gap-6 lg:p-6'>
         <MyCommunitiesPanel />
-        <CommunityContainer />
+        {/* <CommunityContainer /> */}
+        <CommunityDashboard/>
       </section>
     </div>
   )

@@ -1,8 +1,8 @@
 'use client'
 import React, { useEffect, useState } from "react";
-import { Modal, ToggleSwitch, Dropdown, DropdownItem, DropdownDivider } from "flowbite-react";
-import { CommunityMember, ICommunityData } from "@/utils/Interfaces/UserInterfaces";
-import { checkToken, createNewCommunity, currentUser, getLoggedInUserData, getToken } from "@/utils/Services/DataServices";
+import { Modal, Dropdown, DropdownItem, DropdownDivider } from "flowbite-react";
+import { ICommunityData } from "@/utils/Interfaces/UserInterfaces";
+import { checkToken, createNewCommunity, currentUser, getToken } from "@/utils/Services/DataServices";
 import { useRouter } from "next/navigation";
 
 interface CreateCommunityModalProps {
@@ -19,33 +19,18 @@ const CreateCommunityModal: React.FC<CreateCommunityModalProps> = ({ isOpen, onC
   const [ownerName, setOwnerName] = useState<string>("");
   const [comName, setComName] = useState<string>("")
   const [comSubject, setComSubject] = useState<string>("")
-  const [comMembers, setComMembers] = useState<CommunityMember[]>([])
-  const [comRequests, setComRequests] = useState<number[]>([])
   const [comDifficulty, setComDifficulty] = useState<string>("")
   const [comDescription, setComDescription] = useState<string>("")
-  // const [communityGroup, setCommunityGroup] = useState<ICommunityData>({
-  //   id: 0,
-  //   communityOwnerId: ,
-  //   communityIsCommunityOwner: ,
-  //   communityIsPublic: ,
-  //   communityIsDeleted: ,
-  //   communityOwnerName: ,
-  //   communityName: ,
-  //   communitySubject: ,
-  //   communityMemberCount: ,
-  //   communityMembers: ,
-  //   communityRequests: ,
-  //   communityDifficulty: ,
-  //   communityDescription: ,
-  // })
-
   const router = useRouter();
 
   useEffect(() => {
     const getLoggedInData = async () => {
       const loggedIn = currentUser();
-      setComOwnerId(loggedIn.id);
-      setOwnerName(loggedIn.username);
+      if(loggedIn) {
+        setComOwnerId(loggedIn.user.id);
+        setOwnerName(loggedIn.user.username);
+      }
+
     }
 
     if(!checkToken()) {
@@ -53,11 +38,6 @@ const CreateCommunityModal: React.FC<CreateCommunityModalProps> = ({ isOpen, onC
     } else {
       getLoggedInData()
     }
-  }, [])
-
-  useEffect(() => {
-    
-
   }, [])
 
   const handleCommunityName = (e: React.ChangeEvent<HTMLInputElement>) => setComName(e.target.value);
@@ -68,26 +48,37 @@ const CreateCommunityModal: React.FC<CreateCommunityModalProps> = ({ isOpen, onC
     setPublicOrPrivate(!publicOrPrivate)
     setIsPublic(!isPublic);
   };
+  
 
   const handleSubmit = async () => {
-
     const communityGroup: ICommunityData = {
       id: 0,
-      communityOwnerId: comOwnerId,
-      communityIsCommunityOwner: true,
+      communityOwnerID: comOwnerId,
+      isCommunityOwner: true,
       communityIsPublic: isPublic,
       communityIsDeleted: false,
       communityOwnerName: ownerName,
       communityName: comName,
       communitySubject: comSubject,
       communityMemberCount: 1,
-      communityMembers: comMembers,
-      communityRequests: comRequests,
+      communityMembers:  [{
+        id: 0,
+        userId: comOwnerId,
+        role: "owner",
+      }],
+      communityRequests: [-1],
       communityDifficulty: comDifficulty,
       communityDescription: comDescription,
     }
     console.log(communityGroup);
-    await createNewCommunity(communityGroup, getToken())
+    const result = await createNewCommunity(communityGroup, getToken());
+    if(result == true) {
+      console.log("Successfully created group")
+      onClose();
+    } else {
+      console.log("Not created")
+    }
+
   }
 
   return (
@@ -157,7 +148,7 @@ const CreateCommunityModal: React.FC<CreateCommunityModalProps> = ({ isOpen, onC
         <button className="bg-red-500 font-bold text-white rounded-[10px] px-4 py-2 w-full sm:w-auto cursor-pointer" onClick={onClose}>
           Cancel
         </button>
-        <button type="submit" className="bg-gradient-to-r from-[#6F58DA] to-[#5131E7] text-white rounded-[10px] font-bold px-4 py-2 w-full sm:w-auto cursor-pointer" onClick={handleSubmit}>
+        <button className="bg-gradient-to-r from-[#6F58DA] to-[#5131E7] text-white rounded-[10px] font-bold px-4 py-2 w-full sm:w-auto cursor-pointer" onClick={handleSubmit}>
           Create Community
         </button>
       </div>

@@ -15,7 +15,7 @@ const NavBarComponent: React.FC = () => {
   const [isOpenLeft, setIsOpenLeft] = useState<boolean>(false);  // State for the sidebar
 
   const closeMyCommunities = () => setIsOpenLeft(false); // Close sidebar handler
-  const closeNotifications = () => setIsOpenNotifications(false);
+  // const closeNotifications = () => setIsOpenNotifications(false);
 
   return (
     <Navbar className="bg-[#818CF8] dark:bg-[#110C29]" fluid>
@@ -38,13 +38,13 @@ const NavBarComponent: React.FC = () => {
 
       <NavbarBrand as={Link} href="/">
         <img src="/assets/SBLogo.png" className="mr-3 h-6 sm:h-9" alt="Logo" />
-        <span className="self-center whitespace-nowrap text-[32px] font-semibold dark:text-white">
+        <span className="hidden lg:block self-center whitespace-nowrap text-[32px] font-semibold dark:text-white">
           Study Buddies
         </span>
       </NavbarBrand>
 
       {/* Search Bar */}
-      <div className="flex bg-white items-center w-2xl rounded-2xl border-2 px-3 py-[3px] relative">
+      <div className="flex bg-white items-center xl:w-2xl w-lg rounded-2xl border-2 px-3 py-[3px] relative">
         <button className="size-10 mx-2.5 cursor-pointer">
           <img className="w-[25px] h-[25px]" src="../assets/searchIcon.svg" alt="Search" />
         </button>
