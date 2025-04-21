@@ -5,13 +5,13 @@ import { getAllCommunities, getToken } from '@/utils/Services/DataServices';
 import React, { useEffect, useState } from 'react'
 
 const CommunityContainer: React.FC = () => {
-  const [communityGroups, setCommmunityGroups] = useState<ICommunityData[]>([])
+  const [communityGroups, setcommunityGroups] = useState<ICommunityData[]>([])
 
   useEffect(() => {
       const fetchMyCommunities = async () => {  
         const data = await getAllCommunities(getToken());
         console.log("Shape of Data from getAllCommunities:", data);
-        setCommmunityGroups(data.communities);
+        setcommunityGroups(data.communities);
       }
       fetchMyCommunities();
     }, []);
