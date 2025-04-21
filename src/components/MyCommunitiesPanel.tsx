@@ -3,18 +3,23 @@ import React, { useEffect, useState } from 'react';
 import ViewCommunityButton from './ViewCommunityButton';
 import { ICommunityData } from '@/utils/Interfaces/UserInterfaces';
 import { currentUser, getMyCommunities, getToken } from '@/utils/Services/DataServices';
+import Link from 'next/link';
+import { NavigationMenuLink, navigationMenuTriggerStyle } from './ui/navigation-menu';
+import { useAppContext } from '@/context/CommunityContext';
 
 
 const MyCommunitiesPanel = () => {
   const [activeCommunity, setActiveCommunity] = useState<string | null>(null);
-  const [communityGroups, setcommunityGroups] = useState<ICommunityData[]>([]);
+  // const [communityGroups, setCommunityGroups] = useState<ICommunityData[]>([]);
+  const { communityGroups, setCommunityGroups } = useAppContext();
+
 
   useEffect(() => {
     const fetchMyCommunities = async () => {
       const loggedInUser = currentUser();
       if(loggedInUser) {
         const data = await getMyCommunities(loggedInUser.user.id, getToken());
-        setcommunityGroups(data);
+        setCommunityGroups(data);
         console.log(data);
       }
     }
@@ -27,12 +32,16 @@ const MyCommunitiesPanel = () => {
       <div className='flex flex-col gap-2'>
         {/* Map of communities */}
       {communityGroups.map((communityGroup: ICommunityData , idx: number) => (
-          <ViewCommunityButton
-            key={idx}
-            communityName={communityGroup.communityName}
-            isActive={activeCommunity === communityGroup.communityName}
-            onClick={() => setActiveCommunity(communityGroup.communityName)}
-          />
+          <Link href={`/communities/${community}`} legacyBehavior passHref>
+            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+              <ViewCommunityButton
+                key={idx}
+                communityName={communityGroup.communityName}
+                isActive={activeCommunity === communityGroup.communityName}
+                onClick={() => setActiveCommunity(communityGroup.communityName)}
+              />
+            </NavigationMenuLink>
+          </Link>
         ))}
       </div>
     </main>
