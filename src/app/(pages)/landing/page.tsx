@@ -5,8 +5,8 @@ import React from 'react'
 
 const Dashboard: React.FC = () => {
   return (
-    <div className='bg-white'>
-      <section className='flex flex-row gap-6 lg:p-6 dark:bg-[#110C29]'>
+    <div className='bg-white dark:bg-[#110C29] min-h-[calc(100vh-70px)]'>
+      <section className='flex flex-row gap-6 lg:p-6'>
         <MyCommunitiesPanel />
         {/* <CommunityContainer /> */}
         <CommunityDashboard/>

@@ -41,7 +41,7 @@ const CommunityDashboard = () => {
                     <Separator className='rounded-sm dark:border-white border-[1px]' />
 
                     <TabsContent value='communityBoardTab'>
-                        <section className="flex flex-col min-h-[calc(0.68*100vh)] lg:min-h-[400px] border rounded-lg bg-muted/30 dark:bg-muted/20 overflow-hidden mt-4">
+                        <section className="flex flex-col min-h-[calc(0.71*100vh)]  border rounded-lg bg-muted/30 dark:bg-muted/20 overflow-hidden mt-4">
                             {/* Messages Area */}
                             <div className="flex-1 p-4 overflow-y-auto space-y-3">
                                 {/* Example received message */}
