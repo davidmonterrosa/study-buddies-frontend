@@ -121,6 +121,7 @@ export const getCommunityById = async (communityId: number) => {
         return null;
     }
     const data = await response.json();
+    console.log(data);
     return data;
 }
 

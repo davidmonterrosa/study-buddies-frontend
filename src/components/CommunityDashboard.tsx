@@ -19,8 +19,8 @@ const CommunityDashboard: React.FC<CommunityDashboardProps> = ({
     const fetchCommunityInfo = async () => {
       console.log("This is the id being passed", communityId)
       const data = await getCommunityById(communityId);
-      console.log(data);
-      setCommunityData(data);
+      console.log(data.community.communityName);
+      setCommunityData(data.community);
     }
     fetchCommunityInfo();
   }, [])
@@ -39,7 +39,7 @@ const CommunityDashboard: React.FC<CommunityDashboardProps> = ({
 
             <span className='flex place-items-center text-center gap-5'>
               <div className={`${getDifficultyColor(`${communityData?.communityDifficulty}`)} text-black rounded-[10px] py-[2px] px-[5px] max-h-10 w-36`}>
-                <p>Beginner</p>
+                <p>{`${communityData.communityDifficulty}`}</p>
               </div>
               <div className='bg-[#818CF8] rounded-[10px] py-[2px] px-[5px] max-h-10 w-36'>
                 <p>{`${communityData.communitySubject}`}</p>
@@ -47,7 +47,19 @@ const CommunityDashboard: React.FC<CommunityDashboardProps> = ({
             </span>
             </>
           )
-          : null
+          : 
+          (<>
+              <h1 className='text-[2rem] text-center sm:text-left font-bold text-black dark:text-white mr-16'>Community</h1>
+
+            <span className='flex place-items-center text-center gap-5'>
+              <div className={`${getDifficultyColor("Beginner")} text-black rounded-[10px] py-[2px] px-[5px] max-h-10 w-36`}>
+                <p>Beginner</p>
+              </div>
+              <div className='bg-[#818CF8] rounded-[10px] py-[2px] px-[5px] max-h-10 w-36'>
+                <p>Subject</p>
+              </div>
+            </span>
+            </>)
         }
       </header>
 
