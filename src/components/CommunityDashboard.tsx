@@ -1,35 +1,54 @@
-"use client";
-import { getDifficultyColor } from "@/utils/Services/StyleHelpers";
-import React from "react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
-import { Separator } from "./ui/separator";
+"use client"
+import { getDifficultyColor } from '@/utils/Services/StyleHelpers'
+import React, { useEffect, useState } from 'react'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs'
+import { Separator } from './ui/separator'
+import { getCommunityById } from '@/utils/Services/DataServices'
+import { ICommunityData } from '@/utils/Interfaces/UserInterfaces'
 
 interface CommunityDashboardProps {
   communityId: number;
 }
 
 const CommunityDashboard: React.FC<CommunityDashboardProps> = ({
-  communityId,
+  communityId
 }) => {
-  return (
-    <main className="w-full bg-white rounded-lg dark:bg-linear-to-b dark:from-[#271E55] dark:to-[#100B28] dark:border-[2px] dark:border-[#aa7dfc40] max-w-full lg:max-w-[80%] h-auto p-4 drop-shadow-[0_3px_4px_rgba(0,0,0,0.25)]">
-      <header className="flex mb-4">
-        <h1 className="text-[2rem] text-center sm:text-left font-bold text-black dark:text-white mr-16">
-          Community Name
-        </h1>
 
-        <span className="flex place-items-center text-center gap-5">
-          <div
-            className={`${getDifficultyColor(
-              "Beginner"
-            )} text-black rounded-[10px] py-[2px] px-[5px] max-h-10 w-36`}
-          >
-            <p>Beginner</p>
-          </div>
-          <div className="bg-[#818CF8] rounded-[10px] py-[2px] px-[5px] max-h-10 w-36">
-            <p>Subject</p>
-          </div>
-        </span>
+  const [communityData, setCommunityData] = useState<ICommunityData>()
+  useEffect(() => {
+    const fetchCommunityInfo = async () => {
+      console.log("This is the id being passed", communityId)
+      const data = await getCommunityById(communityId);
+      console.log(data);
+      setCommunityData(data);
+    }
+    fetchCommunityInfo();
+  }, [])
+
+  useEffect(() => {
+    console.log(communityData)
+  }, [communityData])
+
+  return (
+    <main className='w-full bg-white rounded-lg dark:bg-linear-to-b dark:from-[#271E55] dark:to-[#100B28] dark:border-[2px] dark:border-[#aa7dfc40] max-w-full lg:max-w-[80%] h-auto p-4 drop-shadow-[0_3px_4px_rgba(0,0,0,0.25)]'>
+      <header className='flex mb-4'>
+        {
+          communityData ? (
+            <>
+              <h1 className='text-[2rem] text-center sm:text-left font-bold text-black dark:text-white mr-16'>{communityData.communityName}</h1>
+
+            <span className='flex place-items-center text-center gap-5'>
+              <div className={`${getDifficultyColor(`${communityData?.communityDifficulty}`)} text-black rounded-[10px] py-[2px] px-[5px] max-h-10 w-36`}>
+                <p>Beginner</p>
+              </div>
+              <div className='bg-[#818CF8] rounded-[10px] py-[2px] px-[5px] max-h-10 w-36'>
+                <p>{`${communityData.communitySubject}`}</p>
+              </div>
+            </span>
+            </>
+          )
+          : null
+        }
       </header>
 
       <div>

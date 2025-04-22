@@ -1,6 +1,6 @@
 import { ICommunityData, IUserCredentials, IUserNameId } from "../Interfaces/UserInterfaces";
 
-const url = "https://studybuddies-g9bmedddeah6aqe7.westus-01.azurewebsites.net/";
+const url = "https://study-buddys-backend.azurewebsites.net/";
 
 let userData: IUserNameId;
 // let displayName: IFirstAndLastName;
@@ -112,18 +112,13 @@ export const getMyCommunities = async (userId: number, token: string) => {
     return data;
 }
 
-export const getCommunityById = async (communityId: number, token: string) => {
-    const response = await fetch(`${url}Community/getCommunityById/${communityId}`, {
-        method: "GET",
-        headers: {
-            "Authorization": "Bearer " + token,
-        }
-    });
+export const getCommunityById = async (communityId: number) => {
+    const response = await fetch(`${url}Community/getCommunityById/${communityId}`);
     if(!response.ok) {
-        const errorData = await response.json();
-        const message = errorData.message;
+        const data = await response.json();
+        const message = data.message;
         console.log(message);
-        return [];
+        return null;
     }
     const data = await response.json();
     return data;
