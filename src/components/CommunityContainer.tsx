@@ -10,7 +10,6 @@ const CommunityContainer: React.FC = () => {
   useEffect(() => {
       const fetchMyCommunities = async () => {  
         const data = await getAllCommunities(getToken());
-        console.log("Shape of Data from getAllCommunities:", data);
         setcommunityGroups(data.communities);
       }
       fetchMyCommunities();

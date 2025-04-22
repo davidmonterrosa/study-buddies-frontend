@@ -4,7 +4,7 @@ import ViewCommunityButton from './ViewCommunityButton';
 import { ICommunityData } from '@/utils/Interfaces/UserInterfaces';
 import { currentUser, getMyCommunities, getToken } from '@/utils/Services/DataServices';
 import Link from 'next/link';
-import { NavigationMenuLink, navigationMenuTriggerStyle } from './ui/navigation-menu';
+import { navigationMenuTriggerStyle } from './ui/navigation-menu';
 import { useAppContext } from '@/context/CommunityContext';
 
 
@@ -26,21 +26,22 @@ const MyCommunitiesPanel = () => {
     fetchMyCommunities();
   }, []);
 
+  useEffect(() => {
+    console.log(communityGroups);
+  }, [communityGroups])
+
   return (
     <main className='lg:flex flex-col w-1/5 h-auto hidden shadow-[0_0px_5px_rgba(0,0,0,0.25)] dark:bg-linear-to-b dark:from-[#271E55] dark:to-[#100B28] dark:border-[2px] dark:border-[#aa7dfc40] rounded-lg p-4'>
       <h1 className='text-center text-2xl font-bold m-2'>My Communities</h1>
       <div className='flex flex-col gap-2'>
         {/* Map of communities */}
-      {communityGroups.map((communityGroup: ICommunityData , idx: number) => (
-          <Link href={`/communities/${community}`} legacyBehavior passHref>
-            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+        {communityGroups.map((communityGroup: ICommunityData , idx: number) => (
+          <Link key={idx} href={`/communities/${communityGroup.id}`} className={navigationMenuTriggerStyle()}>
               <ViewCommunityButton
-                key={idx}
                 communityName={communityGroup.communityName}
                 isActive={activeCommunity === communityGroup.communityName}
                 onClick={() => setActiveCommunity(communityGroup.communityName)}
               />
-            </NavigationMenuLink>
           </Link>
         ))}
       </div>

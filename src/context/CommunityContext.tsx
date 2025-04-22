@@ -14,7 +14,7 @@ const AppContext = createContext<Context>({
 });
 
 export function AppWrapper({children} : {children: React.ReactNode}) {
-    const [communityGroups, setCommunityGroups] = useState([]);
+    const [communityGroups, setCommunityGroups] = useState<ICommunityData[]>([]);
     return (
         <AppContext.Provider value={{communityGroups, setCommunityGroups }}>
             {children}

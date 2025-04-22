@@ -1,9 +1,16 @@
+"use client"
 import { getDifficultyColor } from '@/utils/Services/StyleHelpers'
 import React from 'react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs'
 import { Separator } from './ui/separator'
 
-const CommunityDashboard = () => {
+interface CommunityDashboardProps {
+    communityId: number
+}
+
+const CommunityDashboard: React.FC<CommunityDashboardProps> = ({
+    communityId
+}) => {
     return (
         <main className='w-full bg-white rounded-lg dark:bg-linear-to-b dark:from-[#271E55] dark:to-[#100B28] dark:border-[2px] dark:border-[#aa7dfc40] max-w-full lg:max-w-[80%] h-auto p-4 drop-shadow-[0_3px_4px_rgba(0,0,0,0.25)]'>
             <header className='flex mb-4'>
