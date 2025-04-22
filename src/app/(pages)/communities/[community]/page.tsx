@@ -6,9 +6,9 @@ const CommunityPage = async ({ params }: {params: Promise<{community: number}>})
   const {community} = await params;  
   
   return (
-    <div>
+    <>
       <CommunityDashboard communityId={community}/>
-    </div>
+    </>
   )
 }
 

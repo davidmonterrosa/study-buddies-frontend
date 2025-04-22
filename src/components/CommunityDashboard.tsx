@@ -1,30 +1,36 @@
-"use client"
-import { getDifficultyColor } from '@/utils/Services/StyleHelpers'
-import React from 'react'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs'
-import { Separator } from './ui/separator'
+"use client";
+import { getDifficultyColor } from "@/utils/Services/StyleHelpers";
+import React from "react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
+import { Separator } from "./ui/separator";
 
 interface CommunityDashboardProps {
-    communityId: number
+  communityId: number;
 }
 
 const CommunityDashboard: React.FC<CommunityDashboardProps> = ({
-    communityId
+  communityId,
 }) => {
-    return (
-        <main className='w-full bg-white rounded-lg dark:bg-linear-to-b dark:from-[#271E55] dark:to-[#100B28] dark:border-[2px] dark:border-[#aa7dfc40] max-w-full lg:max-w-[80%] h-auto p-4 drop-shadow-[0_3px_4px_rgba(0,0,0,0.25)]'>
-            <header className='flex mb-4'>
-                <h1 className='text-[2rem] text-center sm:text-left font-bold text-black dark:text-white mr-16'>Community Name</h1>
+  return (
+    <main className="w-full bg-white rounded-lg dark:bg-linear-to-b dark:from-[#271E55] dark:to-[#100B28] dark:border-[2px] dark:border-[#aa7dfc40] max-w-full lg:max-w-[80%] h-auto p-4 drop-shadow-[0_3px_4px_rgba(0,0,0,0.25)]">
+      <header className="flex mb-4">
+        <h1 className="text-[2rem] text-center sm:text-left font-bold text-black dark:text-white mr-16">
+          Community Name
+        </h1>
 
-                <span className='flex place-items-center text-center gap-5'>
-                    <div className={`${getDifficultyColor("Beginner")} text-black rounded-[10px] py-[2px] px-[5px] max-h-10 w-36`}>
-                        <p>Beginner</p>
-                    </div>
-                    <div className='bg-[#818CF8] rounded-[10px] py-[2px] px-[5px] max-h-10 w-36'>
-                        <p>Subject</p>
-                    </div>
-                </span>
-            </header>
+        <span className="flex place-items-center text-center gap-5">
+          <div
+            className={`${getDifficultyColor(
+              "Beginner"
+            )} text-black rounded-[10px] py-[2px] px-[5px] max-h-10 w-36`}
+          >
+            <p>Beginner</p>
+          </div>
+          <div className="bg-[#818CF8] rounded-[10px] py-[2px] px-[5px] max-h-10 w-36">
+            <p>Subject</p>
+          </div>
+        </span>
+      </header>
 
       <div>
         <Tabs defaultValue="communityBoardTab">
@@ -147,15 +153,31 @@ const CommunityDashboard: React.FC<CommunityDashboardProps> = ({
               </div>
 
               {/* Message Input Bar */}
-              <div className="p-3 flex items-center gap-2 ">
-                <input
-                  type="text"
-                  placeholder="Type your message..."
-                  className="flex-1 px-4 py-2 rounded-[15px] drop-shadow-[0_1px_2px_rgba(0,0,0,0.25)]  text-sm bg-[#F6F6F6] dark:bg-transparent dark:border-[1px] dark:border-[#aa7dfc40] focus:outline-none focus:ring-2 focus:ring-[#818CF8] dark:focus:ring-[#a97dfc96]"
-                />
-                <button className="bg-blue-500 text-white px-4 py-2 rounded-full hover:bg-blue-600 transition">
-                  Send
-                </button>
+              <div className="p-3 flex items-center w-full">
+                <div className="relative flex-1">
+                  <input
+                    type="text"
+                    placeholder="Type your message..."
+                    className="w-full pr-10 px-4 py-2 rounded-[15px] drop-shadow-[0_1px_2px_rgba(0,0,0,0.25)] text-sm bg-[#F6F6F6] dark:bg-transparent dark:border-[1px] dark:border-[#aa7dfc40] focus:outline-none focus:ring-2 focus:ring-[#818CF8] dark:focus:ring-[#a97dfc96]"
+                  />
+                  {/* Send Icon */}
+                  <button className="absolute right-2 top-1/2 -translate-y-1/2 cursor-pointer">
+                    <svg width="27" height="27" viewBox="0 0 27 27" xmlns="http://www.w3.org/2000/svg" className="transition-colors duration-300">
+                      {/* Define the gradient */}
+                      <defs>
+                        <linearGradient id="darkGradient" x1="0" y1="0" x2="0" y2="1" >
+                          <stop offset="0%" stopColor="#6F58DA" />
+                          <stop offset="100%" stopColor="#5131E7" />
+                        </linearGradient>
+                      </defs>
+
+                      <path d="M3.9696 3.01198L23.6529 12.4257C24.2346 12.704 24.4807 13.4011 24.2025 13.9829C24.0874 14.2235 23.8935 14.4174 23.6529 14.5325L3.9696 23.9462C3.38783 24.2245 2.69066 23.9784 2.41242 23.3966C2.29151 23.1438 2.26555 22.856 2.33929 22.5856L4.30801 15.3668C4.35733 15.1859 4.51 15.0521 4.69575 15.0268L14.2337 13.7312C14.3159 13.7195 14.384 13.6655 14.4155 13.5917L14.4319 13.5331C14.4475 13.4236 14.3846 13.3211 14.2859 13.2825L14.2337 13.2689L4.70691 11.9733C4.52118 11.9481 4.36855 11.8142 4.31924 11.6334L2.33929 4.3726C2.16961 3.75044 2.53641 3.10853 3.15857 2.93885C3.42893 2.86512 3.71679 2.89107 3.9696 3.01198Z"
+                        fill="currentColor"
+                        className="text-[#818CF8] dark:fill-[url(#darkGradient)]"
+                      />
+                    </svg>
+                  </button>
+                </div>
               </div>
             </section>
           </TabsContent>
