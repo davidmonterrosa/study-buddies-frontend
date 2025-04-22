@@ -9,8 +9,8 @@ const Dashboard: React.FC = () => {
       <section className='flex flex-row gap-6 lg:p-4
       '>
         <MyCommunitiesPanel />
-       <CommunityContainer /> 
-        {/* <CommunityDashboard/> */}
+       {/* <CommunityContainer />  */}
+        <CommunityDashboard/>
       </section>
     </div>
   )
