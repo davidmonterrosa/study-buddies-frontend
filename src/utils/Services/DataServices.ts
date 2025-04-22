@@ -96,8 +96,6 @@ export const getAllCommunities = async (token: string) => {
 }
 
 export const getMyCommunities = async (userId: number, token: string) => {
-    console.log(userId, token)
-    console.log("Community Fetch line 100")
     const response = await fetch(`${url}Community/FilterUserIdFromCommunityAsync/${userId}`, {
         method: "GET",
         headers: {
@@ -111,7 +109,23 @@ export const getMyCommunities = async (userId: number, token: string) => {
         return [];
     }
     const data = await response.json();
-    console.log("getMyCommunities(left sidebar):", data);
+    return data;
+}
+
+export const getCommunityById = async (communityId: number, token: string) => {
+    const response = await fetch(`${url}Community/getCommunityById/${communityId}`, {
+        method: "GET",
+        headers: {
+            "Authorization": "Bearer " + token,
+        }
+    });
+    if(!response.ok) {
+        const errorData = await response.json();
+        const message = errorData.message;
+        console.log(message);
+        return [];
+    }
+    const data = await response.json();
     return data;
 }
 

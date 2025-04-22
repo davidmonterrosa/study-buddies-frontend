@@ -1,29 +1,30 @@
-import { getDifficultyColor } from "@/utils/Services/StyleHelpers";
-import React from "react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
-import { Separator } from "./ui/separator";
+"use client"
+import { getDifficultyColor } from '@/utils/Services/StyleHelpers'
+import React from 'react'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs'
+import { Separator } from './ui/separator'
 
-const CommunityDashboard = () => {
-  return (
-    <main className="w-full bg-white lg:rounded-lg dark:bg-linear-to-b dark:from-[#271E55] dark:to-[#100B28] lg:dark:border-[2px] lg:dark:border-[#aa7dfc40] max-w-full lg:max-w-[80%] h-auto p-4 lg:drop-shadow-[0_2px_2px_rgba(0,0,0,0.25)]">
-      <header className="flex mb-4">
-        <h1 className="text-[2rem] text-center sm:text-left font-bold text-black dark:text-white mr-16">
-          Community Name
-        </h1>
+interface CommunityDashboardProps {
+    communityId: number
+}
 
-        <span className="flex place-items-center text-center gap-5">
-          <div
-            className={`${getDifficultyColor(
-              "Beginner"
-            )} text-black rounded-[10px] py-[2px] px-[5px] max-h-10 w-36`}
-          >
-            <p>Beginner</p>
-          </div>
-          <div className="bg-[#818CF8] rounded-[10px] py-[2px] px-[5px] max-h-10 w-36">
-            <p>Subject</p>
-          </div>
-        </span>
-      </header>
+const CommunityDashboard: React.FC<CommunityDashboardProps> = ({
+    communityId
+}) => {
+    return (
+        <main className='w-full bg-white rounded-lg dark:bg-linear-to-b dark:from-[#271E55] dark:to-[#100B28] dark:border-[2px] dark:border-[#aa7dfc40] max-w-full lg:max-w-[80%] h-auto p-4 drop-shadow-[0_3px_4px_rgba(0,0,0,0.25)]'>
+            <header className='flex mb-4'>
+                <h1 className='text-[2rem] text-center sm:text-left font-bold text-black dark:text-white mr-16'>Community Name</h1>
+
+                <span className='flex place-items-center text-center gap-5'>
+                    <div className={`${getDifficultyColor("Beginner")} text-black rounded-[10px] py-[2px] px-[5px] max-h-10 w-36`}>
+                        <p>Beginner</p>
+                    </div>
+                    <div className='bg-[#818CF8] rounded-[10px] py-[2px] px-[5px] max-h-10 w-36'>
+                        <p>Subject</p>
+                    </div>
+                </span>
+            </header>
 
       <div>
         <Tabs defaultValue="communityBoardTab">

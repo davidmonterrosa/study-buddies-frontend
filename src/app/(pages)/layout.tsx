@@ -1,4 +1,4 @@
-// import MyCommunitiesPanel from '@/components/MyCommunitiesPanel';
+import MyCommunitiesPanel from '@/components/MyCommunitiesPanel';
 import NavBarComponent from '@/components/NavBarComponent';
 import React from 'react'
 
@@ -8,10 +8,13 @@ const layout = ({
     children: React.ReactNode;
   }>) => {
   return (
-    <div>
+    <div className='bg-white dark:bg-[#110C29] min-h-[calc(100vh-70px)]'>
         <NavBarComponent/>
-        {/* <MyCommunitiesPanel/> */}
-        {children}
+        <section className='flex flex-row gap-6 lg:p-4'>
+          <MyCommunitiesPanel/>
+          {children}
+
+        </section>
     </div>
   )
 }

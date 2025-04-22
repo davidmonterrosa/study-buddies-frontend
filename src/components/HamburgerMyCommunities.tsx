@@ -6,14 +6,14 @@ import { currentUser, getMyCommunities, getToken } from "@/utils/Services/DataSe
 
 const MyCommunitiesSidebar = () => {
     const [activeCommunity, setActiveCommunity] = useState<string | null>(null);
-    const [communityGroups, setCommmunityGroups] = useState<ICommunityData[]>([]);
+    const [communityGroups, setcommunityGroups] = useState<ICommunityData[]>([]);
   
     useEffect(() => {
       const fetchMyCommunities = async () => {
         const loggedInUser = currentUser();
         if(loggedInUser) {
           const data = await getMyCommunities(loggedInUser.user.id, getToken());
-          setCommmunityGroups(data);
+          setcommunityGroups(data);
           console.log(data);
         }
       }
