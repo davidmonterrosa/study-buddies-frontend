@@ -31,37 +31,44 @@ const CommunityDashboard: React.FC<CommunityDashboardProps> = ({
 
   return (
     <main className='w-full bg-white rounded-lg dark:bg-linear-to-b dark:from-[#271E55] dark:to-[#100B28] dark:border-[2px] dark:border-[#aa7dfc40] max-w-full lg:max-w-[80%] h-auto p-4 drop-shadow-[0_3px_4px_rgba(0,0,0,0.25)]'>
-      <header className='flex mb-4'>
-        {
-          communityData ? (
-            <>
-              <h1 className='text-[2rem] text-center sm:text-left font-bold text-black dark:text-white mr-16'>{communityData.communityName}</h1>
+      <header className='flex flex-col sm:flex-row sm:items-center mb-4 gap-4'>
+  {
+    communityData ? (
+      <>
+        <h1 className='text-[2rem] text-center sm:text-left font-bold text-black dark:text-white'>
+          {communityData.communityName}
+        </h1>
 
-            <span className='flex place-items-center text-center gap-5'>
-              <div className={`${getDifficultyColor(`${communityData?.communityDifficulty}`)} text-black rounded-[10px] py-[2px] px-[5px] max-h-10 w-36`}>
-                <p>{`${communityData.communityDifficulty}`}</p>
-              </div>
-              <div className='bg-[#818CF8] rounded-[10px] py-[2px] px-[5px] max-h-10 w-36'>
-                <p>{`${communityData.communitySubject}`}</p>
-              </div>
-            </span>
-            </>
-          )
-          : 
-          (<>
-              <h1 className='text-[2rem] text-center sm:text-left font-bold text-black dark:text-white mr-16'>Community</h1>
+        <span className='flex justify-center sm:justify-start sm:place-items-center text-center gap-5'>
+          <div className={`${getDifficultyColor(`${communityData?.communityDifficulty}`)} text-black rounded-[10px] py-[2px] px-[5px] max-h-10 w-36`}>
+            <p>{`${communityData.communityDifficulty}`}</p>
+          </div>
+          <div className='bg-[#818CF8] rounded-[10px] py-[2px] px-[5px] max-h-10 w-36'>
+            <p>{`${communityData.communitySubject}`}</p>
+          </div>
+        </span>
+      </>
+    )
+    :
+    (
+      <>
+        <h1 className='text-[2rem] text-center sm:text-left font-bold text-black dark:text-white'>
+          Community
+        </h1>
 
-            <span className='flex place-items-center text-center gap-5'>
-              <div className={`${getDifficultyColor("Beginner")} text-black rounded-[10px] py-[2px] px-[5px] max-h-10 w-36`}>
-                <p>Beginner</p>
-              </div>
-              <div className='bg-[#818CF8] rounded-[10px] py-[2px] px-[5px] max-h-10 w-36'>
-                <p>Subject</p>
-              </div>
-            </span>
-            </>)
-        }
-      </header>
+        <span className='flex justify-center sm:justify-start sm:place-items-center text-center gap-5'>
+          <div className={`${getDifficultyColor("Beginner")} text-black rounded-[10px] py-[2px] px-[5px] max-h-10 w-36`}>
+            <p>Beginner</p>
+          </div>
+          <div className='bg-[#818CF8] rounded-[10px] py-[2px] px-[5px] max-h-10 w-36'>
+            <p>Subject</p>
+          </div>
+        </span>
+      </>
+    )
+  }
+</header>
+
 
       <div>
         <Tabs defaultValue="communityBoardTab">

@@ -36,7 +36,7 @@ const MyCommunitiesPanel = () => {
       <div className='flex flex-col gap-2'>
         {/* Map of communities */}
         {communityGroups.map((communityGroup: ICommunityData , idx: number) => (
-          <Link key={idx} href={`/communities/${communityGroup.id}`} className={navigationMenuTriggerStyle()}>
+          <Link key={idx} href={`/communities/${communityGroup.id}`}>
               <ViewCommunityButton
                 communityName={communityGroup.communityName}
                 isActive={activeCommunity === communityGroup.communityName}
