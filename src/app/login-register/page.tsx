@@ -7,6 +7,8 @@ import React, { Suspense, useState, useEffect } from 'react';
 const SignIn = () => {
   const [isUserAlready, setIsUserAlready] = useState<boolean>(false);
   const [username, setUsername] = useState<string>("");
+  const [firstName, setFirstName] = useState<string>("");
+  const [lastName, setLastName] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   
   const router = useRouter();
@@ -41,6 +43,8 @@ const SignIn = () => {
   const handleSubmit = async () => {
     const inputCredentials = {
       username: username,
+      firstName: firstName,
+      lastName: lastName,
       password: password
     }
 
@@ -101,6 +105,7 @@ const SignIn = () => {
                     className="w-full p-3 bg-[#F6F6F6] text-black rounded-[15px]"
                     placeholder="First Name"
                     required
+                    onChange={(e) => setFirstName(e.target.value)}
                   />
                 </div>
                 <div className="mb-4">
@@ -110,6 +115,7 @@ const SignIn = () => {
                     className="w-full p-3 bg-[#F6F6F6] text-black rounded-[15px]"
                     placeholder="Last Name"
                     required
+                    onChange={(e) => setLastName(e.target.value)}
                   />
                 </div>
                 <div className="mb-4">
