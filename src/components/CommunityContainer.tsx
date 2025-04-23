@@ -37,6 +37,7 @@ const CommunityContainer: React.FC = () => {
             initials={communityGroup.communityOwnerName.charAt(0).toUpperCase()}
             userName={communityGroup.communityOwnerName}
             isPublic={communityGroup.communityIsPublic}
+            description={communityGroup.communityDescription}
           />
         ))
       }

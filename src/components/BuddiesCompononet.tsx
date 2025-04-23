@@ -14,6 +14,8 @@ const BuddiesCompononet = () => {
               </div>
               {/* Name */}
               <p className="font-semibold text-sm">Maria Lopez</p>
+
+              <div></div>
               {/* Message Button aligned to end */}
               <button className="ml-auto bg-[#818CF8] rounded-full w-[30px] h-[30px] flex items-center justify-center">
                 <img className="w-5" src="/assets/Message.svg" alt="Message Icon"/>
