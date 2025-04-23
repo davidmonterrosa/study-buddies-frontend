@@ -34,7 +34,7 @@ const CommunityContainer: React.FC = () => {
             subject={communityGroup.communitySubject}
             buddies={communityGroup.communityMemberCount}
             difficulty={communityGroup.communityDifficulty}
-            initials="xx"
+            initials={communityGroup.communityOwnerName.charAt(0).toUpperCase()}
             userName={communityGroup.communityOwnerName}
             isPublic={communityGroup.communityIsPublic}
           />
