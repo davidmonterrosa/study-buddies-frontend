@@ -3,8 +3,8 @@ import { getDifficultyColor } from '@/utils/Services/StyleHelpers'
 import React, { useEffect, useState } from 'react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs'
 import { Separator } from './ui/separator'
-import { getCommunityById } from '@/utils/Services/DataServices'
-import { ICommunityData } from '@/utils/Interfaces/UserInterfaces'
+import { currentUser, getCommunityById, getLoggedInUserData } from '@/utils/Services/DataServices'
+import { CommunityChats, ICommunityData, IUserNameId } from '@/utils/Interfaces/UserInterfaces'
 import BuddiesCompononet from './BuddiesCompononet'
 
 interface CommunityDashboardProps {
@@ -16,15 +16,18 @@ const CommunityDashboard: React.FC<CommunityDashboardProps> = ({
 }) => {
 
   const [communityData, setCommunityData] = useState<ICommunityData>()
+  const loggedInUser = currentUser();
   useEffect(() => {
     const fetchCommunityInfo = async () => {
       console.log("This is the id being passed", communityId)
       const data = await getCommunityById(communityId);
       console.log(data.community.communityName);
+      console.log(loggedInUser)
       setCommunityData(data.community);
     }
     fetchCommunityInfo();
   }, [])
+
 
   useEffect(() => {
     console.log(communityData)
@@ -116,75 +119,87 @@ const CommunityDashboard: React.FC<CommunityDashboardProps> = ({
               </div>
 
               <div className="flex-1 md:px-4 overflow-y-auto space-y-3">
-                {/* Example received message */}
-                <div className="flex items-start gap-2">
-                  <div className="bg-[#F6F6F6] dark:bg-[#140D34] dark:border-[1px] dark:border-[#aa7dfc40] px-3 py-2 rounded-lg w-full text-sm">
-                    <div className="flex mt-2 gap-2 items-center">
-                      <div className="bg-[#818CF8] rounded-full w-[30px] h-[30px] flex items-center justify-center">
-                        <p className="text-[14px] font-bold text-black">ML</p>
-                      </div>
-                      <p className="font-semibold text-sm">Maria lopez</p>
-                      <p>3:45 PM</p>
-                    </div>
-                    <p>
-                      Hola amigos! I'm organizing a study session for tomorrow
-                      at 7 PM to review verb conjugations. Anyone interested in
-                      joining?
-                    </p>
-                    {/* Likes and Reply */}
-                    <div className="flex row justify-end gap-3">
-                      {/* Likes */}
-                      <div className="flex row items-center gap-1">
-                        <p>12</p>
-                        <div className="bg-[#818CF8] rounded-full w-[30px] h-[30px] flex items-center justify-center">
-                          <p className="text-[14px] font-bold text-black">ML</p>
+                {
+                  communityData?.communityChats.map((chatItem: CommunityChats, idx: number) => {
+                    if(chatItem.userIdSender === loggedInUser.user.id) {
+                      return (
+                        <div key={idx} className="flex justify-end">
+                        <div className="bg-[#CBD0FF] dark:bg-[#3D3179] dark:border-[1px] dark:border-[#aa7dfc40] px-3 py-2 rounded-lg w-full text-sm">
+                          <div className="flex mt-2 gap-2 items-center">
+                            <div className="bg-[#3730A3] rounded-full w-[30px] h-[30px] flex items-center justify-center">
+                              <p className="text-[14px] font-bold text-white">AL</p>
+                            </div>
+                            <p className="font-semibold text-sm">You</p>
+                            <p>6:55 PM</p>
+                          </div>
+                          <p>
+                            Just found this amazing resource for Spanish vocabulary:
+                            link.com/spanish-vocab. It has flashcards and spaced
+                            repetition features!
+                          </p>
+                          {/* Likes and Reply */}
+                          <div className="flex row justify-end gap-3">
+                            {/* Likes */}
+                            <div className="flex row items-center gap-1">
+                              <p>12</p>
+                              <div className="bg-[#3730A3] rounded-full w-[30px] h-[30px] flex items-center justify-center">
+                                <p className="text-[14px] font-bold text-white">ML</p>
+                              </div>
+                            </div>
+                            {/* Reply */}
+                            <div className="flex row items-center gap-1">
+                              <p>2</p>
+                              <div className="bg-[#3730A3] rounded-full w-[30px] h-[30px] flex items-center justify-center">
+                                <p className="text-[14px] font-bold text-white">ML</p>
+                              </div>
+                            </div>
+                          </div>
                         </div>
                       </div>
-                      {/* Reply */}
-                      <div className="flex row items-center gap-1">
-                        <p>2</p>
-                        <div className="bg-[#818CF8] rounded-full w-[30px] h-[30px] flex items-center justify-center">
-                          <p className="text-[14px] font-bold text-black">ML</p>
+      
+                      )
+                    } else {
+                      {/* Example received message */}
+                      return (
+                        <div key={idx} className="flex items-start gap-2">
+                          <div className="bg-[#F6F6F6] dark:bg-[#140D34] dark:border-[1px] dark:border-[#aa7dfc40] px-3 py-2 rounded-lg w-full text-sm">
+                            <div className="flex mt-2 gap-2 items-center">
+                              <div className="bg-[#818CF8] rounded-full w-[30px] h-[30px] flex items-center justify-center">
+                                <p className="text-[14px] font-bold text-black">ML</p>
+                              </div>
+                              <p className="font-semibold text-sm">Maria lopez</p>
+                              <p>3:45 PM</p>
+                            </div>
+                            <p>
+                              Hola amigos! I'm organizing a study session for tomorrow
+                              at 7 PM to review verb conjugations. Anyone interested in
+                              joining?
+                            </p>
+                            {/* Likes and Reply */}
+                            <div className="flex row justify-end gap-3">
+                              {/* Likes */}
+                              <div className="flex row items-center gap-1">
+                                <p>12</p>
+                                <div className="bg-[#818CF8] rounded-full w-[30px] h-[30px] flex items-center justify-center">
+                                  <p className="text-[14px] font-bold text-black">ML</p>
+                                </div>
+                              </div>
+                              {/* Reply */}
+                              <div className="flex row items-center gap-1">
+                                <p>2</p>
+                                <div className="bg-[#818CF8] rounded-full w-[30px] h-[30px] flex items-center justify-center">
+                                  <p className="text-[14px] font-bold text-black">ML</p>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                      )
+                    }
+                  })
+                }
 
                 {/* Example sent message */}
-                <div className="flex justify-end">
-                  <div className="bg-[#CBD0FF] dark:bg-[#3D3179] dark:border-[1px] dark:border-[#aa7dfc40] px-3 py-2 rounded-lg w-full text-sm">
-                    <div className="flex mt-2 gap-2 items-center">
-                      <div className="bg-[#3730A3] rounded-full w-[30px] h-[30px] flex items-center justify-center">
-                        <p className="text-[14px] font-bold text-white">AL</p>
-                      </div>
-                      <p className="font-semibold text-sm">You</p>
-                      <p>6:55 PM</p>
-                    </div>
-                    <p>
-                      Just found this amazing resource for Spanish vocabulary:
-                      link.com/spanish-vocab. It has flashcards and spaced
-                      repetition features!
-                    </p>
-                    {/* Likes and Reply */}
-                    <div className="flex row justify-end gap-3">
-                      {/* Likes */}
-                      <div className="flex row items-center gap-1">
-                        <p>12</p>
-                        <div className="bg-[#3730A3] rounded-full w-[30px] h-[30px] flex items-center justify-center">
-                          <p className="text-[14px] font-bold text-white">ML</p>
-                        </div>
-                      </div>
-                      {/* Reply */}
-                      <div className="flex row items-center gap-1">
-                        <p>2</p>
-                        <div className="bg-[#3730A3] rounded-full w-[30px] h-[30px] flex items-center justify-center">
-                          <p className="text-[14px] font-bold text-white">ML</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
               </div>
 
               {/* Message Input Bar */}

@@ -8,6 +8,7 @@ export interface ICommunityData {
     communityName: string
     communitySubject: string
     communityMemberCount: number
+    communityChats: CommunityChats[]
     communityMembers: CommunityMember[]
     communityRequests: number[]
     communityDifficulty: string
@@ -20,9 +21,23 @@ export interface CommunityMember {
     role: string
 }
 
+export interface CommunityChats {
+    id: number
+    userIdSender: number
+    userSenderName: string
+    message: string
+    timestamp: Date
+    mediaUrl: string
+    isDeleted: boolean
+    isPinned: boolean
+    isEdited: boolean
+}
+
 
 export interface IUserCredentials {
     username: string
+    firstName: string
+    lastName: string
     password: string
 }
 
@@ -31,8 +46,10 @@ export interface IUserNameId {
     user: {
         id: number
         username: string
-        ownedCommunities: number[]
-        joinedCommunities: number[]
+        firstName: string
+        lastName: string    
+        ownedCommunitys: number[]
+        joinedCommunitys: number[]
         communityRequests: number[]
     }
 }

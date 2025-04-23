@@ -61,6 +61,7 @@ const CreateCommunityModal: React.FC<CreateCommunityModalProps> = ({ isOpen, onC
       communityName: comName,
       communitySubject: comSubject,
       communityMemberCount: 1,
+      communityChats: [],
       communityMembers:  [{
         id: 0,
         userId: comOwnerId,
