@@ -1,6 +1,6 @@
 "use client";
 import { Drawer, DarkThemeToggle } from "flowbite-react";
-import { useRouter } from "next/navigation"; // 👈 Import useRouter
+import { useRouter } from "next/navigation";
 
 interface ProfileSidebarProps {
   isOpen: boolean;
