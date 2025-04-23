@@ -36,7 +36,7 @@ const NavBarComponent: React.FC = () => {
         </div>
       )}
 
-      <NavbarBrand as={Link} href="/">
+      <NavbarBrand as={Link} href="/landing">
         <img src="/assets/SBLogo.png" className="mr-3 h-6 sm:h-9" alt="Logo" />
         <span className="hidden lg:block self-center whitespace-nowrap text-[32px] font-semibold dark:text-white">
           Study Buddies

@@ -5,10 +5,34 @@
 
 @custom-variant dark (&:is(.dark *));
 
-.darkBg{
-  background: linear-gradient(to bottom, #271E55, #100B28);
-  border: 1px solid #aa7dfc40;
+/* Light mode - WebKit browsers */
+.scrollbar::-webkit-scrollbar {
+  width: 8px;
 }
+
+.scrollbar::-webkit-scrollbar-track {
+  background: transparent;  /* You can change this to any color you want for the track */
+}
+
+.scrollbar::-webkit-scrollbar-thumb {
+  background-color: #c1c1c1; /* color of the thumb */
+  border-radius: 10px;
+}
+
+/* Dark mode - WebKit browsers */
+.dark .scrollbar::-webkit-scrollbar-thumb {
+  background-color: #5e5e5e; /* different thumb color for dark mode */
+}
+
+.scrollbar {
+  scrollbar-color: #c1c1c1 transparent; /* Thumb color and track color for Firefox */
+}
+
+/* Dark mode - Firefox */
+.dark .scrollbar {
+  scrollbar-color: #5E5E5E transparent; /* Darker track in dark mode */
+}
+
 
 @theme inline {
   --color-background: var(--background);
