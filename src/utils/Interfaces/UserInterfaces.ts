@@ -26,7 +26,7 @@ export interface CommunityChats {
     userIdSender: number
     userSenderName: string
     message: string
-    timestamp: Date
+    timestamp: string
     mediaUrl: string
     isDeleted: boolean
     isPinned: boolean

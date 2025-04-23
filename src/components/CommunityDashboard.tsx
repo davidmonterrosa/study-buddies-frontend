@@ -1,5 +1,5 @@
 "use client"
-import { getDifficultyColor } from '@/utils/Services/StyleHelpers'
+import { formatPostTimeStamp, getDifficultyColor } from '@/utils/Services/StyleHelpers'
 import React, { useEffect, useState } from 'react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs'
 import { Separator } from './ui/separator'
@@ -17,6 +17,9 @@ const CommunityDashboard: React.FC<CommunityDashboardProps> = ({
 
   const [communityData, setCommunityData] = useState<ICommunityData>()
   const loggedInUser = currentUser();
+
+  
+
   useEffect(() => {
     const fetchCommunityInfo = async () => {
       console.log("This is the id being passed", communityId)
@@ -27,7 +30,6 @@ const CommunityDashboard: React.FC<CommunityDashboardProps> = ({
     }
     fetchCommunityInfo();
   }, [])
-
 
   useEffect(() => {
     console.log(communityData)
@@ -121,21 +123,20 @@ const CommunityDashboard: React.FC<CommunityDashboardProps> = ({
               <div className="flex-1 md:px-4 overflow-y-auto space-y-3">
                 {
                   communityData?.communityChats.map((chatItem: CommunityChats, idx: number) => {
+
                     if(chatItem.userIdSender === loggedInUser.user.id) {
                       return (
                         <div key={idx} className="flex justify-end">
                         <div className="bg-[#CBD0FF] dark:bg-[#3D3179] dark:border-[1px] dark:border-[#aa7dfc40] px-3 py-2 rounded-lg w-full text-sm">
                           <div className="flex mt-2 gap-2 items-center">
                             <div className="bg-[#3730A3] rounded-full w-[30px] h-[30px] flex items-center justify-center">
-                              <p className="text-[14px] font-bold text-white">AL</p>
+                              <p className="text-[14px] font-bold text-white">{chatItem.userSenderName.charAt(0).toUpperCase()}</p>
                             </div>
                             <p className="font-semibold text-sm">You</p>
-                            <p>6:55 PM</p>
+                            <p>{`${formatPostTimeStamp(chatItem.timestamp)}`}</p>
                           </div>
                           <p>
-                            Just found this amazing resource for Spanish vocabulary:
-                            link.com/spanish-vocab. It has flashcards and spaced
-                            repetition features!
+                            {chatItem.message}
                           </p>
                           {/* Likes and Reply */}
                           <div className="flex row justify-end gap-3">
@@ -165,15 +166,13 @@ const CommunityDashboard: React.FC<CommunityDashboardProps> = ({
                           <div className="bg-[#F6F6F6] dark:bg-[#140D34] dark:border-[1px] dark:border-[#aa7dfc40] px-3 py-2 rounded-lg w-full text-sm">
                             <div className="flex mt-2 gap-2 items-center">
                               <div className="bg-[#818CF8] rounded-full w-[30px] h-[30px] flex items-center justify-center">
-                                <p className="text-[14px] font-bold text-black">ML</p>
+                                <p className="text-[14px] font-bold text-black">{chatItem.userSenderName.charAt(0).toUpperCase()}</p>
                               </div>
-                              <p className="font-semibold text-sm">Maria lopez</p>
-                              <p>3:45 PM</p>
+                              <p className="font-semibold text-sm">{chatItem.userSenderName}</p>
+                              <p>{`${formatPostTimeStamp(chatItem.timestamp)}`}</p>
                             </div>
                             <p>
-                              Hola amigos! I'm organizing a study session for tomorrow
-                              at 7 PM to review verb conjugations. Anyone interested in
-                              joining?
+                              {chatItem.message}
                             </p>
                             {/* Likes and Reply */}
                             <div className="flex row justify-end gap-3">
