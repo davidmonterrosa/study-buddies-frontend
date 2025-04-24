@@ -1,37 +1,51 @@
-'use client'
-import React, { useEffect, useState } from "react";
+'use client';
+import React, { useState } from "react";
+import { Drawer } from "flowbite-react";
 import ViewCommunityButton from "./ViewCommunityButton";
 import { ICommunityData } from "@/utils/Interfaces/UserInterfaces";
-import { currentUser, getMyCommunities, getToken } from "@/utils/Services/DataServices";
 import { useAppContext } from "@/context/CommunityContext";
 import Link from "next/link";
-import { navigationMenuTriggerStyle } from "./ui/navigation-menu";
+import { X } from "lucide-react";
 
-const MyCommunitiesSidebar = () => {
-    const [activeCommunity, setActiveCommunity] = useState<string | null>(null);
-    // const [communityGroups, setcommunityGroups] = useState<ICommunityData[]>([]);
-    const {communityGroups} = useAppContext(); 
+interface MyCommunitiesSidebarProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
 
-    console.log("This is the communityGroups:", communityGroups);
-  
+const MyCommunitiesSidebar: React.FC<MyCommunitiesSidebarProps> = ({ isOpen, onClose }) => {
+  const [activeCommunity, setActiveCommunity] = useState<string | null>(null);
+  const { communityGroups } = useAppContext();
+
   return (
-    <div className="lg:hidden flex flex-col w-64 h-full rounded-r-[15px] bg-white bg-gradient-to-b dark:from-[#271E55] dark:to-[#100B28] p-4 shadow-lg">
-      <h1 className="text-center text-2xl font-bold m-4 text-black dark:text-white">My Communities</h1>
-      <div className="space-y-4">
-      <div className='flex flex-col gap-2'>
-        {/* Map of communities */}
-        {communityGroups.map((communityGroup: ICommunityData , idx: number) => (
-          <Link key={idx} href={`/communities/${communityGroup.id}`}>
-              <ViewCommunityButton
-                communityName={communityGroup.communityName}
-                isActive={activeCommunity === communityGroup.communityName}
-                onClick={() => setActiveCommunity(communityGroup.communityName)}
-              />
-          </Link>
-        ))}
+    <Drawer open={isOpen} onClose={onClose} position="left" className="p-0">
+      <div className="relative w-full h-full sm:max-w-sm bg-white dark:bg-[#100B28]">
+        {/* Close Button */}
+        <button onClick={onClose} className="absolute top-4 right-4 text-gray-500 hover:text-black dark:hover:text-white z-10" aria-label="Close">
+          <X className="w-6 h-6" />
+        </button>
+
+        {/* Content Container - scrollable only when overflowing */}
+        <div className="h-full overflow-y-auto p-6 pt-14">
+          <h1 className="text-center text-2xl font-bold mb-4 text-black dark:text-white">
+            My Communities
+          </h1>
+
+          <div className="space-y-4">
+            <div className="flex flex-col gap-2">
+              {communityGroups.map((communityGroup: ICommunityData, idx: number) => (
+                <Link key={idx} href={`/communities/${communityGroup.id}`}>
+                  <ViewCommunityButton
+                    communityName={communityGroup.communityName}
+                    isActive={activeCommunity === communityGroup.communityName}
+                    onClick={() => setActiveCommunity(communityGroup.communityName)}
+                  />
+                </Link>
+              ))}
+            </div>
+          </div>
+        </div>
       </div>
-      </div>
-    </div>
+    </Drawer>
   );
 };
 
