@@ -1,4 +1,4 @@
-import { ICommunityData, IUserCredentials, IUserNameId } from "../Interfaces/UserInterfaces";
+import { CommunityChats, ICommunityData, IUserCredentials, IUserNameId } from "../Interfaces/UserInterfaces";
 
 const url = "https://study-buddys-backend.azurewebsites.net/";
 
@@ -173,3 +173,24 @@ export const getToken = () => {
     return localStorage.getItem("Token") ?? "";
 }
 
+export const sendMessage = async (communityId: number, chatContent: CommunityChats, token: string) => {
+    const response = await fetch(`${url}Community/CreateCommunityChats/${communityId}`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + token, 
+        },
+        body:JSON.stringify(chatContent)
+    });
+
+    if(!response.ok) {
+        const errorData = await response.json();
+        console.log(errorData)
+        const message = errorData.message;
+        console.log(message);
+        return false;
+    }
+    const data = await response.json();
+    console.log(data)
+    return data.success;
+}

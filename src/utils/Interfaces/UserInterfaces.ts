@@ -27,11 +27,12 @@ export interface CommunityChats {
     userSenderName: string
     message: string
     timestamp: string
-    mediaUrl: string
+    mediaUrl: string | null
     isDeleted: boolean
     isPinned: boolean
     isEdited: boolean
 }
+
 
 
 export interface IUserCredentials {
