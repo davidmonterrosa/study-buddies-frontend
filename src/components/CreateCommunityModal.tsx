@@ -148,11 +148,11 @@ const CreateCommunityModal: React.FC<CreateCommunityModalProps> = ({ isOpen, onC
             {showSubjectDropdown && (
               <div className="absolute mt-1 w-full bg-white dark:bg-gray-800 border dark:border-gray-600 rounded-md shadow-lg z-10">
                 <div className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer" onClick={() => { setComSubject("Exams"); setShowSubjectDropdown(false); }}>Exams</div>
-                <div className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer" onClick={() => { setComSubject("Mathematics"); setShowSubjectDropdown(false);}}> Mathematics</div>
-                <div className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer" onClick={() => { setComSubject("Science"); setShowSubjectDropdown(false);}}>Science</div>
-                <div className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer" onClick={() => { setComSubject("Language"); setShowSubjectDropdown(false);}}>Language</div>
-                <div className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer" onClick={() => { setComSubject("Social Science"); setShowSubjectDropdown(false);}}>Social Science</div>
-                <div className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer" onClick={() => { setComSubject("Arts and Humanities"); setShowSubjectDropdown(false);}}>Arts and Humanities</div>
+                <div className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer" onClick={() => { setComSubject("Mathematics"); setShowSubjectDropdown(false); }}> Mathematics</div>
+                <div className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer" onClick={() => { setComSubject("Science"); setShowSubjectDropdown(false); }}>Science</div>
+                <div className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer" onClick={() => { setComSubject("Language"); setShowSubjectDropdown(false); }}>Language</div>
+                <div className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer" onClick={() => { setComSubject("Social Science"); setShowSubjectDropdown(false); }}>Social Science</div>
+                <div className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer" onClick={() => { setComSubject("Arts and Humanities"); setShowSubjectDropdown(false); }}>Arts and Humanities</div>
                 <div className="border-t dark:border-gray-600 px-4 py-2">
                   <input type="text" className="w-full border dark:bg-gray-700 dark:border-gray-600 dark:text-white rounded px-2 py-1" placeholder="Enter custom subject"
                     value={comSubject} onChange={(e) => setComSubject(e.target.value)} onKeyDown={(e) => {
