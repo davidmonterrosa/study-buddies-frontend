@@ -22,11 +22,7 @@ const NavBarComponent: React.FC = () => {
         {/* Hamburger Menu */}
         <div className="flex lg:hidden items-center justify-center">
           <button className="size-10" onClick={() => setIsOpenLeft(true)}>
-            <img
-              className="size-10 dark:invert"
-              src="/assets/menu-burger.svg"
-              alt="Open My Communities panel"
-            />
+            <img className="size-10 dark:invert" src="/assets/menu-burger.svg" alt="Open My Communities panel" />
           </button>
         </div>
 
@@ -40,26 +36,11 @@ const NavBarComponent: React.FC = () => {
         {/* Search Bar */}
         <div className="flex bg-white items-center xl:w-2xl w-lg rounded-2xl border-2 px-3 py-[3px] relative">
           <button className="size-10 mx-2.5 cursor-pointer">
-            <img
-              className="w-[25px] h-[25px]"
-              src="../assets/searchIcon.svg"
-              alt="Search"
-            />
+            <img className="w-[25px] h-[25px]" src="../assets/searchIcon.svg" alt="Search" />
           </button>
-          <input
-            className="border-0 w-full focus:outline-none text-black"
-            placeholder="Search for Learning Communities"
-            type="text"
-          />
-          <button
-            onClick={() => setIsFilterOpen(!isFilterOpen)}
-            className="relative"
-          >
-            <img
-              className="w-[25px] h-[25px] cursor-pointer"
-              src="/assets/filter.svg"
-              alt="Filter Icon"
-            />
+          <input className="border-0 w-full focus:outline-none text-black" placeholder="Search for Learning Communities" type="text" />
+          <button onClick={() => setIsFilterOpen(!isFilterOpen)} className="relative">
+            <img className="w-[25px] h-[25px] cursor-pointer" src="/assets/filter.svg" alt="Filter Icon" />
           </button>
 
           {/* Dropdown */}
@@ -92,20 +73,13 @@ const NavBarComponent: React.FC = () => {
         {/* Notifications Button */}
         <div className="flex items-center justify-center">
           <button onClick={() => setIsOpenNotifications(true)}>
-            <img
-              className="cursor-pointer dark:invert"
-              src="/assets/Bell.svg"
-              alt="Notifications"
-            />
+            <img className="cursor-pointer dark:invert" src="/assets/Bell.svg" alt="Notifications" />
           </button>
         </div>
 
         {/* Profile Button */}
         <div>
-          <button
-            onClick={() => setIsOpenProfile(true)}
-            className="rounded-full size-12 font-bold bg-white dark:bg-gradient-to-b from-[#6F58DA] to-[#5131E7] cursor-pointer"
-          >
+          <button onClick={() => setIsOpenProfile(true)} className="rounded-full size-12 font-bold bg-white dark:bg-gradient-to-b from-[#6F58DA] to-[#5131E7] cursor-pointer">
             AL
           </button>
         </div>

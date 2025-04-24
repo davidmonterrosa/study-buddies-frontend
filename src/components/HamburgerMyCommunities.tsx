@@ -17,19 +17,10 @@ const MyCommunitiesSidebar: React.FC<MyCommunitiesSidebarProps> = ({ isOpen, onC
   const { communityGroups } = useAppContext();
 
   return (
-    <Drawer
-      open={isOpen}
-      onClose={onClose}
-      position="left"
-      className="p-0"
-    >
+    <Drawer open={isOpen} onClose={onClose} position="left" className="p-0">
       <div className="relative w-full h-full sm:max-w-sm bg-white dark:bg-[#100B28]">
         {/* Close Button */}
-        <button
-          onClick={onClose}
-          className="absolute top-4 right-4 text-gray-500 hover:text-black dark:hover:text-white z-10"
-          aria-label="Close"
-        >
+        <button onClick={onClose} className="absolute top-4 right-4 text-gray-500 hover:text-black dark:hover:text-white z-10" aria-label="Close">
           <X className="w-6 h-6" />
         </button>
 

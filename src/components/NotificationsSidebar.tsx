@@ -12,19 +12,10 @@ const NotificationsSidebar: React.FC<NotificationsSidebarProps> = ({
   onClose,
 }) => {
   return (
-    <Drawer
-      open={isOpen}
-      onClose={onClose}
-      position="right"
-      className="p-2"
-    >
+    <Drawer open={isOpen} onClose={onClose} position="right" className="p-2">
       <div className="relative w-full h-full sm:max-w-sm sm:h-auto"> {/* Fullscreen on mobile */}
         {/* Close Button */}
-        <button
-          onClick={onClose}
-          className="absolute top-2 right-2 text-gray-500 hover:text-black dark:hover:text-white"
-          aria-label="Close"
-        >
+        <button onClick={onClose} className="absolute top-2 right-2 text-gray-500 hover:text-black dark:hover:text-white" aria-label="Close">
           <X className="w-5 h-5" />
         </button>
 
