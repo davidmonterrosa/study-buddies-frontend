@@ -42,8 +42,8 @@ const CommunityPreview: React.FC<PreviewProps> = ({
       <p className="mt-2 text-sm">{description}</p>
 
       <div className="flex justify-between items-center mt-4">
-        <div className="flex items-center gap-4">
-          <div className="bg-[#818CF8] rounded-full w-[40px] h-[40px] flex items-center justify-center">
+        <div className="flex items-center gap-2">
+          <div className="bg-[#818CF8] rounded-full w-[35px] h-[35px] flex items-center justify-center">
             <p className="text-[18px] font-bold text-black">{initials}</p>
           </div>
           <p className="font-semibold text-[18px]">{userName}</p>
