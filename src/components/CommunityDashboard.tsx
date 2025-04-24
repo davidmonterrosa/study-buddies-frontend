@@ -3,7 +3,7 @@ import { formatPostTimeStamp, getDifficultyColor } from '@/utils/Services/StyleH
 import React, { useEffect, useState } from 'react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs'
 import { Separator } from './ui/separator'
-import { currentUser, getCommunityById, getLoggedInUserData } from '@/utils/Services/DataServices'
+import { currentUser, getCommunityById, getLoggedInUserData, getToken, sendMessage } from '@/utils/Services/DataServices'
 import { CommunityChats, ICommunityData, IUserNameId } from '@/utils/Interfaces/UserInterfaces'
 import BuddiesCompononet from './BuddiesComponent'
 import DirectMessage from './DirectMessage'
@@ -12,12 +12,37 @@ interface CommunityDashboardProps {
   communityId: number;
 }
 
+
+
 const CommunityDashboard: React.FC<CommunityDashboardProps> = ({
   communityId
 }) => {
 
   const [communityData, setCommunityData] = useState<ICommunityData>()
+  const [messageText, setmessageText] = useState<string>()
   const loggedInUser = currentUser();
+
+  const handleSendMessage = async () => {
+    console.log("Send message:", messageText);    
+    if(!messageText || messageText.trim() === "") return;
+    console.log("This is the logged In user: ", loggedInUser.user.id, loggedInUser.user.username)
+
+    const messageToSend: CommunityChats = {
+      id: 0,
+      userIdSender: loggedInUser.user.id,
+      userSenderName: loggedInUser.user.username,
+      message: messageText,
+      timestamp: new Date().toISOString(),
+      mediaUrl: null,
+      isDeleted: false,
+      isPinned: false,
+      isEdited: false,
+    }
+    console.log("Message object that is being sent: ", messageToSend, " to community: ", communityId);
+    console.log(getToken())
+    await sendMessage(communityId, messageToSend, getToken())
+    setmessageText("");
+  }
 
   
 
@@ -33,8 +58,8 @@ const CommunityDashboard: React.FC<CommunityDashboardProps> = ({
   }, [])
 
   useEffect(() => {
-    console.log(communityData)
-  }, [communityData])
+    console.log(messageText)
+  }, [messageText])
 
   return (
     <main className='w-full bg-white rounded-lg dark:bg-linear-to-b dark:from-[#271E55] dark:to-[#100B28] dark:border-[2px] dark:border-[#aa7dfc40] max-w-full lg:max-w-[80%] h-auto p-4 drop-shadow-[0_3px_4px_rgba(0,0,0,0.25)]'>
@@ -208,9 +233,10 @@ const CommunityDashboard: React.FC<CommunityDashboardProps> = ({
                     type="text"
                     placeholder="Type your message..."
                     className="w-full pr-10 px-4 py-2 rounded-[15px] drop-shadow-[0_1px_2px_rgba(0,0,0,0.25)] text-sm bg-[#F6F6F6] dark:bg-transparent dark:border-[1px] dark:border-[#aa7dfc40] focus:outline-none focus:ring-2 focus:ring-[#818CF8] dark:focus:ring-[#a97dfc96]"
+                    onChange={(e) => setmessageText(e.target.value)}
                   />
                   {/* Send Icon */}
-                  <button className="absolute right-2 top-1/2 -translate-y-1/2 cursor-pointer">
+                  <button className="absolute right-2 top-1/2 -translate-y-1/2 cursor-pointer" onClick={handleSendMessage}>
                     <svg width="27" height="27" viewBox="0 0 27 27" xmlns="http://www.w3.org/2000/svg" className="transition-colors duration-300">
                       {/* Define the gradient */}
                       <defs>
