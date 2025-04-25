@@ -19,7 +19,7 @@ const NavBarComponent: React.FC = () => {
   return (
     <>
       <Navbar className="bg-[#818CF8] dark:bg-[#110C29] w-full px-4 py-2" fluid>
-        <div className="flex w-full justify-between items-center">
+        <div className="flex w-full justify-between items-center gap-2">
           {/* Left Side: Hamburger + Logo */}
           <div className="flex items-center gap-2">
             <button className="lg:hidden" onClick={() => setIsOpenLeft(true)}>
@@ -34,7 +34,7 @@ const NavBarComponent: React.FC = () => {
           </div>
 
           {/* Center: Search bar - show from md and up */}
-          <div className="hidden md:flex bg-white items-center xl:w-2xl w-lg rounded-2xl border-2 px-3 py-[3px] relative">
+          <div className="hidden sm:flex bg-white items-center xl:w-2xl w-lg rounded-2xl border-2 px-3 py-[3px] relative">
             <button className="size-10 mx-2.5 cursor-pointer">
               <img className="w-[25px] h-[25px]" src="../assets/searchIcon.svg" alt="Search" />
             </button>
