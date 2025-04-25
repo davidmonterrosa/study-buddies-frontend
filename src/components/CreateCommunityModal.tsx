@@ -135,8 +135,7 @@ const CreateCommunityModal: React.FC<CreateCommunityModalProps> = ({ isOpen, onC
         <div className="flex flex-col">
           <p className="font-medium">Subject Area</p>
           <div ref={subjectDropdownRef} className="relative">
-            <button
-              className="w-full text-left text-[16px] bg-gradient-to-r from-[#6F58DA] to-[#5131E7] text-white rounded-[10px] px-4 py-2 flex justify-between items-center"
+            <button className="w-full text-left text-[16px] bg-gradient-to-r from-[#6F58DA] to-[#5131E7] text-white rounded-[10px] px-4 py-2 flex justify-between items-center cursor-pointer"
               onClick={() => setShowSubjectDropdown(!showSubjectDropdown)}
             >
               {comSubject || "Select a subject"}
@@ -169,8 +168,7 @@ const CreateCommunityModal: React.FC<CreateCommunityModalProps> = ({ isOpen, onC
         <div className="flex flex-col">
           <p className="font-medium">Difficulty Level</p>
           <div ref={difficultyDropdownRef} className="relative">
-            <button
-              className="w-full text-left text-[16px] bg-gradient-to-r from-[#6F58DA] to-[#5131E7] text-white rounded-[10px] px-4 py-2 flex justify-between items-center"
+            <button className="w-full text-left text-[16px] bg-gradient-to-r from-[#6F58DA] to-[#5131E7] text-white rounded-[10px] px-4 py-2 flex justify-between items-center cursor-pointer"
               onClick={() => setShowDifficultyDropdown(!showDifficultyDropdown)}
             >
               {comDifficulty || "Select difficulty level"}
