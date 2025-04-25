@@ -1,7 +1,7 @@
 "use client";
 import { Navbar, NavbarBrand } from "flowbite-react";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import NotificationsSidebar from "./NotificationsSidebar";
 import ProfileSidebar from "./ProfileSidebar";
 import CreateCommunityModal from "./CreateCommunityModal";
@@ -14,7 +14,24 @@ const NavBarComponent: React.FC = () => {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [isOpenLeft, setIsOpenLeft] = useState(false);
 
+  const filterRef = useRef<HTMLDivElement | null>(null);
   const closeMyCommunities = () => setIsOpenLeft(false);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (filterRef.current && !filterRef.current.contains(event.target as Node)) {
+        setIsFilterOpen(false);
+      }
+    };
+
+    if (isFilterOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isFilterOpen]);
 
   return (
     <>
@@ -33,7 +50,7 @@ const NavBarComponent: React.FC = () => {
             </NavbarBrand>
           </div>
 
-          {/* Center: Search bar - show from md and up */}
+          {/* Center: Search bar - show from sm and up */}
           <div className="hidden sm:flex bg-white items-center xl:w-2xl w-lg rounded-2xl border-2 px-3 py-[3px] relative">
             <button className="size-10 mx-2.5 cursor-pointer">
               <img className="w-[25px] h-[25px]" src="../assets/searchIcon.svg" alt="Search" />
@@ -48,15 +65,18 @@ const NavBarComponent: React.FC = () => {
             </button>
 
             {isFilterOpen && (
-              <div className="absolute bg-white border rounded-lg shadow-lg w-40 mt-2 p-2 z-10 right-0 top-11">
+              <div
+                ref={filterRef}
+                className="absolute bg-white dark:bg-gray-800 border dark:border-gray-600 rounded-lg shadow-lg w-40 mt-2 z-10 right-0 top-12"
+              >
                 <ul>
-                  <li className="py-1 px-2 hover:bg-[#818cf88e] rounded-[10px] text-[16px] text-black cursor-pointer">
+                  <li className="py-1 px-2 hover:bg-gray-100 dark:hover:bg-gray-700 text-[16px] rounded-t-lg text-black dark:text-white cursor-pointer">
                     Option 1
                   </li>
-                  <li className="py-1 px-2 hover:bg-[#818cf88e] rounded-[10px] text-[16px] text-black cursor-pointer">
+                  <li className="py-1 px-2 hover:bg-gray-100 dark:hover:bg-gray-700 text-[16px] text-black dark:text-white cursor-pointer">
                     Option 2
                   </li>
-                  <li className="py-1 px-2 hover:bg-[#818cf88e] rounded-[10px] text-[16px] text-black cursor-pointer">
+                  <li className="py-1 px-2 hover:bg-gray-100 dark:hover:bg-gray-700 text-[16px] rounded-b-lg text-black dark:text-white cursor-pointer">
                     Option 3
                   </li>
                 </ul>
@@ -67,7 +87,8 @@ const NavBarComponent: React.FC = () => {
           {/* Right Side: Create, Notifications, Profile */}
           <div className="flex items-center gap-3">
             {/* Create Button (always shown, text hidden <lg) */}
-            <button className=" hidden sm:flex items-center justify-center cursor-pointer text-white bg-gradient-to-r from-[#6F58DA] to-[#5131E7] rounded-full px-[18px] py-2.5 gap-1"
+            <button
+              className="hidden sm:flex items-center justify-center cursor-pointer text-white bg-gradient-to-r from-[#6F58DA] to-[#5131E7] rounded-full px-[18px] py-2.5 gap-1"
               onClick={() => setIsOpenModal(true)}
             >
               <p className="text-xl">+</p>
@@ -75,7 +96,7 @@ const NavBarComponent: React.FC = () => {
             </button>
 
             <button onClick={() => setIsOpenNotifications(true)}>
-              <img className="cursor-pointer dark:invert" src="/assets/Bell.svg" alt="Notifications" />
+              <img className="w-[25px] h-[25px] cursor-pointer dark:invert" src="/assets/Bell.svg" alt="Notifications" />
             </button>
 
             <button
