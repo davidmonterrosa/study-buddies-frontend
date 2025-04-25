@@ -135,11 +135,10 @@ const CreateCommunityModal: React.FC<CreateCommunityModalProps> = ({ isOpen, onC
         <div className="flex flex-col">
           <p className="font-medium">Subject Area</p>
           <div ref={subjectDropdownRef} className="relative">
-            <button
-              className="w-full text-left text-[16px] bg-gradient-to-r from-[#6F58DA] to-[#5131E7] text-white rounded-[10px] px-4 py-2 flex justify-between items-center"
+            <button className="w-full text-left text-[16px] bg-gradient-to-r from-[#6F58DA] to-[#5131E7] text-white rounded-[10px] px-4 py-2 flex justify-between items-center cursor-pointer"
               onClick={() => setShowSubjectDropdown(!showSubjectDropdown)}
             >
-              {comSubject || "Select a subject"}
+              {comSubject || "Select a Subject"}
               <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
               </svg>
@@ -169,11 +168,10 @@ const CreateCommunityModal: React.FC<CreateCommunityModalProps> = ({ isOpen, onC
         <div className="flex flex-col">
           <p className="font-medium">Difficulty Level</p>
           <div ref={difficultyDropdownRef} className="relative">
-            <button
-              className="w-full text-left text-[16px] bg-gradient-to-r from-[#6F58DA] to-[#5131E7] text-white rounded-[10px] px-4 py-2 flex justify-between items-center"
+            <button className="w-full text-left text-[16px] bg-gradient-to-r from-[#6F58DA] to-[#5131E7] text-white rounded-[10px] px-4 py-2 flex justify-between items-center cursor-pointer"
               onClick={() => setShowDifficultyDropdown(!showDifficultyDropdown)}
             >
-              {comDifficulty || "Select difficulty level"}
+              {comDifficulty || "Select Difficulty Level"}
               <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
               </svg>
