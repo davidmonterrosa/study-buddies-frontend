@@ -37,7 +37,7 @@ const NavBarComponent: React.FC = () => {
     <>
       <Navbar className="bg-[#818CF8] dark:bg-[#110C29] w-full px-4 py-2" fluid>
         <div className="flex w-full justify-between items-center gap-2">
-          {/* Left Side: Hamburger + Logo */}
+          {/* Hamburger + Logo */}
           <div className="flex items-center gap-2">
             <button className="lg:hidden" onClick={() => setIsOpenLeft(true)}>
               <img className="size-10 dark:invert" src="/assets/menu-burger.svg" alt="Menu" />
@@ -50,7 +50,7 @@ const NavBarComponent: React.FC = () => {
             </NavbarBrand>
           </div>
 
-          {/* Center: Search bar - show from sm and up */}
+          {/* Searchbar */}
           <div className="hidden sm:flex bg-white items-center xl:w-2xl w-lg rounded-2xl border-2 px-3 py-[3px] relative">
             <button className="size-10 mx-2.5 cursor-pointer">
               <img className="w-[25px] h-[25px]" src="../assets/searchIcon.svg" alt="Search" />
@@ -84,9 +84,9 @@ const NavBarComponent: React.FC = () => {
             )}
           </div>
 
-          {/* Right Side: Create, Notifications, Profile */}
+          {/* Create, Notifications, Profile */}
           <div className="flex items-center gap-3">
-            {/* Create Button (always shown, text hidden <lg) */}
+            {/* Create Button */}
             <button
               className="hidden sm:flex items-center justify-center cursor-pointer text-white bg-gradient-to-r from-[#6F58DA] to-[#5131E7] rounded-full px-[18px] py-2.5 gap-1"
               onClick={() => setIsOpenModal(true)}
@@ -96,7 +96,7 @@ const NavBarComponent: React.FC = () => {
             </button>
 
             <button onClick={() => setIsOpenNotifications(true)}>
-              <img className="w-[25px] h-[25px] cursor-pointer dark:invert" src="/assets/Bell.svg" alt="Notifications" />
+              <img className="cursor-pointer dark:invert" src="/assets/Bell.svg" alt="Notifications" />
             </button>
 
             <button
