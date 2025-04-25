@@ -6,6 +6,7 @@ import { ICommunityData } from "@/utils/Interfaces/UserInterfaces";
 import { useAppContext } from "@/context/CommunityContext";
 import Link from "next/link";
 import { X } from "lucide-react";
+import { HubConnection, HubConnectionBuilder, LogLevel} from "@microsoft/signalr";
 
 interface MyCommunitiesSidebarProps {
   isOpen: boolean;
