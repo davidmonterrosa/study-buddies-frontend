@@ -154,6 +154,7 @@ const Dropdown: React.FC<DropdownProps> = ({
                     onChange={() => onToggleOption("Anyone")}
                     className="form-checkbox"
                   />
+                  <span>Anyone</span>
                 </label>
               </li>
             </>
