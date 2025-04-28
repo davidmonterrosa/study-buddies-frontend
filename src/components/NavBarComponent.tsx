@@ -1,4 +1,4 @@
-"use client";
+"use client"
 import { Navbar, NavbarBrand } from "flowbite-react";
 import Link from "next/link";
 import React, { useState, useEffect, useRef } from "react";
@@ -6,6 +6,7 @@ import NotificationsSidebar from "./NotificationsSidebar";
 import ProfileSidebar from "./ProfileSidebar";
 import CreateCommunityModal from "./CreateCommunityModal";
 import MyCommunitiesSidebar from "./HamburgerMyCommunities";
+import Dropdown from "./FilterDropdown";
 
 const NavBarComponent: React.FC = () => {
   const [isOpenNotifications, setIsOpenNotifications] = useState(false);
@@ -13,14 +14,40 @@ const NavBarComponent: React.FC = () => {
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [isOpenLeft, setIsOpenLeft] = useState(false);
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null); // Track which dropdown is open
+
+  const [selectedSubjects, setSelectedSubjects] = useState<string[]>([]);
+  const [selectedDifficulties, setSelectedDifficulties] = useState<string[]>([]);
 
   const filterRef = useRef<HTMLDivElement | null>(null);
+
   const closeMyCommunities = () => setIsOpenLeft(false);
+
+  const handleSubjectToggle = (subject: string) => {
+    setSelectedSubjects((prev) =>
+      prev.includes(subject) ? prev.filter((s) => s !== subject) : [...prev, subject]
+    );
+  };
+
+  const handleDifficultyToggle = (difficulty: string) => {
+    setSelectedDifficulties((prev) =>
+      prev.includes(difficulty) ? prev.filter((d) => d !== difficulty) : [...prev, difficulty]
+    );
+  };
+
+  const handleDropdownToggle = (dropdown: string) => {
+    if (openDropdown === dropdown) {
+      setOpenDropdown(null); // Close if already open
+    } else {
+      setOpenDropdown(dropdown); // Open the new dropdown and close others
+    }
+  };
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (filterRef.current && !filterRef.current.contains(event.target as Node)) {
         setIsFilterOpen(false);
+        setOpenDropdown(null); // Close dropdowns when clicking outside
       }
     };
 
@@ -67,18 +94,25 @@ const NavBarComponent: React.FC = () => {
             {isFilterOpen && (
               <div
                 ref={filterRef}
-                className="absolute bg-white dark:bg-gray-800 border dark:border-gray-600 rounded-lg shadow-lg w-40 mt-2 z-10 right-0 top-12"
+                className="absolute bg-white dark:bg-gray-800 border dark:border-gray-600 rounded-lg shadow-lg w-56 mt-2 z-10 right-0 top-12"
               >
-                <ul>
-                  <li className="py-1 px-2 hover:bg-gray-100 dark:hover:bg-gray-700 text-[16px] rounded-t-lg text-black dark:text-white cursor-pointer">
-                    Option 1
-                  </li>
-                  <li className="py-1 px-2 hover:bg-gray-100 dark:hover:bg-gray-700 text-[16px] text-black dark:text-white cursor-pointer">
-                    Option 2
-                  </li>
-                  <li className="py-1 px-2 hover:bg-gray-100 dark:hover:bg-gray-700 text-[16px] rounded-b-lg text-black dark:text-white cursor-pointer">
-                    Option 3
-                  </li>
+                <ul className="flex flex-col">
+                  {/* Subject Dropdown */}
+                  <Dropdown
+                    title="Subject"
+                    selectedOptions={selectedSubjects}
+                    onToggleOption={handleSubjectToggle}
+                    isOpen={openDropdown === "subject"}
+                    onToggle={() => handleDropdownToggle("subject")}
+                  />
+
+                  <Dropdown
+                    title="Difficulty"
+                    selectedOptions={selectedDifficulties}
+                    onToggleOption={handleDifficultyToggle}
+                    isOpen={openDropdown === "difficulty"}
+                    onToggle={() => handleDropdownToggle("difficulty")}
+                  />
                 </ul>
               </div>
             )}
@@ -86,7 +120,6 @@ const NavBarComponent: React.FC = () => {
 
           {/* Create, Notifications, Profile */}
           <div className="flex items-center gap-3">
-            {/* Create Button */}
             <button
               className="hidden sm:flex items-center justify-center cursor-pointer text-white bg-gradient-to-r from-[#6F58DA] to-[#5131E7] rounded-full px-[18px] py-2.5 gap-1"
               onClick={() => setIsOpenModal(true)}
@@ -109,7 +142,7 @@ const NavBarComponent: React.FC = () => {
         </div>
       </Navbar>
 
-      {/* Modals and Sidebars */}
+      {/* Sidebars and Modals */}
       <MyCommunitiesSidebar isOpen={isOpenLeft} onClose={closeMyCommunities} />
       <NotificationsSidebar isOpen={isOpenNotifications} onClose={() => setIsOpenNotifications(false)} />
       <ProfileSidebar isOpen={isOpenProfile} onClose={() => setIsOpenProfile(false)} />
