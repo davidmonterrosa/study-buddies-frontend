@@ -6,6 +6,7 @@ import { currentUser, getMyCommunities, getToken } from '@/utils/Services/DataSe
 import Link from 'next/link';
 import { navigationMenuTriggerStyle } from './ui/navigation-menu';
 import { useAppContext } from '@/context/CommunityContext';
+import { HubConnection, HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
 
 
 const MyCommunitiesPanel = () => {

@@ -173,7 +173,7 @@ export const getToken = () => {
     return localStorage.getItem("Token") ?? "";
 }
 
-export const sendMessage = async (communityId: number, chatContent: CommunityChats, token: string) => {
+export const sendCommunityMessage = async (communityId: number, chatContent: CommunityChats, token: string) => {
     const response = await fetch(`${url}Community/CreateCommunityChats/${communityId}`, {
         method: "POST",
         headers: {
