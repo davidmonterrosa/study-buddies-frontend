@@ -1,5 +1,5 @@
 'use client'
-import { Itoken } from '@/utils/Interfaces/UserInterfaces';
+import { Itoken, IUserNameId } from '@/utils/Interfaces/UserInterfaces';
 import { createAccount, getLoggedInUserData, login } from '@/utils/Services/DataServices';
 import { useRouter, useSearchParams } from 'next/navigation';
 import React, { Suspense, useState, useEffect } from 'react';
@@ -55,6 +55,7 @@ const SignIn = () => {
 
       if (result){
         console.log("Account Created")
+        setIsUserAlready(true)
       } else {
         console.log("Username already exists");
       } 
@@ -65,7 +66,7 @@ const SignIn = () => {
 
       if (token != null) {
         if (typeof window != null) {
-          localStorage.setItem("Token", token.token);
+          sessionStorage.setItem("Token", token.token);
           await getLoggedInUserData(username);
           router.push('/landing');
         }

@@ -13,10 +13,9 @@ export const getDifficultyColor = (difficulty: string) => {
 
 export const formatPostTimeStamp = (timeStamp: string) => {
   const dateTimeObject = new Date(timeStamp);
-  const intlDateTime = new Intl.DateTimeFormat("en-US", {
+  return  dateTimeObject.toLocaleTimeString("en-US", {
     hour: "numeric",
     minute: "numeric",
-    hour12: true
-  }).format(dateTimeObject);
-  return intlDateTime;
+    hour12: true,
+  });
 }

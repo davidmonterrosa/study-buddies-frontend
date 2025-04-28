@@ -11,7 +11,7 @@ const ProfileSidebar: React.FC<ProfileSidebarProps> = ({ isOpen, onClose }) => {
   const router = useRouter();
 
   const logoutUser = () => {
-    localStorage.removeItem("Token");
+    sessionStorage.removeItem("Token");
     router.push("/");
   };
 

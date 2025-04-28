@@ -68,8 +68,8 @@ export const currentUser = () => {
 export const checkToken = () => {
     let result = false;
     if(typeof window !== null) {
-        const localStorageData = localStorage.getItem("Token");
-        if(localStorageData != null) {
+        const sessionStorageData = sessionStorage.getItem("Token");
+        if(sessionStorageData != null) {
             result = true;
         }
     }
@@ -91,7 +91,6 @@ export const getAllCommunities = async (token: string) => {
         return [];
     }
     const data = await response.json();
-    console.log(data);
     return data;
 }
 
@@ -170,7 +169,7 @@ export const upDateCommunity = async (community: ICommunityData, token: string) 
 // }
 
 export const getToken = () => {
-    return localStorage.getItem("Token") ?? "";
+    return sessionStorage.getItem("Token") ?? "";
 }
 
 export const sendCommunityMessage = async (communityId: number, chatContent: CommunityChats, token: string) => {
