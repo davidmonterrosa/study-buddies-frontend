@@ -9,6 +9,7 @@ interface PreviewProps {
   userName: string;
   isPublic: boolean;
   description: string;
+  onCancel: () => void; // <- new prop
 }
 
 const CommunityPreview: React.FC<PreviewProps> = ({
@@ -20,6 +21,7 @@ const CommunityPreview: React.FC<PreviewProps> = ({
   userName,
   isPublic,
   description,
+  onCancel,
 }) => {
   return (
     <>
@@ -49,7 +51,10 @@ const CommunityPreview: React.FC<PreviewProps> = ({
           <p className="font-semibold text-[18px]">{userName}</p>
         </div>
         <div className="flex gap-4">
-          <button className="px-4 py-2 bg-[#FF5C7F] text-white rounded-lg cursor-pointer">
+          <button
+            className="px-4 py-2 bg-[#FF5C7F] text-white rounded-lg cursor-pointer"
+            onClick={onCancel}
+          >
             Cancel
           </button>
           <button className="px-4 py-2 bg-[#0E9E6E] text-white rounded-lg cursor-pointer">

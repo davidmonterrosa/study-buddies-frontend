@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { getDifficultyColor } from "@/utils/Services/StyleHelpers";
 import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "./ui/dialog";
 import CommunityPreview from "./CommunityPreview";
@@ -24,17 +24,19 @@ const CommunityCard: React.FC<CommunityCardProps> = ({
   isPublic,
   description
 }) => {
-  // Function to determine background color based on difficulty level
+  const [open, setOpen] = useState(false);
 
   return (
-    <Dialog>
-      <DialogTrigger>
-        <article className="bg-linear-to-b from-[#473FCB] to-[#231E6D] dark:bg-linear-to-b dark:from-[#271E55] dark:to-[#100B28] dark:border-[2px] dark:border-[#aa7dfc40] dark:hover:shadow-[0_2px_15px_#6f58da] w-full h-[175px] rounded-[15px] text-white p-2 cursor-pointer light:drop-shadow-[0_3px_4px_rgba(0,0,0,0.25)]">
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>
+        <article
+          className="bg-linear-to-b from-[#473FCB] to-[#231E6D] dark:bg-linear-to-b dark:from-[#271E55] dark:to-[#100B28] dark:border-[2px] dark:border-[#aa7dfc40] dark:hover:shadow-[0_2px_15px_#6f58da] w-full h-[175px] rounded-[15px] text-white p-2 cursor-pointer light:drop-shadow-[0_3px_4px_rgba(0,0,0,0.25)]"
+          onClick={() => setOpen(true)}
+        >
           <div className="flex justify-between">
-            <h1 className="font-bold text-[20px] overflow-hidden text-nowrap  ">
+            <h1 className="font-bold text-[20px] overflow-hidden text-nowrap">
               {communityName}
             </h1>
-            {/* Conditional rendering for lock/unlock icon */}
             <img
               className="w-[30px]"
               src={isPublic ? "/assets/Unlock.svg" : "/assets/Lock.svg"}
@@ -74,6 +76,7 @@ const CommunityCard: React.FC<CommunityCardProps> = ({
           userName={userName}
           isPublic={isPublic}
           description={description}
+          onCancel={() => setOpen(false)}
         />
       </DialogContent>
     </Dialog>
