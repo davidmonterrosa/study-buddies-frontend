@@ -201,7 +201,7 @@ export const joinCommunity = async (userId: number, communityId: number, token: 
         method: "POST",
         headers: {
             "Content-Type": "application/json",
-            "Authorizatioin": "Bearer " + token,
+            "Authorization": "Bearer " + token,
         }
     });
 
