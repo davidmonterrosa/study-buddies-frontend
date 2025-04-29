@@ -1,4 +1,4 @@
-import { checkToken, currentUser, getToken, joinCommunity } from "@/utils/Services/DataServices";
+import { checkToken, currentUser, getToken, joinCommunity, requestJoin } from "@/utils/Services/DataServices";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
@@ -48,7 +48,7 @@ const CommunityPreview: React.FC<PreviewProps> = ({
     }
   }, [])
 
-  const handleJoinRequest = async () => {
+  const handleJoinBtn = async () => {
         const result = await joinCommunity(userId, communityId, getToken());
         console.log(result)
         // if (result.valueOf() == true) {
@@ -56,6 +56,11 @@ const CommunityPreview: React.FC<PreviewProps> = ({
         // } else {
         //   console.log("Not created")
         // }
+  }
+
+  const handleRequestBtn = async () => {
+    const result = await requestJoin(userId, communityId, getToken());
+    console.log(result)
   }
 
   return (
@@ -92,9 +97,16 @@ const CommunityPreview: React.FC<PreviewProps> = ({
           >
             Cancel
           </button>
-          <button className="px-4 py-2 bg-[#0E9E6E] text-white rounded-lg cursor-pointer" onClick={handleJoinRequest}>
-            {isPublic ? "Join" : "Request"}
-          </button>
+          {
+            isPublic ?
+            <button className="px-4 py-2 bg-[#0E9E6E] text-white rounded-lg cursor-pointer" onClick={handleJoinBtn}>
+              Join
+            </button>
+            :
+            <button className="px-4 py-2 bg-[#0E9E6E] text-white rounded-lg cursor-pointer" onClick={handleRequestBtn}>
+              Request
+            </button>
+          }
         </div>
       </div>
     </>

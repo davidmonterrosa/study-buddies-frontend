@@ -66,7 +66,8 @@ const SignIn = () => {
 
       if (token != null) {
         if (typeof window != null) {
-          sessionStorage.setItem("Token", token.token);
+          localStorage.setItem("Token", token.token);
+          console.log(username)
           await getLoggedInUserData(username);
           router.push('/landing');
         }

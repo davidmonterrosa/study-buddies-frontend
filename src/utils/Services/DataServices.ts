@@ -68,8 +68,8 @@ export const currentUser = () => {
 export const checkToken = () => {
     let result = false;
     if(typeof window !== null) {
-        const sessionStorageData = sessionStorage.getItem("Token");
-        if(sessionStorageData != null) {
+        const localStorageData = localStorage.getItem("Token");
+        if(localStorageData != null) {
             result = true;
         }
     }
@@ -169,7 +169,7 @@ export const upDateCommunity = async (community: ICommunityData, token: string) 
 // }
 
 export const getToken = () => {
-    return sessionStorage.getItem("Token") ?? "";
+    return localStorage.getItem("Token") ?? "";
 }
 
 export const sendCommunityMessage = async (communityId: number, chatContent: CommunityChats, token: string) => {
@@ -226,4 +226,24 @@ export const joinCommunity = async (userId: number, communityId: number, token: 
         return false;
     }
     return { success: true };
+}
+
+export const requestJoin = async (userId: number, communityId: number, token: string) => {
+    const addRequestToCommunity = await fetch(`${url}Community/addRequestToCommunity/${communityId}/${userId}`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + token
+        },
+    });
+
+    if(!addRequestToCommunity.ok) {
+        const errorData = await addRequestToCommunity.json();
+        console.log(errorData)
+        const message = errorData.message;
+        console.log(message);
+        return false;
+    }
+    const data = await addRequestToCommunity.json();
+    return data;
 }
