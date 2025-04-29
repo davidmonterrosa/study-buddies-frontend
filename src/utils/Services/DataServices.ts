@@ -197,7 +197,7 @@ export const sendCommunityMessage = async (communityId: number, chatContent: Com
 
 // ----------------------------- Community Member Management -------------------------------
 export const joinCommunity = async (userId: number, communityId: number, token: string) => {
-    const addMemberResponse = await fetch(`${url}addMemberToCommunity/${communityId}/${userId}`, {
+    const addMemberResponse = await fetch(`${url}Community/addMemberToCommunity/${communityId}/${userId}`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -212,7 +212,7 @@ export const joinCommunity = async (userId: number, communityId: number, token: 
         return false;
     }
     
-    const addCommunityResponse = await fetch(`${url}AddCommunityToUser/${userId}/${communityId}`, {
+    const addCommunityResponse = await fetch(`${url}User/AddCommunityToUser/${userId}/${communityId}`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
