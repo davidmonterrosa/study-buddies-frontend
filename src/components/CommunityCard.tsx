@@ -4,6 +4,7 @@ import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "./ui/dialog";
 import CommunityPreview from "./CommunityPreview";
 
 interface CommunityCardProps {
+  communityId: number;
   communityName: string;
   subject: string;
   buddies: number;
@@ -15,6 +16,7 @@ interface CommunityCardProps {
 }
 
 const CommunityCard: React.FC<CommunityCardProps> = ({
+  communityId,
   communityName,
   subject,
   buddies,
@@ -68,6 +70,7 @@ const CommunityCard: React.FC<CommunityCardProps> = ({
       <DialogContent aria-description="Preview of Community Content">
         <DialogTitle className="invisible"> Preview </DialogTitle>
         <CommunityPreview
+          communityId={communityId}
           communityName={communityName}
           subject={subject}
           buddies={buddies}

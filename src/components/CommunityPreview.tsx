@@ -1,6 +1,9 @@
-import React from "react";
+import { checkToken, currentUser, getToken, joinCommunity } from "@/utils/Services/DataServices";
+import { useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
 
 interface PreviewProps {
+  communityId: number;
   communityName: string;
   subject: string;
   buddies: number;
@@ -13,6 +16,7 @@ interface PreviewProps {
 }
 
 const CommunityPreview: React.FC<PreviewProps> = ({
+  communityId,
   communityName,
   subject,
   buddies,
@@ -23,6 +27,37 @@ const CommunityPreview: React.FC<PreviewProps> = ({
   description,
   onCancel,
 }) => {
+
+  const router = useRouter();
+  const [userId, setUserId] = useState<number>(0)
+  const [user, setUser] = useState<string>("")
+
+  useEffect(() => {
+    const getLoggedInData = async () => {
+      const loggedIn = currentUser();
+      if (loggedIn) {
+        setUserId(loggedIn.user.id);
+        setUser(loggedIn.user.username);
+      }
+    }
+
+    if (!checkToken()) {
+      router.push('/');
+    } else {
+      getLoggedInData()
+    }
+  }, [])
+
+  const handleJoinRequest = async () => {
+        const result = await joinCommunity(userId, communityId, getToken());
+        console.log(result)
+        // if (result.valueOf() == true) {
+        //   console.log("Successfully created group")
+        // } else {
+        //   console.log("Not created")
+        // }
+  }
+
   return (
     <>
       {/* Header with name, then badges below */}
@@ -57,7 +92,7 @@ const CommunityPreview: React.FC<PreviewProps> = ({
           >
             Cancel
           </button>
-          <button className="px-4 py-2 bg-[#0E9E6E] text-white rounded-lg cursor-pointer">
+          <button className="px-4 py-2 bg-[#0E9E6E] text-white rounded-lg cursor-pointer" onClick={handleJoinRequest}>
             {isPublic ? "Join" : "Request"}
           </button>
         </div>

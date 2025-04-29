@@ -193,3 +193,37 @@ export const sendCommunityMessage = async (communityId: number, chatContent: Com
     console.log(data)
     return data.success;
 }
+
+
+// ----------------------------- Community Member Management -------------------------------
+export const joinCommunity = async (userId: number, communityId: number, token: string) => {
+    const addMemberResponse = await fetch(`${url}addMemberToCommunity/${communityId}/${userId}`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorizatioin": "Bearer " + token,
+        }
+    });
+
+    if(!addMemberResponse.ok) {
+        const errorData = await addMemberResponse.json();
+        const message = errorData.message;
+        console.log(message);
+        return false;
+    }
+    
+    const addCommunityResponse = await fetch(`${url}AddCommunityToUser/${userId}/${communityId}`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + token,
+        },
+    });
+    if(!addCommunityResponse.ok) {
+        const errorData = await addCommunityResponse.json();
+        const message = errorData.message;
+        console.log(message);
+        return false;
+    }
+    return { success: true };
+}
