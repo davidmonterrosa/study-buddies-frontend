@@ -5,7 +5,7 @@ import React, { useState, useEffect, useRef } from "react";
 import NotificationsSidebar from "./NotificationsSidebar";
 import ProfileSidebar from "./ProfileSidebar";
 import CreateCommunityModal from "./CreateCommunityModal";
-import MyCommunitiesSidebar from "./HamburgerMyCommunities";
+import MyCommunitiesSidebar from "./HamburgerMyCommunities"; // Fixed import path if needed
 import Dropdown from "./FilterDropdown";
 
 const NavBarComponent: React.FC = () => {
@@ -22,6 +22,13 @@ const NavBarComponent: React.FC = () => {
   const filterRef = useRef<HTMLDivElement | null>(null);
 
   const closeMyCommunities = () => setIsOpenLeft(false);
+  
+  // Function to open notifications sidebar
+  const openNotificationsSidebar = () => {
+    setIsOpenLeft(false);
+    setIsOpenProfile(false);
+    setIsOpenNotifications(true);
+  };
 
   const handleSubjectToggle = (subject: string) => {
     setSelectedSubjects((prev) =>
@@ -89,10 +96,7 @@ const NavBarComponent: React.FC = () => {
             </button>
 
             {isFilterOpen && (
-              <div
-                ref={filterRef}
-                className="absolute bg-white dark:bg-gray-800 border dark:border-gray-600 rounded-lg shadow-lg w-56 mt-2 z-10 right-0 top-12"
-              >
+              <div ref={filterRef} className="absolute bg-white dark:bg-gray-800 border dark:border-gray-600 rounded-lg shadow-lg w-56 mt-2 z-10 right-0 top-12" >
                 <ul className="flex flex-col">
                   <Dropdown
                     title="Subject"
@@ -115,22 +119,26 @@ const NavBarComponent: React.FC = () => {
 
           {/* Right-side controls */}
           <div className="flex items-center gap-3">
-            <button
-              className="hidden lg:flex items-center justify-center cursor-pointer text-white bg-gradient-to-r from-[#6F58DA] to-[#5131E7] rounded-full px-[18px] py-2.5 gap-1"
+            <button className="hidden lg:flex items-center justify-center cursor-pointer text-white bg-gradient-to-r from-[#6F58DA] to-[#5131E7] rounded-full px-[18px] py-2.5 gap-1"
               onClick={() => setIsOpenModal(true)}
             >
               <p className="text-xl">+</p>
               <p className="">Create</p>
             </button>
 
-            {/* Profile button (notifications moved inside sidebar) */}
+            {/* Profile button with notification badge */}
             <button
               onClick={() => setIsOpenProfile(true)}
               className="hidden lg:block rounded-full size-12 font-bold bg-white dark:bg-gradient-to-b from-[#6F58DA] to-[#5131E7] cursor-pointer relative"
             >
               AL
-              {/* Badge */}
-              <span className="absolute top-[-4px] right-[-4px] bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+              {/* Badge - can be made clickable to directly open notifications */}
+              <span className="absolute top-[-4px] right-[-4px] bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center cursor-pointer"
+                onClick={(e) => {
+                  e.stopPropagation(); // Prevent profile sidebar from opening
+                  openNotificationsSidebar();
+                }}
+              >
                 3
               </span>
             </button>
@@ -144,9 +152,9 @@ const NavBarComponent: React.FC = () => {
       </Navbar>
 
       {/* Sidebars and Modals */}
-      <MyCommunitiesSidebar isOpen={isOpenLeft} onClose={closeMyCommunities} openNotificationsSidebar={() => setIsOpenNotifications(true)}/>
+      <MyCommunitiesSidebar isOpen={isOpenLeft} onClose={closeMyCommunities} openNotificationsSidebar={openNotificationsSidebar}/>
       <NotificationsSidebar isOpen={isOpenNotifications} onClose={() => setIsOpenNotifications(false)} />
-      <ProfileSidebar isOpen={isOpenProfile} onClose={() => setIsOpenProfile(false)} openNotificationsSidebar={() => setIsOpenNotifications(true)}/>
+      <ProfileSidebar isOpen={isOpenProfile} onClose={() => setIsOpenProfile(false)} openNotificationsSidebar={openNotificationsSidebar}/>
       <CreateCommunityModal isOpen={isOpenModal} onClose={() => setIsOpenModal(false)} />
     </>
   );
