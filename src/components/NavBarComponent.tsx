@@ -5,7 +5,7 @@ import React, { useState, useEffect, useRef } from "react";
 import NotificationsSidebar from "./NotificationsSidebar";
 import ProfileSidebar from "./ProfileSidebar";
 import CreateCommunityModal from "./CreateCommunityModal";
-import MyCommunitiesSidebar from "./HamburgerMyCommunities"; // Fixed import path if needed
+import MyCommunitiesSidebar from "./HamburgerMyCommunities";
 import Dropdown from "./FilterDropdown";
 
 const NavBarComponent: React.FC = () => {

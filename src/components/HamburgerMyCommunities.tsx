@@ -18,7 +18,7 @@ import {
 import { ICommunityData } from "@/utils/Interfaces/UserInterfaces";
 import { useAppContext } from "@/context/CommunityContext";
 import Link from "next/link";
-import CreateCommunityModal from "./CreateCommunityModal"; // ✅ import your modal
+import CreateCommunityModal from "./CreateCommunityModal"; 
 
 interface MyCommunitiesSidebarProps {
   isOpen: boolean;
@@ -84,7 +84,7 @@ const MyCommunitiesSidebar: React.FC<MyCommunitiesSidebarProps> = ({
   openNotificationsSidebar,
 }) => {
   const [activeCommunity, setActiveCommunity] = useState<string | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false); // ✅ modal state
+  const [isModalOpen, setIsModalOpen] = useState(false); 
   const { communityGroups } = useAppContext();
 
   return (
@@ -106,7 +106,7 @@ const MyCommunitiesSidebar: React.FC<MyCommunitiesSidebarProps> = ({
 
           {/* Scrollable Content */}
           <div className="h-full overflow-y-auto p-3 pt-10 space-y-4">
-            {/* ✅ Create Button (open modal on click) */}
+            {/* Create Button (open modal on click) */}
             <button
               className="flex items-center text-white bg-gradient-to-r from-[#6F58DA] to-[#5131E7] rounded-[7px] px-3 py-[1.5px] gap-1 w-full"
               onClick={() => setIsModalOpen(true)}
