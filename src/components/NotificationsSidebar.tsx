@@ -1,22 +1,26 @@
 "use client";
-import { Drawer } from "flowbite-react";
-import { X } from "lucide-react";
+import { Undo2, X } from "lucide-react";
 
 interface NotificationsSidebarProps {
   isOpen: boolean;
-  onClose: () => void;
+  onClose: () => void;  // Closes both sidebars
+  onBack: () => void;   // Only closes notification sidebar
 }
 
-const NotificationsSidebar: React.FC<NotificationsSidebarProps> = ({ isOpen, onClose }) => {
+const NotificationsSidebar: React.FC<NotificationsSidebarProps> = ({ isOpen, onClose, onBack }) => {
   return (
     <div className={`fixed top-0 right-0 h-full w-80 bg-white dark:bg-[#140D34] shadow-lg z-50 transition-transform duration-300 ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}>
       <div className="relative w-full h-full p-4">
-        {/* Close Button */}
-        <button onClick={onClose} className="absolute top-2 right-2 text-gray-500 hover:text-black dark:hover:text-white" aria-label="Close">
-          <X className="w-5 h-5" />
-        </button>
-
-        <h2 className="text-lg font-semibold mb-2">Notifications</h2>
+        {/* Top Row: Back Button, Title, Close Button */}
+        <div className="flex justify-between items-center mb-4">
+          <button onClick={onBack} className="flex items-center text-gray-500 dark:text-white hover:text-black dark:hover:text-white">
+            <Undo2 className="w-5 h-5 mr-2" />
+          </button>
+          <h2 className="text-lg font-semibold">Notifications</h2>
+          <button onClick={onClose} className="text-gray-500 dark:text-white hover:text-black dark:hover:text-white" aria-label="Close">
+            <X className="w-5 h-5" />
+          </button>
+        </div>
 
         {/* DM Notification */}
         <div className="flex items-start gap-2 pt-2">
@@ -52,6 +56,7 @@ const NotificationsSidebar: React.FC<NotificationsSidebarProps> = ({ isOpen, onC
             </div>
           </div>
         </div>
+
       </div>
     </div>
   );

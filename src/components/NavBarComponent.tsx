@@ -13,7 +13,7 @@ const NavBarComponent: React.FC = () => {
   const [isOpenProfile, setIsOpenProfile] = useState(false);
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
-  const [isOpenLeft, setIsOpenLeft] = useState(false);
+  const [isOpenRight, setIsOpenRight] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
 
   const [selectedSubjects, setSelectedSubjects] = useState<string[]>([]);
@@ -21,12 +21,10 @@ const NavBarComponent: React.FC = () => {
 
   const filterRef = useRef<HTMLDivElement | null>(null);
 
-  const closeMyCommunities = () => setIsOpenLeft(false);
-  
+  const closeMyCommunities = () => setIsOpenRight(false);
+
   // Function to open notifications sidebar
   const openNotificationsSidebar = () => {
-    setIsOpenLeft(false);
-    setIsOpenProfile(false);
     setIsOpenNotifications(true);
   };
 
@@ -144,7 +142,7 @@ const NavBarComponent: React.FC = () => {
             </button>
 
             {/* Hamburger Icon */}
-            <button className="lg:hidden cursor-pointer" onClick={() => setIsOpenLeft(true)}>
+            <button className="lg:hidden cursor-pointer" onClick={() => setIsOpenRight(true)}>
               <img className="size-10 dark:invert" src="/assets/menu-burger.svg" alt="Menu" />
             </button>
           </div>
@@ -152,9 +150,8 @@ const NavBarComponent: React.FC = () => {
       </Navbar>
 
       {/* Sidebars and Modals */}
-      <MyCommunitiesSidebar isOpen={isOpenLeft} onClose={closeMyCommunities} openNotificationsSidebar={openNotificationsSidebar}/>
-      <NotificationsSidebar isOpen={isOpenNotifications} onClose={() => setIsOpenNotifications(false)} />
-      <ProfileSidebar isOpen={isOpenProfile} onClose={() => setIsOpenProfile(false)} openNotificationsSidebar={openNotificationsSidebar}/>
+      <MyCommunitiesSidebar isOpen={isOpenRight} onClose={closeMyCommunities} openNotificationsSidebar={openNotificationsSidebar} />
+      <NotificationsSidebar isOpen={isOpenNotifications} onBack={() => setIsOpenNotifications(false)} onClose={() => { setIsOpenNotifications(false);  setIsOpenProfile(false); }}/>      <ProfileSidebar isOpen={isOpenProfile} onClose={() => setIsOpenProfile(false)} openNotificationsSidebar={openNotificationsSidebar} />
       <CreateCommunityModal isOpen={isOpenModal} onClose={() => setIsOpenModal(false)} />
     </>
   );
