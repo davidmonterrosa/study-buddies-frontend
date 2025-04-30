@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { Navbar, NavbarBrand } from "flowbite-react";
 import Link from "next/link";
 import React, { useState, useEffect, useRef } from "react";
@@ -14,7 +14,7 @@ const NavBarComponent: React.FC = () => {
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [isOpenLeft, setIsOpenLeft] = useState(false);
-  const [openDropdown, setOpenDropdown] = useState<string | null>(null); // Track which dropdown is open
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
 
   const [selectedSubjects, setSelectedSubjects] = useState<string[]>([]);
   const [selectedDifficulties, setSelectedDifficulties] = useState<string[]>([]);
@@ -37,9 +37,9 @@ const NavBarComponent: React.FC = () => {
 
   const handleDropdownToggle = (dropdown: string) => {
     if (openDropdown === dropdown) {
-      setOpenDropdown(null); // Close if already open
+      setOpenDropdown(null);
     } else {
-      setOpenDropdown(dropdown); // Open the new dropdown and close others
+      setOpenDropdown(dropdown);
     }
   };
 
@@ -47,7 +47,7 @@ const NavBarComponent: React.FC = () => {
     const handleClickOutside = (event: MouseEvent) => {
       if (filterRef.current && !filterRef.current.contains(event.target as Node)) {
         setIsFilterOpen(false);
-        setOpenDropdown(null); // Close dropdowns when clicking outside
+        setOpenDropdown(null);
       }
     };
 
@@ -64,22 +64,19 @@ const NavBarComponent: React.FC = () => {
     <>
       <Navbar className="bg-[#818CF8] dark:bg-[#110C29] w-full px-4 py-2" fluid>
         <div className="flex w-full justify-between items-center gap-2">
-          {/* Hamburger + Logo */}
+          {/* Logo */}
           <div className="flex items-center gap-2">
-            <button className="lg:hidden" onClick={() => setIsOpenLeft(true)}>
-              <img className="size-10 dark:invert" src="/assets/menu-burger.svg" alt="Menu" />
-            </button>
             <NavbarBrand as={Link} href="/landing" className="flex items-center">
               <img src="/assets/SBLogo.png" className="h-9" alt="Logo" />
-              <span className="hidden lg:block text-[32px] font-semibold dark:text-white ml-2">
+              <span className="hidden md:block text-nowrap text-[18px] lg:text-[32px] font-semibold dark:text-white ml-2">
                 Study Buddies
               </span>
             </NavbarBrand>
           </div>
 
           {/* Searchbar */}
-          <div className="hidden sm:flex bg-white items-center xl:w-2xl w-lg rounded-2xl border-2 px-3 py-[3px] relative">
-            <button className="size-10 mx-2.5 cursor-pointer">
+          <div className="flex bg-white items-center xl:w-xl w-lg rounded-2xl border-2 px-3 py-[3px]">
+            <button className="size-9 mx-2 cursor-pointer">
               <img className="w-[25px] h-[25px]" src="../assets/searchIcon.svg" alt="Search" />
             </button>
             <input
@@ -97,7 +94,6 @@ const NavBarComponent: React.FC = () => {
                 className="absolute bg-white dark:bg-gray-800 border dark:border-gray-600 rounded-lg shadow-lg w-56 mt-2 z-10 right-0 top-12"
               >
                 <ul className="flex flex-col">
-                  {/* Subject Dropdown */}
                   <Dropdown
                     title="Subject"
                     selectedOptions={selectedSubjects}
@@ -105,7 +101,6 @@ const NavBarComponent: React.FC = () => {
                     isOpen={openDropdown === "subject"}
                     onToggle={() => handleDropdownToggle("subject")}
                   />
-
                   <Dropdown
                     title="Difficulty"
                     selectedOptions={selectedDifficulties}
@@ -118,34 +113,40 @@ const NavBarComponent: React.FC = () => {
             )}
           </div>
 
-          {/* Create, Notifications, Profile */}
+          {/* Right-side controls */}
           <div className="flex items-center gap-3">
             <button
-              className="hidden sm:flex items-center justify-center cursor-pointer text-white bg-gradient-to-r from-[#6F58DA] to-[#5131E7] rounded-full px-[18px] py-2.5 gap-1"
+              className="hidden lg:flex items-center justify-center cursor-pointer text-white bg-gradient-to-r from-[#6F58DA] to-[#5131E7] rounded-full px-[18px] py-2.5 gap-1"
               onClick={() => setIsOpenModal(true)}
             >
               <p className="text-xl">+</p>
-              <p className="hidden lg:block">Create</p>
+              <p className="">Create</p>
             </button>
 
-            <button onClick={() => setIsOpenNotifications(true)}>
-              <img className="cursor-pointer dark:invert" src="/assets/Bell.svg" alt="Notifications" />
-            </button>
-
+            {/* Profile button (notifications moved inside sidebar) */}
             <button
               onClick={() => setIsOpenProfile(true)}
-              className="rounded-full size-12 font-bold bg-white dark:bg-gradient-to-b from-[#6F58DA] to-[#5131E7] cursor-pointer"
+              className="hidden lg:block rounded-full size-12 font-bold bg-white dark:bg-gradient-to-b from-[#6F58DA] to-[#5131E7] cursor-pointer relative"
             >
               AL
+              {/* Badge */}
+              <span className="absolute top-[-4px] right-[-4px] bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                3
+              </span>
+            </button>
+
+            {/* Hamburger Icon */}
+            <button className="lg:hidden cursor-pointer" onClick={() => setIsOpenLeft(true)}>
+              <img className="size-10 dark:invert" src="/assets/menu-burger.svg" alt="Menu" />
             </button>
           </div>
         </div>
       </Navbar>
 
       {/* Sidebars and Modals */}
-      <MyCommunitiesSidebar isOpen={isOpenLeft} onClose={closeMyCommunities} />
+      <MyCommunitiesSidebar isOpen={isOpenLeft} onClose={closeMyCommunities} openNotificationsSidebar={() => setIsOpenNotifications(true)}/>
       <NotificationsSidebar isOpen={isOpenNotifications} onClose={() => setIsOpenNotifications(false)} />
-      <ProfileSidebar isOpen={isOpenProfile} onClose={() => setIsOpenProfile(false)} />
+      <ProfileSidebar isOpen={isOpenProfile} onClose={() => setIsOpenProfile(false)} openNotificationsSidebar={() => setIsOpenNotifications(true)}/>
       <CreateCommunityModal isOpen={isOpenModal} onClose={() => setIsOpenModal(false)} />
     </>
   );
