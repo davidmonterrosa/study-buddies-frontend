@@ -1,7 +1,9 @@
-import { CommunityChats } from '@/utils/Interfaces/UserInterfaces';
-import { currentUser, getToken, sendCommunityMessage } from '@/utils/Services/DataServices';
+import { CommunityChats, IUserNameId } from '@/utils/Interfaces/UserInterfaces';
+import { checkToken, currentUser, getLoggedInUserData, getToken, sendCommunityMessage } from '@/utils/Services/DataServices';
 import { formatPostTimeStamp } from '@/utils/Services/StyleHelpers';
-import React, { useState } from 'react'
+import { EllipsisVertical } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import React, { useEffect, useState } from 'react'
 
 
 interface CommunityBoardProps {
@@ -13,30 +15,48 @@ const CommunityBoard: React.FC<CommunityBoardProps> = ({
   chats
 }) => {
     const [messageText, setmessageText] = useState<string>()
-    const loggedInUser = currentUser();
+    const [senderId, setSenderId] = useState<number>(0)
+    const [senderName, setSenderName] = useState<string>("")
+    const router = useRouter();
 
     const handleSendMessage = async () => {
-    console.log("Send message:", messageText);    
-    if(!messageText || messageText.trim() === "") return;
-    console.log("This is the logged In user: ", loggedInUser.user.id, loggedInUser.user.username)
+      console.log("Send message:", messageText);    
+      if(!messageText || messageText.trim() === "") return;
+      console.log("This is the logged In user: ", senderId, senderName)
 
-    const messageToSend: CommunityChats = {
-        id: 0,
-        userIdSender: loggedInUser.user.id,
-        userSenderName: loggedInUser.user.username,
-        message: messageText,
-        timestamp: new Date().toISOString(),
-        mediaUrl: null,
-        isDeleted: false,
-        isPinned: false,
-        isEdited: false,
-    }
-    console.log("Message object that is being sent: ", messageToSend, " to community: ", communityGroupId);
-    console.log(getToken())
-    await sendCommunityMessage(communityGroupId, messageToSend, getToken())
-    setmessageText("");
+      const messageToSend: CommunityChats = {
+          id: 0,
+          userIdSender: senderId,
+          userSenderName: senderName,
+          message: messageText,
+          timestamp: new Date().toISOString(),
+          mediaUrl: null,
+          isDeleted: false,
+          isPinned: false,
+          isEdited: false,
+      }
+      console.log("Message object that is being sent: ", messageToSend, " to community: ", communityGroupId);
+      console.log(getToken())
+      await sendCommunityMessage(communityGroupId, messageToSend, getToken())
+      setmessageText("");
     }
       
+    useEffect(() => {
+       const getLoggedInData = async () => {
+         const loggedIn = await getLoggedInUserData(currentUser());
+         if (loggedIn) {
+           setSenderId(loggedIn.user.id);
+           setSenderName(loggedIn.user.username);
+         }
+       }
+   
+       if (!checkToken()) {
+         router.push('/');
+       } else {
+         getLoggedInData()
+       }
+    }, [])
+
   return (
     <section className="flex flex-col min-h-[calc(0.68*100vh)]   overflow-hidden mt-4">
     {/* Messages Area */}
@@ -52,16 +72,19 @@ const CommunityBoard: React.FC<CommunityBoardProps> = ({
       {
         chats.map((chatItem: CommunityChats, idx: number) => {
 
-          if(chatItem.userIdSender === loggedInUser.user.id) {
+          if(chatItem.userIdSender === senderId) {
             return (
               <div key={idx} className="flex justify-end">
               <div className="bg-[#CBD0FF] dark:bg-[#3D3179] dark:border-[1px] dark:border-[#aa7dfc40] px-3 py-2 rounded-lg w-full text-sm">
-                <div className="flex mt-2 gap-2 items-center">
-                  <div className="bg-[#3730A3] rounded-full w-[30px] h-[30px] flex items-center justify-center">
-                    <p className="text-[14px] font-bold text-white">{chatItem.userSenderName.charAt(0).toUpperCase()}</p>
+                <div className='flex justify-between items-center'>
+                  <div className="flex mt-2 gap-2 items-center">
+                    <div className="bg-[#3730A3] rounded-full w-[30px] h-[30px] flex items-center justify-center">
+                      <p className="text-[14px] font-bold text-white">{chatItem.userSenderName.charAt(0).toUpperCase()}</p>
+                    </div>
+                    <p className="font-semibold text-sm">You</p>
+                    <p>{`${formatPostTimeStamp(chatItem.timestamp)}`}</p>
                   </div>
-                  <p className="font-semibold text-sm">You</p>
-                  <p>{`${formatPostTimeStamp(chatItem.timestamp)}`}</p>
+                  <EllipsisVertical/>
                 </div>
                 <p>
                   {chatItem.message}
@@ -92,12 +115,15 @@ const CommunityBoard: React.FC<CommunityBoardProps> = ({
             return (
               <div key={idx} className="flex items-start gap-2">
                 <div className="bg-[#F6F6F6] dark:bg-[#140D34] dark:border-[1px] dark:border-[#aa7dfc40] px-3 py-2 rounded-lg w-full text-sm">
-                  <div className="flex mt-2 gap-2 items-center">
-                    <div className="bg-[#818CF8] rounded-full w-[30px] h-[30px] flex items-center justify-center">
-                      <p className="text-[14px] font-bold text-black">{chatItem.userSenderName.charAt(0).toUpperCase()}</p>
+                  <div className='flex justify-between items-center'>
+                    <div className="flex mt-2 gap-2 items-center">
+                      <div className="bg-[#818CF8] rounded-full w-[30px] h-[30px] flex items-center justify-center">
+                        <p className="text-[14px] font-bold text-black">{chatItem.userSenderName.charAt(0).toUpperCase()}</p>
+                      </div>
+                      <p className="font-semibold text-sm">{chatItem.userSenderName}</p>
+                      <p>{`${formatPostTimeStamp(chatItem.timestamp)}`}</p>
                     </div>
-                    <p className="font-semibold text-sm">{chatItem.userSenderName}</p>
-                    <p>{`${formatPostTimeStamp(chatItem.timestamp)}`}</p>
+                    <EllipsisVertical/>
                   </div>
                   <p>
                     {chatItem.message}

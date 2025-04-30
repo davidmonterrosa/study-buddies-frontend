@@ -62,7 +62,13 @@ export const getLoggedInUserData = async (userName: string) => {
 }
 
 export const currentUser = () => {
-    return userData;
+    if(typeof window !== null) {
+        const localStorageData = localStorage.getItem("User");
+        if(localStorageData != null) {
+            return localStorageData
+        }
+    }
+    return "";
 }
 
 export const checkToken = () => {

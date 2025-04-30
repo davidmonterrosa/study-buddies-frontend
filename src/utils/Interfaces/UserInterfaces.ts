@@ -19,6 +19,8 @@ export interface CommunityMember {
     id: number
     userId: number
     role: string
+    firstName: string
+    lastName: string
 }
 
 export interface CommunityChats {

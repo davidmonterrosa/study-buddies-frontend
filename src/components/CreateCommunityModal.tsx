@@ -2,7 +2,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Modal, Dropdown, DropdownItem, DropdownDivider } from "flowbite-react";
 import { ICommunityData } from "@/utils/Interfaces/UserInterfaces";
-import { checkToken, createNewCommunity, currentUser, getToken } from "@/utils/Services/DataServices";
+import { checkToken, createNewCommunity, currentUser, getLoggedInUserData, getToken } from "@/utils/Services/DataServices";
 import { useRouter } from "next/navigation";
 
 interface CreateCommunityModalProps {
@@ -17,6 +17,8 @@ const CreateCommunityModal: React.FC<CreateCommunityModalProps> = ({ isOpen, onC
   const [comOwnerId, setComOwnerId] = useState<number>(0);
   const [isPublic, setIsPublic] = useState<boolean>(true);
   const [ownerName, setOwnerName] = useState<string>("");
+  const [firstName, setFirstName] = useState<string>("");
+  const [lastName, setLastName] = useState<string>("");
   const [comName, setComName] = useState<string>("")
   const [comSubject, setComSubject] = useState<string>("")
   const [comDifficulty, setComDifficulty] = useState<string>("")
@@ -31,10 +33,12 @@ const CreateCommunityModal: React.FC<CreateCommunityModalProps> = ({ isOpen, onC
 
   useEffect(() => {
     const getLoggedInData = async () => {
-      const loggedIn = currentUser();
+      const loggedIn = await getLoggedInUserData(currentUser());
       if (loggedIn) {
         setComOwnerId(loggedIn.user.id);
         setOwnerName(loggedIn.user.username);
+        setFirstName(loggedIn.user.firstName);
+        setLastName(loggedIn.user.lastName);
       }
     }
 
@@ -85,6 +89,8 @@ const CreateCommunityModal: React.FC<CreateCommunityModalProps> = ({ isOpen, onC
         id: 0,
         userId: comOwnerId,
         role: "owner",
+        firstName: firstName,
+        lastName: lastName
       }],
       communityRequests: [-1],
       communityDifficulty: comDifficulty,

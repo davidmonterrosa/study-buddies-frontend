@@ -68,7 +68,10 @@ const SignIn = () => {
         if (typeof window != null) {
           localStorage.setItem("Token", token.token);
           console.log(username)
-          await getLoggedInUserData(username);
+          const userNameAndId = await getLoggedInUserData(username);
+          if(userNameAndId) {
+            localStorage.setItem("User", userNameAndId.user.username); 
+          }
           router.push('/landing');
         }
       } else {

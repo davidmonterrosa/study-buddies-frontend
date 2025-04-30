@@ -1,4 +1,4 @@
-import { checkToken, currentUser, getToken, joinCommunity, requestJoin } from "@/utils/Services/DataServices";
+import { checkToken, currentUser, getLoggedInUserData, getToken, joinCommunity, requestJoin } from "@/utils/Services/DataServices";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
@@ -34,7 +34,7 @@ const CommunityPreview: React.FC<PreviewProps> = ({
 
   useEffect(() => {
     const getLoggedInData = async () => {
-      const loggedIn = currentUser();
+      const loggedIn = await getLoggedInUserData(currentUser());
       if (loggedIn) {
         setUserId(loggedIn.user.id);
         setUser(loggedIn.user.username);

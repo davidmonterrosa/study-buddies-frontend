@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import ViewCommunityButton from './ViewCommunityButton';
 import { ICommunityData } from '@/utils/Interfaces/UserInterfaces';
-import { currentUser, getMyCommunities, getToken } from '@/utils/Services/DataServices';
+import { currentUser, getLoggedInUserData, getMyCommunities, getToken } from '@/utils/Services/DataServices';
 import Link from 'next/link';
 import { navigationMenuTriggerStyle } from './ui/navigation-menu';
 import { useAppContext } from '@/context/CommunityContext';
@@ -17,11 +17,13 @@ const MyCommunitiesPanel = () => {
 
   useEffect(() => {
     const fetchMyCommunities = async () => {
-      const loggedInUser = currentUser();
+      const loggedInUser = await getLoggedInUserData(currentUser());
       if(loggedInUser) {
         const data = await getMyCommunities(loggedInUser.user.id, getToken());
         setCommunityGroups(data);
         console.log(data);
+      } else {
+        console.log("You are logged out")
       }
     }
     fetchMyCommunities();

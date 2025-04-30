@@ -22,7 +22,9 @@ const CommunityDashboard: React.FC<CommunityDashboardProps> = ({
   const [communityData, setCommunityData] = useState<ICommunityData>()
   
 
-  
+  useEffect(() => {
+    
+  }, [])
 
   useEffect(() => {
     const fetchCommunityInfo = async () => {
@@ -30,6 +32,7 @@ const CommunityDashboard: React.FC<CommunityDashboardProps> = ({
       const data = await getCommunityById(communityId);
       console.log(data.community.communityName);
       setCommunityData(data.community);
+      console.log(data.community.communityMembers)
     }
     fetchCommunityInfo();
   }, [])
@@ -123,7 +126,10 @@ const CommunityDashboard: React.FC<CommunityDashboardProps> = ({
 
           {/* Buddies */}
           <TabsContent value="buddiesTab">
-           <BuddiesCompononet/>
+            {
+              communityData &&
+              <BuddiesCompononet communityGroupId={communityId} buddyCount={communityData?.communityMemberCount} buddies={communityData?.communityMembers}/>
+            }
           </TabsContent>
         </Tabs>
       </div>
