@@ -7,6 +7,7 @@ import ProfileSidebar from "./ProfileSidebar";
 import CreateCommunityModal from "./CreateCommunityModal";
 import MyCommunitiesSidebar from "./HamburgerMyCommunities";
 import Dropdown from "./FilterDropdown";
+import { currentUser, getLoggedInUserData } from "@/utils/Services/DataServices";
 
 const NavBarComponent: React.FC = () => {
   const [isOpenNotifications, setIsOpenNotifications] = useState(false);
@@ -65,6 +66,26 @@ const NavBarComponent: React.FC = () => {
     };
   }, [isFilterOpen]);
 
+  // User data state
+  const [userName, setUserName] = useState<string>("");
+ 
+
+  // Fetch user data
+  useEffect(() => {
+    const getLoggedInData = async () => {
+      const user = currentUser();
+      if (!user || !user.user.username) return;
+
+      const loggedIn = await getLoggedInUserData(user.user.username);
+
+      if (loggedIn) {
+        setUserName(loggedIn.user.username || "");
+      }
+    };
+
+    getLoggedInData();
+  }, []);
+
   return (
     <>
       <Navbar className="bg-[#818CF8] dark:bg-[#110C29] w-full px-4 py-2" fluid>
@@ -84,11 +105,7 @@ const NavBarComponent: React.FC = () => {
             <button className="size-9 mx-2 cursor-pointer">
               <img className="w-[25px] h-[25px]" src="../assets/searchIcon.svg" alt="Search" />
             </button>
-            <input
-              className="border-0 w-full focus:outline-none text-black"
-              placeholder="Search for Learning Communities"
-              type="text"
-            />
+            <input className="border-0 w-full focus:outline-none text-black" placeholder="Search for Learning Communities" type="text"/>
             <button onClick={() => setIsFilterOpen(!isFilterOpen)} className="relative">
               <img className="w-[25px] h-[25px] cursor-pointer" src="/assets/filter.svg" alt="Filter" />
             </button>
@@ -125,18 +142,13 @@ const NavBarComponent: React.FC = () => {
             </button>
 
             {/* Profile button with notification badge */}
-            <button
+            <button className="hidden lg:block rounded-full size-12 font-bold bg-white dark:bg-gradient-to-b from-[#6F58DA] to-[#5131E7] cursor-pointer relative"
               onClick={() => setIsOpenProfile(true)}
-              className="hidden lg:block rounded-full size-12 font-bold bg-white dark:bg-gradient-to-b from-[#6F58DA] to-[#5131E7] cursor-pointer relative"
             >
-              AL
+              {userName.slice(0, 1).toUpperCase()}
               {/* Badge - can be made clickable to directly open notifications */}
               <span className="absolute top-[-4px] right-[-4px] bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center cursor-pointer"
-                onClick={(e) => {
-                  e.stopPropagation(); // Prevent profile sidebar from opening
-                  openNotificationsSidebar();
-                }}
-              >
+                onClick={(e) => { e.stopPropagation(); openNotificationsSidebar(); }}>
                 3
               </span>
             </button>

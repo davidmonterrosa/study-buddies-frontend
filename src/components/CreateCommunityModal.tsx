@@ -127,7 +127,7 @@ const CreateCommunityModal: React.FC<CreateCommunityModalProps> = ({ isOpen, onC
         <div className="flex flex-col">
           <p className="font-medium">Privacy</p>
           <div className="flex items-center gap-2">
-            <label className="flex justify-between items-center mb-5 cursor-pointer text-darkGrayishBlue dark:text-textDesaturatedBlue dark:hover:text-white">
+            <label className="flex justify-between gap-2 lg:gap-1 items-center mb-5 cursor-pointer text-darkGrayishBlue dark:text-textDesaturatedBlue dark:hover:text-white">
               <span className="md:mr-3 text-sm font-normal">Public</span>
               <input type="checkbox" value="" className="sr-only peer" onChange={handlePrivacy} />
               <div className="relative w-11 h-6 bg-[#aeb3cb] peer-checked:bg-gradient-to-r peer-checked:from-[#6F58DA] peer-checked:to-[#5131E7] hover:brightness-110  peer-focus:outline-none hover:outline-none peer-focus:ring-2 hover:ring-2 peer-focus:ring-blue-300
@@ -197,7 +197,7 @@ const CreateCommunityModal: React.FC<CreateCommunityModalProps> = ({ isOpen, onC
       </div>
 
       {/* Description */}
-      <div className="flex flex-col p-4">
+      <div className="flex flex-col px-4">
         <p className="font-medium">Community Description</p>
         <textarea placeholder="Write a short description..." className="w-full p-2 h-32 border rounded-md resize-none" value={comDescription} onChange={handleCommunityDescription} />
       </div>

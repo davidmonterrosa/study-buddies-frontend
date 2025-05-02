@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Drawer,
   Dropdown,
@@ -13,12 +13,13 @@ import {
   EllipsisVertical,
   User,
   Bell,
-  LogOut
+  LogOut,
+  PlusCircle
 } from "lucide-react";
-import { ICommunityData } from "@/utils/Interfaces/UserInterfaces";
 import { useAppContext } from "@/context/CommunityContext";
 import Link from "next/link";
-import CreateCommunityModal from "./CreateCommunityModal"; 
+import CreateCommunityModal from "./CreateCommunityModal";
+import { currentUser, getLoggedInUserData } from "@/utils/Services/DataServices";
 
 interface MyCommunitiesSidebarProps {
   isOpen: boolean;
@@ -26,7 +27,7 @@ interface MyCommunitiesSidebarProps {
   openNotificationsSidebar: () => void;
 }
 
-const CollapseSection = ({
+export const CollapseSection = ({
   label,
   icon: Icon,
   children,
@@ -40,7 +41,7 @@ const CollapseSection = ({
   return (
     <div className="w-full">
       <button
-        className="flex items-center justify-between w-full px-4 py-2 text-sm font-medium bg-transparent rounded-md hover:bg-[rgba(129,140,248,0.25)] transition"
+        className="cursor-pointer flex items-center justify-between w-full px-4 py-2 text-sm font-medium bg-transparent rounded-md hover:bg-[rgba(129,140,248,0.25)] transition"
         onClick={() => setIsOpen(!isOpen)}
       >
         <div className="flex items-center gap-2">
@@ -54,7 +55,7 @@ const CollapseSection = ({
   );
 };
 
-const SidebarLink = ({
+export const SidebarLink = ({
   text,
   href,
   isActive = false,
@@ -68,11 +69,10 @@ const SidebarLink = ({
   <Link
     href={href}
     onClick={onClick}
-    className={`block py-2 px-3 rounded-md text-sm transition ${
-      isActive
+    className={`block py-2 px-3 rounded-md text-sm transition ${isActive
         ? "bg-[#818df8] text-white dark:bg-[#6f58da]"
         : "bg-transparent text-black dark:text-white hover:bg-[rgba(129,140,248,0.25)]"
-    }`}
+      }`}
   >
     {text}
   </Link>
@@ -84,70 +84,101 @@ const MyCommunitiesSidebar: React.FC<MyCommunitiesSidebarProps> = ({
   openNotificationsSidebar,
 }) => {
   const [activeCommunity, setActiveCommunity] = useState<string | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false); 
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const { communityGroups } = useAppContext();
+  
+  // User data state
+  const [userName, setUserName] = useState<string>("");
+  const [firstName, setFirstName] = useState<string>("");
+  const [lastName, setLastName] = useState<string>("");
+
+  // Lock body scroll when drawer is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.classList.add("overflow-hidden");
+    } else {
+      document.body.classList.remove("overflow-hidden");
+    }
+    return () => {
+      document.body.classList.remove("overflow-hidden");
+    };
+  }, [isOpen]);
+
+  // Fetch user data
+  useEffect(() => {
+    const getLoggedInData = async () => {
+      const user = currentUser();
+      if (!user || !user.user.username) return;
+
+      const loggedIn = await getLoggedInUserData(user.user.username);
+
+      if (loggedIn) {
+        setUserName(loggedIn.user.username || "");
+        setFirstName(loggedIn.user.firstName || "");
+        setLastName(loggedIn.user.lastName || "");
+      }
+    };
+
+    getLoggedInData();
+  }, []);
 
   return (
     <>
-      <Drawer open={isOpen} onClose={onClose} position="right" className="p-0">
-        <div className="relative w-full h-full sm:max-w-sm bg-white dark:bg-[#100B28] pb-40">
-          {/* Close Button */}
-          <button
-            className="absolute top-2 left-3 text-gray-500 hover:text-black dark:hover:text-white z-10"
-            onClick={onClose}
-            aria-label="Close"
-          >
-            <img
-              src="/assets/panelClose.svg"
-              className="cursor-pointer size-6 dark:invert"
-              alt="Close panel Icon"
-            />
-          </button>
+      <Drawer open={isOpen} onClose={onClose} position="right" className="p-0 w-full sm:w-[320px]">
+        <div className="relative w-full h-full  bg-white dark:bg-[#100B28] flex flex-col">
 
-          {/* Scrollable Content */}
-          <div className="h-full overflow-y-auto p-3 pt-10 space-y-4">
-            {/* Create Button (open modal on click) */}
-            <button
-              className="flex items-center text-white bg-gradient-to-r from-[#6F58DA] to-[#5131E7] rounded-[7px] px-3 py-[1.5px] gap-1 w-full"
-              onClick={() => setIsModalOpen(true)}
+          {/* Sticky Top Section */}
+          <div className="sticky top-0 z-10 bg-white dark:bg-[#100B28] border-b border-gray-200 dark:border-gray-700 px-3 pt-2 pb-3 space-y-2">
+            <button className="text-gray-500 hover:text-black dark:hover:text-white"
+              onClick={onClose}
+              aria-label="Close"
             >
-              <img src="/assets/Plus-circle.svg" alt="" />
-              <p className="text-[18px]">Create</p>
+              <img src="/assets/panelClose.svg" className="cursor-pointer size-6 dark:invert" alt="Close panel Icon"/>
             </button>
 
-            {/* My Communities */}
-            <CollapseSection label="My Communities" icon={Users}>
-              {communityGroups.map((communityGroup: ICommunityData, idx: number) => (
+            <button
+              className="cursor-pointer flex items-center text-white bg-gradient-to-r from-[#6F58DA] to-[#5131E7] rounded-[7px] px-3 py-[1.5px] gap-1 w-full"
+              onClick={() => setIsModalOpen(true)}
+            >
+              <PlusCircle size={20}/>
+              <p className="text-[18px]">Create</p>
+            </button>
+          </div>
+
+          {/* Scrollable Middle Content */}
+          <div className="flex-1 overflow-y-auto p-3 space-y-4">
+            <CollapseSection label="Owned Communities" icon={Users}>
+              {communityGroups.map((communityGroup, idx) => (
                 <SidebarLink
                   key={idx}
                   text={communityGroup.communityName}
                   href={`/communities/${communityGroup.id}`}
                   isActive={activeCommunity === communityGroup.communityName}
-                  onClick={() =>
-                    setActiveCommunity(communityGroup.communityName)
-                  }
+                  onClick={() => setActiveCommunity(communityGroup.communityName)}
                 />
               ))}
             </CollapseSection>
 
-            {/* Joined Communities (example static) */}
             <CollapseSection label="Joined Communities" icon={Group}>
               <SidebarLink text="Design Club" href="/communities/design-club" />
+              <SidebarLink text="Tech Talk" href="/communities/tech-talk" />
+              <SidebarLink text="Code Masters" href="/communities/code-masters" />
             </CollapseSection>
           </div>
 
-          {/* Bottom Profile Section */}
-          <div className="absolute bottom-0 w-full px-4 py-5 border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-[#100B28] space-y-3">
+          {/* Sticky Footer */}
+          <div className="sticky bottom-0 w-full px-4 py-5 border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-[#100B28] space-y-3">
             <div className="flex items-center gap-3 w-full relative">
               <div className="bg-gradient-to-b from-[#6F58DA] to-[#5131E7] rounded-full w-[50px] h-[50px] flex items-center justify-center">
-                <p className="text-white text-[18px] font-bold">AL</p>
+                <p className="text-white text-[18px] font-bold">{userName.slice(0, 1).toUpperCase()}</p>
               </div>
               <div className="flex-1">
-                <p className="text-[16px] font-semibold text-black dark:text-white">Ada Lovelace</p>
-                <p className="text-[14px] text-gray-600 dark:text-gray-300">alovelace@ucla.edu</p>
+                <p className="text-[16px] font-semibold text-black dark:text-white">
+                  {firstName} {lastName}
+                </p>
+                <p className="text-[14px] text-gray-600 dark:text-gray-300">{userName}</p>
               </div>
 
-              {/* Dropdown */}
               <Dropdown
                 placement="top-start"
                 renderTrigger={() => (
@@ -155,7 +186,7 @@ const MyCommunitiesSidebar: React.FC<MyCommunitiesSidebarProps> = ({
                     <EllipsisVertical className="w-5 h-5 text-black dark:text-white" />
                   </button>
                 )}
-                className="w-full -translate-y-3 border border-gray-200 dark:border dark:border-[#aa7dfc] bg-white dark:bg-[#140D34]"
+                className="w-full -translate-y-3 border border-gray-200 dark:border-[#aa7dfc] bg-white dark:bg-[#140D34]"
               >
                 <div className="py-0">
                   <DropdownItem icon={User}>Account</DropdownItem>
@@ -177,6 +208,7 @@ const MyCommunitiesSidebar: React.FC<MyCommunitiesSidebarProps> = ({
           </div>
         </div>
       </Drawer>
+
       <CreateCommunityModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </>
   );

@@ -1,6 +1,10 @@
 "use client";
 import { Drawer, DarkThemeToggle } from "flowbite-react";
+import { Bell } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { currentUser, getLoggedInUserData } from "@/utils/Services/DataServices";
+
 
 interface ProfileSidebarProps {
   isOpen: boolean;
@@ -15,6 +19,28 @@ const ProfileSidebar: React.FC<ProfileSidebarProps> = ({ isOpen, onClose, openNo
     localStorage.removeItem("Token");
     router.push("/");
   };
+  // User data state
+  const [userName, setUserName] = useState<string>("");
+  const [firstName, setFirstName] = useState<string>("");
+  const [lastName, setLastName] = useState<string>("");
+
+  // Fetch user data
+  useEffect(() => {
+    const getLoggedInData = async () => {
+      const user = currentUser();
+      if (!user || !user.user.username) return;
+
+      const loggedIn = await getLoggedInUserData(user.user.username);
+
+      if (loggedIn) {
+        setUserName(loggedIn.user.username || "");
+        setFirstName(loggedIn.user.firstName || "");
+        setLastName(loggedIn.user.lastName || "");
+      }
+    };
+
+    getLoggedInData();
+  }, []);
 
   return (
     <Drawer open={isOpen} onClose={onClose} position="right">
@@ -22,11 +48,11 @@ const ProfileSidebar: React.FC<ProfileSidebarProps> = ({ isOpen, onClose, openNo
         {/* Profile Header (Image + Name + Email) */}
         <div className="flex items-center gap-3">
           <div className="bg-gradient-to-b from-[#6F58DA] to-[#5131E7] rounded-full w-[60px] h-[60px] flex items-center justify-center">
-            <p className="text-[20px] font-bold text-white">AL</p>
+            <p className="text-[20px] font-bold text-white">{userName.slice(0, 1).toUpperCase()}</p>
           </div>
           <div>
-            <p className="font-semibold text-2xl">Ada Lovelace</p>
-            <p className="text-xl">alovelace@ucla.edu</p>
+            <p className="font-semibold text-2xl">{firstName} {lastName}</p>
+            <p className="text-xl">{userName}</p>
           </div>
         </div>
 
@@ -37,7 +63,7 @@ const ProfileSidebar: React.FC<ProfileSidebarProps> = ({ isOpen, onClose, openNo
             className="flex items-center justify-between bg-[#6F58DA] text-white py-2 px-4 rounded-[10px] font-bold relative cursor-pointer"
           >
             <div className="flex items-center gap-2">
-              <img src="/assets/Bell.svg" className="w-5 h-5 invert" alt="Notifications" />
+            <Bell/>
               <span>Notifications</span>
             </div>
             {/* Example Badge */}
