@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Drawer,
   Dropdown,
@@ -15,10 +15,9 @@ import {
   Bell,
   LogOut
 } from "lucide-react";
-import { ICommunityData } from "@/utils/Interfaces/UserInterfaces";
 import { useAppContext } from "@/context/CommunityContext";
 import Link from "next/link";
-import CreateCommunityModal from "./CreateCommunityModal"; 
+import CreateCommunityModal from "./CreateCommunityModal";
 
 interface MyCommunitiesSidebarProps {
   isOpen: boolean;
@@ -40,7 +39,7 @@ const CollapseSection = ({
   return (
     <div className="w-full">
       <button
-        className="flex items-center justify-between w-full px-4 py-2 text-sm font-medium bg-transparent rounded-md hover:bg-[rgba(129,140,248,0.25)] transition"
+        className="cursor-pointer flex items-center justify-between w-full px-4 py-2 text-sm font-medium bg-transparent rounded-md hover:bg-[rgba(129,140,248,0.25)] transition"
         onClick={() => setIsOpen(!isOpen)}
       >
         <div className="flex items-center gap-2">
@@ -68,11 +67,10 @@ const SidebarLink = ({
   <Link
     href={href}
     onClick={onClick}
-    className={`block py-2 px-3 rounded-md text-sm transition ${
-      isActive
+    className={`block py-2 px-3 rounded-md text-sm transition ${isActive
         ? "bg-[#818df8] text-white dark:bg-[#6f58da]"
         : "bg-transparent text-black dark:text-white hover:bg-[rgba(129,140,248,0.25)]"
-    }`}
+      }`}
   >
     {text}
   </Link>
@@ -84,60 +82,72 @@ const MyCommunitiesSidebar: React.FC<MyCommunitiesSidebarProps> = ({
   openNotificationsSidebar,
 }) => {
   const [activeCommunity, setActiveCommunity] = useState<string | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false); 
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const { communityGroups } = useAppContext();
+
+  // Lock body scroll when drawer is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.classList.add("overflow-hidden");
+    } else {
+      document.body.classList.remove("overflow-hidden");
+    }
+    return () => {
+      document.body.classList.remove("overflow-hidden");
+    };
+  }, [isOpen]);
 
   return (
     <>
       <Drawer open={isOpen} onClose={onClose} position="right" className="p-0">
-        <div className="relative w-full h-full sm:max-w-sm bg-white dark:bg-[#100B28] pb-40">
-          {/* Close Button */}
-          <button
-            className="absolute top-2 left-3 text-gray-500 hover:text-black dark:hover:text-white z-10"
-            onClick={onClose}
-            aria-label="Close"
-          >
-            <img
-              src="/assets/panelClose.svg"
-              className="cursor-pointer size-6 dark:invert"
-              alt="Close panel Icon"
-            />
-          </button>
+        <div className="relative w-full h-full sm:max-w-sm bg-white dark:bg-[#100B28] flex flex-col">
 
-          {/* Scrollable Content */}
-          <div className="h-full overflow-y-auto p-3 pt-10 space-y-4">
-            {/* Create Button (open modal on click) */}
+          {/* Sticky Top Section */}
+          <div className="sticky top-0 z-10 bg-white dark:bg-[#100B28] border-b border-gray-200 dark:border-gray-700 px-3 pt-2 pb-3 space-y-2">
             <button
-              className="flex items-center text-white bg-gradient-to-r from-[#6F58DA] to-[#5131E7] rounded-[7px] px-3 py-[1.5px] gap-1 w-full"
+              className="text-gray-500 hover:text-black dark:hover:text-white"
+              onClick={onClose}
+              aria-label="Close"
+            >
+              <img
+                src="/assets/panelClose.svg"
+                className="cursor-pointer size-6 dark:invert"
+                alt="Close panel Icon"
+              />
+            </button>
+
+            <button
+              className="cursor-pointer flex items-center text-white bg-gradient-to-r from-[#6F58DA] to-[#5131E7] rounded-[7px] px-3 py-[1.5px] gap-1 w-full"
               onClick={() => setIsModalOpen(true)}
             >
               <img src="/assets/Plus-circle.svg" alt="" />
               <p className="text-[18px]">Create</p>
             </button>
+          </div>
 
-            {/* My Communities */}
+          {/* Scrollable Middle Content */}
+          <div className="flex-1 overflow-y-auto p-3 space-y-4">
             <CollapseSection label="My Communities" icon={Users}>
-              {communityGroups.map((communityGroup: ICommunityData, idx: number) => (
+              {communityGroups.map((communityGroup, idx) => (
                 <SidebarLink
                   key={idx}
                   text={communityGroup.communityName}
                   href={`/communities/${communityGroup.id}`}
                   isActive={activeCommunity === communityGroup.communityName}
-                  onClick={() =>
-                    setActiveCommunity(communityGroup.communityName)
-                  }
+                  onClick={() => setActiveCommunity(communityGroup.communityName)}
                 />
               ))}
             </CollapseSection>
 
-            {/* Joined Communities (example static) */}
             <CollapseSection label="Joined Communities" icon={Group}>
               <SidebarLink text="Design Club" href="/communities/design-club" />
+              <SidebarLink text="Tech Talk" href="/communities/tech-talk" />
+              <SidebarLink text="Code Masters" href="/communities/code-masters" />
             </CollapseSection>
           </div>
 
-          {/* Bottom Profile Section */}
-          <div className="absolute bottom-0 w-full px-4 py-5 border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-[#100B28] space-y-3">
+          {/* Sticky Footer */}
+          <div className="sticky bottom-0 w-full px-4 py-5 border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-[#100B28] space-y-3">
             <div className="flex items-center gap-3 w-full relative">
               <div className="bg-gradient-to-b from-[#6F58DA] to-[#5131E7] rounded-full w-[50px] h-[50px] flex items-center justify-center">
                 <p className="text-white text-[18px] font-bold">AL</p>
@@ -147,7 +157,6 @@ const MyCommunitiesSidebar: React.FC<MyCommunitiesSidebarProps> = ({
                 <p className="text-[14px] text-gray-600 dark:text-gray-300">alovelace@ucla.edu</p>
               </div>
 
-              {/* Dropdown */}
               <Dropdown
                 placement="top-start"
                 renderTrigger={() => (
@@ -155,7 +164,7 @@ const MyCommunitiesSidebar: React.FC<MyCommunitiesSidebarProps> = ({
                     <EllipsisVertical className="w-5 h-5 text-black dark:text-white" />
                   </button>
                 )}
-                className="w-full -translate-y-3 border border-gray-200 dark:border dark:border-[#aa7dfc] bg-white dark:bg-[#140D34]"
+                className="w-full -translate-y-3 border border-gray-200 dark:border-[#aa7dfc] bg-white dark:bg-[#140D34]"
               >
                 <div className="py-0">
                   <DropdownItem icon={User}>Account</DropdownItem>
@@ -177,6 +186,7 @@ const MyCommunitiesSidebar: React.FC<MyCommunitiesSidebarProps> = ({
           </div>
         </div>
       </Drawer>
+
       <CreateCommunityModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </>
   );
