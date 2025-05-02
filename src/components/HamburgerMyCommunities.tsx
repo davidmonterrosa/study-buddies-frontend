@@ -124,8 +124,8 @@ const MyCommunitiesSidebar: React.FC<MyCommunitiesSidebarProps> = ({
 
   return (
     <>
-      <Drawer open={isOpen} onClose={onClose} position="right" className="p-0">
-        <div className="relative w-full h-full sm:max-w-sm bg-white dark:bg-[#100B28] flex flex-col">
+      <Drawer open={isOpen} onClose={onClose} position="right" className="p-0 w-full sm:w-[320px]">
+        <div className="relative w-full h-full  bg-white dark:bg-[#100B28] flex flex-col">
 
           {/* Sticky Top Section */}
           <div className="sticky top-0 z-10 bg-white dark:bg-[#100B28] border-b border-gray-200 dark:border-gray-700 px-3 pt-2 pb-3 space-y-2">
