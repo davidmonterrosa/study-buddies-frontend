@@ -19,6 +19,7 @@ import {
 import { useAppContext } from "@/context/CommunityContext";
 import Link from "next/link";
 import CreateCommunityModal from "./CreateCommunityModal";
+import { currentUser, getLoggedInUserData } from "@/utils/Services/DataServices";
 
 interface MyCommunitiesSidebarProps {
   isOpen: boolean;
@@ -26,7 +27,7 @@ interface MyCommunitiesSidebarProps {
   openNotificationsSidebar: () => void;
 }
 
- export const CollapseSection = ({
+export const CollapseSection = ({
   label,
   icon: Icon,
   children,
@@ -38,7 +39,6 @@ interface MyCommunitiesSidebarProps {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    // Community dropdown
     <div className="w-full">
       <button
         className="cursor-pointer flex items-center justify-between w-full px-4 py-2 text-sm font-medium bg-transparent rounded-md hover:bg-[rgba(129,140,248,0.25)] transition"
@@ -86,6 +86,11 @@ const MyCommunitiesSidebar: React.FC<MyCommunitiesSidebarProps> = ({
   const [activeCommunity, setActiveCommunity] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { communityGroups } = useAppContext();
+  
+  // User data state
+  const [userName, setUserName] = useState<string>("");
+  const [firstName, setFirstName] = useState<string>("");
+  const [lastName, setLastName] = useState<string>("");
 
   // Lock body scroll when drawer is open
   useEffect(() => {
@@ -99,6 +104,24 @@ const MyCommunitiesSidebar: React.FC<MyCommunitiesSidebarProps> = ({
     };
   }, [isOpen]);
 
+  // Fetch user data
+  useEffect(() => {
+    const getLoggedInData = async () => {
+      const user = currentUser();
+      if (!user || !user.user.username) return;
+
+      const loggedIn = await getLoggedInUserData(user.user.username);
+
+      if (loggedIn) {
+        setUserName(loggedIn.user.username || "");
+        setFirstName(loggedIn.user.firstName || "");
+        setLastName(loggedIn.user.lastName || "");
+      }
+    };
+
+    getLoggedInData();
+  }, []);
+
   return (
     <>
       <Drawer open={isOpen} onClose={onClose} position="right" className="p-0">
@@ -106,16 +129,11 @@ const MyCommunitiesSidebar: React.FC<MyCommunitiesSidebarProps> = ({
 
           {/* Sticky Top Section */}
           <div className="sticky top-0 z-10 bg-white dark:bg-[#100B28] border-b border-gray-200 dark:border-gray-700 px-3 pt-2 pb-3 space-y-2">
-            <button
-              className="text-gray-500 hover:text-black dark:hover:text-white"
+            <button className="text-gray-500 hover:text-black dark:hover:text-white"
               onClick={onClose}
               aria-label="Close"
             >
-              <img
-                src="/assets/panelClose.svg"
-                className="cursor-pointer size-6 dark:invert"
-                alt="Close panel Icon"
-              />
+              <img src="/assets/panelClose.svg" className="cursor-pointer size-6 dark:invert" alt="Close panel Icon"/>
             </button>
 
             <button
@@ -152,11 +170,13 @@ const MyCommunitiesSidebar: React.FC<MyCommunitiesSidebarProps> = ({
           <div className="sticky bottom-0 w-full px-4 py-5 border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-[#100B28] space-y-3">
             <div className="flex items-center gap-3 w-full relative">
               <div className="bg-gradient-to-b from-[#6F58DA] to-[#5131E7] rounded-full w-[50px] h-[50px] flex items-center justify-center">
-                <p className="text-white text-[18px] font-bold">AL</p>
+                <p className="text-white text-[18px] font-bold">{userName.slice(0, 1).toUpperCase()}</p>
               </div>
               <div className="flex-1">
-                <p className="text-[16px] font-semibold text-black dark:text-white">Ada Lovelace</p>
-                <p className="text-[14px] text-gray-600 dark:text-gray-300">alovelace@ucla.edu</p>
+                <p className="text-[16px] font-semibold text-black dark:text-white">
+                  {firstName} {lastName}
+                </p>
+                <p className="text-[14px] text-gray-600 dark:text-gray-300">{userName}</p>
               </div>
 
               <Dropdown
