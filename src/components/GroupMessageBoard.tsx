@@ -1,6 +1,9 @@
-import { CommunityChats, IUserNameId } from '@/utils/Interfaces/UserInterfaces';
+"use client"
+// import * as signalR from "@microsoft/signalr";
+import { CommunityChats } from '@/utils/Interfaces/UserInterfaces';
 import { checkToken, currentUser, getLoggedInUserData, getToken, sendCommunityMessage } from '@/utils/Services/DataServices';
 import { formatPostTimeStamp } from '@/utils/Services/StyleHelpers';
+// import { HubConnection, HubConnectionBuilder, LogLevel } from '@microsoft/signalr';
 import { EllipsisVertical } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
@@ -17,6 +20,8 @@ const CommunityBoard: React.FC<CommunityBoardProps> = ({
     const [messageText, setmessageText] = useState<string>()
     const [senderId, setSenderId] = useState<number>(0)
     const [senderName, setSenderName] = useState<string>("")
+    // const [connection, setConnection] = useState<HubConnection | null>(null);
+    // const [chatsItems, setChatItems] = useState<CommunityChats[]>()
     const router = useRouter();
 
     const handleSendMessage = async () => {
@@ -38,6 +43,7 @@ const CommunityBoard: React.FC<CommunityBoardProps> = ({
       console.log("Message object that is being sent: ", messageToSend, " to community: ", communityGroupId);
       console.log(getToken())
       await sendCommunityMessage(communityGroupId, messageToSend, getToken())
+
       setmessageText("");
     }
       
@@ -45,8 +51,10 @@ const CommunityBoard: React.FC<CommunityBoardProps> = ({
        const getLoggedInData = async () => {
          const loggedIn = await getLoggedInUserData(currentUser());
          if (loggedIn) {
-           setSenderId(loggedIn.user.id);
-           setSenderName(loggedIn.user.username);
+            // setChatItems(chats)
+            console.log("These are the chats passed into the chat component: ", chats)
+            setSenderId(loggedIn.user.id);
+            setSenderName(loggedIn.user.username);
          }
        }
    
@@ -56,6 +64,35 @@ const CommunityBoard: React.FC<CommunityBoardProps> = ({
          getLoggedInData()
        }
     }, [])
+
+    // useEffect(() => {
+    //   const connect = new HubConnectionBuilder()
+    //   .withUrl("https://study-buddys-backend.azurewebsites.net/hubs/communityhub", {
+    //     withCredentials: true
+    //   })
+    //   .withAutomaticReconnect()
+    //   .build();
+
+    //   setConnection(connect);
+
+    //   const startConnection = async () => {
+    //     await connect.start();
+    //     console.log("Connected")
+
+    //     const communityId = communityGroupId;
+    //     await connect.invoke("JoinCommunity", communityId)
+    //   }
+    //   startConnection();
+      
+
+    //   connect.on("ReceiveNewChat", (newChat) => {
+    //     console.log("New chat received:", newChat);
+      
+    //     // Update your local chat UI
+    //     setChatItems((prevChats) => [prevChats, newChat]);
+    //   });
+      
+    // }, [chatsItems])
 
   return (
     <section className="flex flex-col min-h-[calc(0.68*100vh)]   overflow-hidden mt-4">
@@ -84,7 +121,9 @@ const CommunityBoard: React.FC<CommunityBoardProps> = ({
                     <p className="font-semibold text-sm">You</p>
                     <p>{`${formatPostTimeStamp(chatItem.timestamp)}`}</p>
                   </div>
-                  <EllipsisVertical/>
+                  <button>
+                    <EllipsisVertical/>
+                  </button>
                 </div>
                 <p>
                   {chatItem.message}
@@ -115,15 +154,12 @@ const CommunityBoard: React.FC<CommunityBoardProps> = ({
             return (
               <div key={idx} className="flex items-start gap-2">
                 <div className="bg-[#F6F6F6] dark:bg-[#140D34] dark:border-[1px] dark:border-[#aa7dfc40] px-3 py-2 rounded-lg w-full text-sm">
-                  <div className='flex justify-between items-center'>
-                    <div className="flex mt-2 gap-2 items-center">
-                      <div className="bg-[#818CF8] rounded-full w-[30px] h-[30px] flex items-center justify-center">
-                        <p className="text-[14px] font-bold text-black">{chatItem.userSenderName.charAt(0).toUpperCase()}</p>
-                      </div>
-                      <p className="font-semibold text-sm">{chatItem.userSenderName}</p>
-                      <p>{`${formatPostTimeStamp(chatItem.timestamp)}`}</p>
+                  <div className="flex mt-2 gap-2 items-center">
+                    <div className="bg-[#818CF8] rounded-full w-[30px] h-[30px] flex items-center justify-center">
+                      <p className="text-[14px] font-bold text-black">{chatItem.userSenderName.charAt(0).toUpperCase()}</p>
                     </div>
-                    <EllipsisVertical/>
+                    <p className="font-semibold text-sm">{chatItem.userSenderName}</p>
+                    <p>{`${formatPostTimeStamp(chatItem.timestamp)}`}</p>
                   </div>
                   <p>
                     {chatItem.message}

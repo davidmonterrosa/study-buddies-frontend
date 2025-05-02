@@ -1,5 +1,5 @@
 'use client'
-import { Itoken, IUserNameId } from '@/utils/Interfaces/UserInterfaces';
+import { Itoken } from '@/utils/Interfaces/UserInterfaces';
 import { createAccount, getLoggedInUserData, login } from '@/utils/Services/DataServices';
 import { useRouter, useSearchParams } from 'next/navigation';
 import React, { Suspense, useState, useEffect } from 'react';

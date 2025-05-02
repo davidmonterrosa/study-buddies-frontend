@@ -1,10 +1,10 @@
 "use client"
-import { formatPostTimeStamp, getDifficultyColor } from '@/utils/Services/StyleHelpers'
+import { getDifficultyColor } from '@/utils/Services/StyleHelpers'
 import React, { useEffect, useState } from 'react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs'
 import { Separator } from './ui/separator'
-import { currentUser, getCommunityById, getLoggedInUserData, getToken, sendCommunityMessage } from '@/utils/Services/DataServices'
-import { CommunityChats, ICommunityData, IUserNameId } from '@/utils/Interfaces/UserInterfaces'
+import { getCommunityById } from '@/utils/Services/DataServices'
+import { ICommunityData } from '@/utils/Interfaces/UserInterfaces'
 import BuddiesCompononet from './BuddiesComponent'
 import DirectMessage from './DirectMessage'
 import CommunityBoard from './GroupMessageBoard'

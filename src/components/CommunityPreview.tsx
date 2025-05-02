@@ -30,14 +30,12 @@ const CommunityPreview: React.FC<PreviewProps> = ({
 
   const router = useRouter();
   const [userId, setUserId] = useState<number>(0)
-  const [user, setUser] = useState<string>("")
 
   useEffect(() => {
     const getLoggedInData = async () => {
       const loggedIn = await getLoggedInUserData(currentUser());
       if (loggedIn) {
         setUserId(loggedIn.user.id);
-        setUser(loggedIn.user.username);
       }
     }
 
