@@ -45,22 +45,6 @@ const MyCommunitiesPanel = () => {
           <SidebarLink text="Design Club" href="/communities/design-club" />
           <SidebarLink text="Tech Talk" href="/communities/tech-talk" />
           <SidebarLink text="Code Masters" href="/communities/code-masters" />
-          <SidebarLink text="Design Club" href="/communities/design-club" />
-          <SidebarLink text="Tech Talk" href="/communities/tech-talk" />
-          <SidebarLink text="Code Masters" href="/communities/code-masters" />
-          <SidebarLink text="Design Club" href="/communities/design-club" />
-          <SidebarLink text="Tech Talk" href="/communities/tech-talk" />
-          <SidebarLink text="Code Masters" href="/communities/code-masters" />
-          <SidebarLink text="Design Club" href="/communities/design-club" />
-          <SidebarLink text="Tech Talk" href="/communities/tech-talk" />
-          <SidebarLink text="Code Masters" href="/communities/code-masters" />
-          <SidebarLink text="Design Club" href="/communities/design-club" />
-          <SidebarLink text="Tech Talk" href="/communities/tech-talk" />
-          <SidebarLink text="Code Masters" href="/communities/code-masters" />
-          <SidebarLink text="Code Masters" href="/communities/code-masters" />
-          <SidebarLink text="Design Club" href="/communities/design-club" />
-          <SidebarLink text="Tech Talk" href="/communities/tech-talk" />
-          <SidebarLink text="Code Masters" href="/communities/code-masters" />
         </CollapseSection>
       </div>
     </aside>
