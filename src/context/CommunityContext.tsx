@@ -10,7 +10,7 @@ interface Context {
 
 const AppContext = createContext<Context>({
     communityGroups: [],
-    setCommunityGroups: (communities: ICommunityData[]) => {}
+    setCommunityGroups: () => {}
 });
 
 export function AppWrapper({children} : {children: React.ReactNode}) {

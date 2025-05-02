@@ -4,9 +4,8 @@ import ViewCommunityButton from './ViewCommunityButton';
 import { ICommunityData } from '@/utils/Interfaces/UserInterfaces';
 import { currentUser, getLoggedInUserData, getMyCommunities, getToken } from '@/utils/Services/DataServices';
 import Link from 'next/link';
-import { navigationMenuTriggerStyle } from './ui/navigation-menu';
 import { useAppContext } from '@/context/CommunityContext';
-import { HubConnection, HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
+// import { HubConnection, HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
 
 
 const MyCommunitiesPanel = () => {

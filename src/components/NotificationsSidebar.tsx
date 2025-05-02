@@ -33,7 +33,7 @@ const NotificationsSidebar: React.FC<NotificationsSidebarProps> = ({ isOpen, onC
               <p>3:45 PM</p>
             </div>
             <p>
-              Hola amigos! I'm organizing a study session for tomorrow at 7 PM to review verb conjugations.
+              Hola amigos! I`&#39;`m organizing a study session for tomorrow at 7 PM to review verb conjugations.
               Anyone interested in joining?
             </p>
           </div>

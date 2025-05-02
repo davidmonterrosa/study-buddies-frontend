@@ -1,4 +1,3 @@
-import { formatPostTimeStamp } from "@/utils/Services/StyleHelpers";
 import React from "react";
 
 const DirectMessage = () => {
@@ -29,7 +28,7 @@ const DirectMessage = () => {
             {/* Message bubble */}
             <div className="bg-[#F6F6F6] dark:bg-[#140D34] dark:border-[1px] dark:border-[#aa7dfc40] px-3 py-2 rounded-[25px] rounded-tl-none text-sm w-fit max-w-[75%]">
               <p>
-                Hola amigos! I'm organizing a study session for tomorrow at 7 PM
+                Hola amigos! I`&#39;`m organizing a study session for tomorrow at 7 PM
                 to review verb conjugations. Anyone interested in joining?
               </p>
             </div>

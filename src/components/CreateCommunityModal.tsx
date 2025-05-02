@@ -1,6 +1,6 @@
 'use client'
 import React, { useEffect, useState, useRef } from "react";
-import { Modal, Dropdown, DropdownItem, DropdownDivider } from "flowbite-react";
+import { Modal } from "flowbite-react";
 import { ICommunityData } from "@/utils/Interfaces/UserInterfaces";
 import { checkToken, createNewCommunity, currentUser, getLoggedInUserData, getToken } from "@/utils/Services/DataServices";
 import { useRouter } from "next/navigation";
