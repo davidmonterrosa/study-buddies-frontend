@@ -13,7 +13,8 @@ import {
   EllipsisVertical,
   User,
   Bell,
-  LogOut
+  LogOut,
+  PlusCircle
 } from "lucide-react";
 import { useAppContext } from "@/context/CommunityContext";
 import Link from "next/link";
@@ -25,7 +26,7 @@ interface MyCommunitiesSidebarProps {
   openNotificationsSidebar: () => void;
 }
 
-const CollapseSection = ({
+ export const CollapseSection = ({
   label,
   icon: Icon,
   children,
@@ -37,6 +38,7 @@ const CollapseSection = ({
   const [isOpen, setIsOpen] = useState(false);
 
   return (
+    // Community dropdown
     <div className="w-full">
       <button
         className="cursor-pointer flex items-center justify-between w-full px-4 py-2 text-sm font-medium bg-transparent rounded-md hover:bg-[rgba(129,140,248,0.25)] transition"
@@ -53,7 +55,7 @@ const CollapseSection = ({
   );
 };
 
-const SidebarLink = ({
+export const SidebarLink = ({
   text,
   href,
   isActive = false,
@@ -120,14 +122,14 @@ const MyCommunitiesSidebar: React.FC<MyCommunitiesSidebarProps> = ({
               className="cursor-pointer flex items-center text-white bg-gradient-to-r from-[#6F58DA] to-[#5131E7] rounded-[7px] px-3 py-[1.5px] gap-1 w-full"
               onClick={() => setIsModalOpen(true)}
             >
-              <img src="/assets/Plus-circle.svg" alt="" />
+              <PlusCircle size={20}/>
               <p className="text-[18px]">Create</p>
             </button>
           </div>
 
           {/* Scrollable Middle Content */}
           <div className="flex-1 overflow-y-auto p-3 space-y-4">
-            <CollapseSection label="My Communities" icon={Users}>
+            <CollapseSection label="Owned Communities" icon={Users}>
               {communityGroups.map((communityGroup, idx) => (
                 <SidebarLink
                   key={idx}

@@ -84,11 +84,7 @@ const NavBarComponent: React.FC = () => {
             <button className="size-9 mx-2 cursor-pointer">
               <img className="w-[25px] h-[25px]" src="../assets/searchIcon.svg" alt="Search" />
             </button>
-            <input
-              className="border-0 w-full focus:outline-none text-black"
-              placeholder="Search for Learning Communities"
-              type="text"
-            />
+            <input className="border-0 w-full focus:outline-none text-black" placeholder="Search for Learning Communities" type="text"/>
             <button onClick={() => setIsFilterOpen(!isFilterOpen)} className="relative">
               <img className="w-[25px] h-[25px] cursor-pointer" src="/assets/filter.svg" alt="Filter" />
             </button>
