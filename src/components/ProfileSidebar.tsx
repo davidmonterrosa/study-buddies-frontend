@@ -1,5 +1,6 @@
 "use client";
 import { Drawer, DarkThemeToggle } from "flowbite-react";
+import { Bell } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 interface ProfileSidebarProps {
@@ -37,7 +38,7 @@ const ProfileSidebar: React.FC<ProfileSidebarProps> = ({ isOpen, onClose, openNo
             className="flex items-center justify-between bg-[#6F58DA] text-white py-2 px-4 rounded-[10px] font-bold relative cursor-pointer"
           >
             <div className="flex items-center gap-2">
-              <img src="/assets/Bell.svg" className="w-5 h-5 invert" alt="Notifications" />
+            <Bell/>
               <span>Notifications</span>
             </div>
             {/* Example Badge */}

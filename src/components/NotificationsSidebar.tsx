@@ -10,7 +10,7 @@ interface NotificationsSidebarProps {
 const NotificationsSidebar: React.FC<NotificationsSidebarProps> = ({ isOpen, onClose, onBack }) => {
   return (
     <div className={`fixed top-0 right-0 h-full w-80 bg-white dark:bg-[#140D34] shadow-lg z-50 transition-transform duration-300 ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}>
-      <div className="relative w-full h-full p-4">
+      <div className="relative w-full h-full p-4 overflow-y-scroll scrollbar ">
         {/* Top Row: Back Button, Title, Close Button */}
         <div className="flex justify-between items-center mb-4">
           <button onClick={onBack} className="flex items-center text-gray-500 dark:text-white hover:text-black dark:hover:text-white">
