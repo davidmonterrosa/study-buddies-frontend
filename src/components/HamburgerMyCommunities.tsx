@@ -107,7 +107,7 @@ const MyCommunitiesSidebar: React.FC<MyCommunitiesSidebarProps> = ({
   // Fetch user data
   useEffect(() => {
     const getLoggedInData = async () => {
-      const user = currentUser();
+      const user = await getLoggedInUserData(currentUser());
       if (!user || !user.user.username) return;
 
       const loggedIn = await getLoggedInUserData(user.user.username);
