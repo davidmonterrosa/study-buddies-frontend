@@ -1,6 +1,6 @@
 'use client'
 import React, { useEffect, useState } from 'react';
-import { ICommunityData } from '@/utils/Interfaces/UserInterfaces';
+// import { ICommunityData } from '@/utils/Interfaces/UserInterfaces';
 import { currentUser, getLoggedInUserData, getMyCommunities, getToken } from '@/utils/Services/DataServices';
 import { useAppContext } from '@/context/CommunityContext';
 import { CollapseSection, SidebarLink } from './HamburgerMyCommunities';

@@ -1,5 +1,5 @@
 'use client';
-import MyCommunitiesPanel from '@/components/MyCommunitiesPanel';
+// import MyCommunitiesPanel from '@/components/MyCommunitiesPanel';
 import NavBarComponent from '@/components/NavBarComponent';
 import React from 'react';
 

@@ -44,6 +44,7 @@ const CommunityContainer: React.FC = () => {
               communityGroups.map((communityGroup: ICommunityData, idx: number) => (
                 <CommunityCard
                   key={idx}
+                  communityId={communityGroup.id}
                   communityName={communityGroup.communityName}
                   subject={communityGroup.communitySubject}
                   buddies={communityGroup.communityMemberCount}
