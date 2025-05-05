@@ -73,10 +73,10 @@ const NavBarComponent: React.FC = () => {
   // Fetch user data
   useEffect(() => {
     const getLoggedInData = async () => {
-      const user = currentUser();
+      const user = await getLoggedInUserData(currentUser());
       if (!user || !user.user.username) return;
 
-      const loggedIn = await getLoggedInUserData(user.user.username);
+      const loggedIn = await getLoggedInUserData(currentUser());
 
       if (loggedIn) {
         setUserName(loggedIn.user.username || "");
