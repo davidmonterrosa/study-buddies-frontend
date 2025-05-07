@@ -42,12 +42,7 @@ const CommunityBoard: React.FC<CommunityBoardProps> = ({
       isEdited: false,
     };
 
-    await sendCommunityMessage(
-      communityGroupId,
-      messageToSend,
-      getToken()
-    );
-
+    await sendCommunityMessage(communityGroupId, messageToSend, getToken());
     setmessageText('');
   };
 
@@ -74,10 +69,10 @@ const CommunityBoard: React.FC<CommunityBoardProps> = ({
   }, [chats]);
 
   return (
-    <div className="flex flex-col h-full overflow-hidden relative">
-      {/* Scrollable Message List */}
-      <div className="flex-grow overflow-y-auto scrollbar px-4 space-y-3 pt-4 pb-5">
-        {chats.map((chatItem: CommunityChats, idx: number) => {
+    <div className="flex flex-col h-full max-h-full overflow-hidden">
+      {/* Scrollable Chat Messages */}
+      <div className="flex-1 overflow-y-auto px-4 space-y-3 pt-4 pb-1 scrollbar">
+        {chats.map((chatItem, idx) => {
           const isSender = chatItem.userIdSender === senderId;
 
           return (
@@ -117,9 +112,7 @@ const CommunityBoard: React.FC<CommunityBoardProps> = ({
                   </button>
                 </div>
                 <p>{chatItem.message}</p>
-
                 <div className="flex justify-end gap-3 mt-2">
-                  {/* Likes */}
                   <div className="flex items-center gap-1">
                     <p>12</p>
                     <div
@@ -130,7 +123,6 @@ const CommunityBoard: React.FC<CommunityBoardProps> = ({
                       <p className="text-[14px] font-bold">ML</p>
                     </div>
                   </div>
-                  {/* Reply */}
                   <div className="flex items-center gap-1">
                     <p>2</p>
                     <div
@@ -149,21 +141,20 @@ const CommunityBoard: React.FC<CommunityBoardProps> = ({
         <div ref={messagesEndRef} />
       </div>
 
-      {/* Message Input Bar */}
-      <div className="p-3 flex items-center bg-white dark:bg-[#0e0724] rounded-b-[15px] fixed bottom-0 left-0 right-0 z-10">
+      {/* Message Input */}
+      <div className="p-1 flex items-center bg-white dark:bg-[#0e0724] rounded-b-[15px] sticky bottom-0 z-10">
         <div className="relative flex-1">
           <input
             type="text"
             placeholder="Type your message..."
             value={messageText}
             onChange={(e) => setmessageText(e.target.value)}
-            className="w-full pr-10 px-4 py-2 rounded-[15px] drop-shadow-[0_1px_2px_rgba(0,0,0,0.25)] text-sm bg-[#F6F6F6] dark:bg-transparent dark:border dark:border-[#aa7dfc40] focus:outline-none focus:ring-2 focus:ring-[#818CF8] dark:focus:ring-[#a97dfc96]"
+            className="w-full pr-10 px-4 py-2 rounded-[15px] drop-shadow text-sm bg-[#F6F6F6] dark:bg-transparent dark:border dark:border-[#aa7dfc40] focus:outline-none focus:ring-2 focus:ring-[#818CF8] dark:focus:ring-[#a97dfc96]"
           />
           <button
             className="absolute right-2 top-1/2 -translate-y-1/2 cursor-pointer"
             onClick={handleSendMessage}
           >
-            {/* Send Icon */}
             <svg
               width="27"
               height="27"
@@ -172,13 +163,7 @@ const CommunityBoard: React.FC<CommunityBoardProps> = ({
               className="transition-colors duration-300"
             >
               <defs>
-                <linearGradient
-                  id="darkGradient"
-                  x1="0"
-                  y1="0"
-                  x2="0"
-                  y2="1"
-                >
+                <linearGradient id="darkGradient" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="0%" stopColor="#6F58DA" />
                   <stop offset="100%" stopColor="#5131E7" />
                 </linearGradient>

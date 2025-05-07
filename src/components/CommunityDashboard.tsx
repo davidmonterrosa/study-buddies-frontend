@@ -47,7 +47,7 @@ const CommunityDashboard: React.FC<CommunityDashboardProps> = ({ communityId }) 
       )}
 
       {/* Main Content */}
-      <main className={`transition-all duration-300 rounded-lg dark:bg-gradient-to-b dark:from-[#271E55] dark:to-[#100B28] dark:border-[2px] dark:border-[#aa7dfc40] bg-white p-4 drop-shadow-[0_3px_4px_rgba(0,0,0,0.25)] w-full ${
+      <main className={`transition-all duration-300 rounded-lg dark:bg-gradient-to-b dark:from-[#271E55] dark:to-[#100B28] dark:border-[2px] dark:border-[#aa7dfc40] bg-white p-0 lg:p-4 drop-shadow-[0_3px_4px_rgba(0,0,0,0.25)] w-full ${
           sidebarOpen ? 'w-full lg:max-w-[80%]' : 'w-full'}`}
       >
 
