@@ -32,7 +32,7 @@ const MyCommunitiesPanel: React.FC<Props> = ({ visible }) => {
       className={`
         lg:${visible ? 'flex' : 'hidden'} 
         lg:flex-col 
-        w-1/5 
+        w-full 
         transition-all 
         duration-300 
         shadow-[0_0px_5px_rgba(0,0,0,0.25)] 
@@ -46,7 +46,7 @@ const MyCommunitiesPanel: React.FC<Props> = ({ visible }) => {
         h-[calc(0.90*100vh-1rem)]
       `}
     >
-      <div className="flex-1 overflow-y-auto scrollbar p-3 space-y-4">
+      <div className="flex-1 overflow-y-auto scrollbar p-3 space-y-4 hidden lg:block">
         <CollapseSection label="Owned Communities" icon={Users}>
           {communityGroups.map((communityGroup, idx) => (
             <SidebarLink
