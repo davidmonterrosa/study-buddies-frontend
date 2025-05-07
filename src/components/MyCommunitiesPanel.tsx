@@ -1,6 +1,5 @@
 'use client'
 import React, { useEffect, useState } from 'react';
-// import { ICommunityData } from '@/utils/Interfaces/UserInterfaces';
 import { currentUser, getLoggedInUserData, getMyCommunities, getToken } from '@/utils/Services/DataServices';
 import { useAppContext } from '@/context/CommunityContext';
 import { CollapseSection, SidebarLink } from './HamburgerMyCommunities';
@@ -17,22 +16,25 @@ const MyCommunitiesPanel: React.FC<Props> = ({ visible }) => {
   useEffect(() => {
     const fetchMyCommunities = async () => {
       const loggedInUser = await getLoggedInUserData(currentUser());
-      if(loggedInUser) {
+      if (loggedInUser) {
         const data = await getMyCommunities(loggedInUser.user.id, getToken());
         setCommunityGroups(data);
         console.log(data);
       } else {
-        console.log("You are logged out")
+        console.log("You are logged out");
       }
-    }
+    };
     fetchMyCommunities();
   }, []);
+
   return (
     <aside
       className={`
-        lg:${visible ? 'flex' : 'hidden'} 
+        hidden
+        ${visible ? 'lg:flex' : 'lg:hidden'}
         lg:flex-col 
         w-full 
+        max-w-[300px]
         transition-all 
         duration-300 
         shadow-[0_0px_5px_rgba(0,0,0,0.25)] 
@@ -46,7 +48,7 @@ const MyCommunitiesPanel: React.FC<Props> = ({ visible }) => {
         h-[calc(0.90*100vh-1rem)]
       `}
     >
-      <div className="flex-1 overflow-y-auto scrollbar p-3 space-y-4 hidden lg:block">
+      <div className="flex-1 overflow-y-auto scrollbar p-3 space-y-4">
         <CollapseSection label="Owned Communities" icon={Users}>
           {communityGroups.map((communityGroup, idx) => (
             <SidebarLink
