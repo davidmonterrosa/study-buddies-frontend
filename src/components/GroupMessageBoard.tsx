@@ -8,7 +8,7 @@ import {
   sendCommunityMessage,
 } from '@/utils/Services/DataServices';
 import { formatPostTimeStamp } from '@/utils/Services/StyleHelpers';
-import { EllipsisVertical } from 'lucide-react';
+import { EllipsisVertical, MessageSquareReply, ThumbsUp } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState, useRef } from 'react';
 
@@ -120,7 +120,7 @@ const CommunityBoard: React.FC<CommunityBoardProps> = ({
                         isSender ? 'bg-[#3730A3] text-white' : 'bg-[#818CF8] text-black'
                       }`}
                     >
-                      <p className="text-[14px] font-bold">ML</p>
+                      <ThumbsUp size={20}/>
                     </div>
                   </div>
                   <div className="flex items-center gap-1">
@@ -130,7 +130,7 @@ const CommunityBoard: React.FC<CommunityBoardProps> = ({
                         isSender ? 'bg-[#3730A3] text-white' : 'bg-[#818CF8] text-black'
                       }`}
                     >
-                      <p className="text-[14px] font-bold">ML</p>
+                      <MessageSquareReply size={20}/>
                     </div>
                   </div>
                 </div>
