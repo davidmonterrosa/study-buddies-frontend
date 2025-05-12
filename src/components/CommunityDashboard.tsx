@@ -19,6 +19,7 @@ interface CommunityDashboardProps {
 const CommunityDashboard: React.FC<CommunityDashboardProps> = ({ communityId }) => {
   const [communityData, setCommunityData] = useState<ICommunityData>()
   const [sidebarOpen, setSidebarOpen] = useState(true)
+  const [showDM, setShowDM] = useState(false)
   const messageContainerRef = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
@@ -46,33 +47,45 @@ const CommunityDashboard: React.FC<CommunityDashboardProps> = ({ communityId }) 
       )}
 
       {/* Main Content */}
-      <main className="w-full p-2 transition-all duration-300 rounded-lg dark:bg-gradient-to-b dark:from-[#271E55] dark:to-[#100B28] dark:border-[2px] dark:border-[#aa7dfc40] bg-white  lg:p-4 drop-shadow-[0_3px_4px_rgba(0,0,0,0.25)]">
+      <main className="w-full p-2 transition-all duration-300 rounded-lg dark:bg-gradient-to-b dark:from-[#271E55] dark:to-[#100B28] dark:border-[2px] dark:border-[#aa7dfc40] bg-white lg:p-4 drop-shadow-[0_3px_4px_rgba(0,0,0,0.25)]">
         {/* Header */}
-        <header className="flex items-center gap-2 mb-4">
-          <button
-            onClick={() => setSidebarOpen(prev => !prev)}
-            className="text-black dark:text-white hidden lg:block"
-          >
-            <PanelLeft />
-          </button>
-          <h1 className="text-[2rem] font-bold text-black dark:text-white">
-            {communityData?.communityName || 'Community'}
-          </h1>
-          <span className="flex items-center gap-5">
-            <div
-              className={`${getDifficultyColor(communityData?.communityDifficulty || "Beginner")} text-center text-black rounded-[10px] py-[2px] px-[5px] max-h-10 w-36`}
+        <header className="flex flex-col items-center justify-center text-center gap-2 mb-2 lg:flex-row md:items-center md:justify-between">
+          {/* Button + Title + Badges as one group */}
+          <div className="flex flex-col items-center gap-2 md:flex-row md:items-center">
+            {/* Sidebar button (only visible on lg) */}
+            <button
+              onClick={() => setSidebarOpen(prev => !prev)}
+              className="text-black dark:text-white hidden lg:block"
             >
-              <p>{communityData?.communityDifficulty || "Beginner"}</p>
+              <PanelLeft />
+            </button>
+
+            {/* Title and badges together */}
+            <div className="flex flex-col  items-center gap-2 md:flex-row md:gap-5">
+              <h1 className="text-xl md:text-2xl lg:text-[30px] font-bold text-black dark:text-white">
+                {communityData?.communityName || 'Community'}
+              </h1>
+
+              {/* Difficulty & Subject badges */}
+              <div className="flex flex-wrap justify-center gap-4 md:gap-5">
+                <div className={`${getDifficultyColor( communityData?.communityDifficulty || 'Beginner' )}
+                 text-center text-black rounded-[10px] py-[2px] px-[5px] max-h-10 w-25 text-sm font-semibold`}
+                >
+                  <p>{communityData?.communityDifficulty || 'Beginner'}</p>
+                </div>
+                <div className="bg-[#818CF8] text-center rounded-[10px] py-[2px] px-[5px] max-h-10 w-25 text-sm font-semibold">
+                  <p>{communityData?.communitySubject || 'Subject'}</p>
+                </div>
+              </div>
             </div>
-            <div className="bg-[#818CF8] text-center rounded-[10px] py-[2px] px-[5px] max-h-10 w-36">
-              <p>{communityData?.communitySubject || "Subject"}</p>
-            </div>
-          </span>
+          </div>
         </header>
+
+
 
         {/* Tabs */}
         <Tabs defaultValue="communityBoardTab" className="flex flex-col h-[calc(90vh-8rem)]">
-          <TabsList className="sm:bg-transparent rounded-none gap-12 w-full">
+          <TabsList className="sm:bg-transparent rounded-none gap-6 w-full">
             <TabsTrigger value="communityBoardTab" className="tab-trigger">Community Board</TabsTrigger>
             <TabsTrigger value="sessionsTab" className="tab-trigger">Sessions</TabsTrigger>
             <TabsTrigger value="buddiesTab" className="tab-trigger">Buddies</TabsTrigger>
@@ -97,13 +110,15 @@ const CommunityDashboard: React.FC<CommunityDashboardProps> = ({ communityId }) 
             </TabsContent>
 
             <TabsContent value="buddiesTab" className="flex-grow overflow-y-auto">
-              {communityData && (
+              {communityData && !showDM && (
                 <BuddiesComponent
                   communityGroupId={communityId}
                   buddyCount={communityData.communityMemberCount}
                   buddies={communityData.communityMembers}
+                  onMessageClick={() => setShowDM(true)}
                 />
               )}
+              {showDM && <DirectMessage onBackClick={() => setShowDM(false)} />}
             </TabsContent>
           </div>
         </Tabs>

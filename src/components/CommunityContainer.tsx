@@ -35,7 +35,7 @@ const CommunityContainer: React.FC = () => {
           <button onClick={() => setSidebarOpen(prev => !prev)} className="text-black dark:text-white hidden lg:block">
             <PanelLeft />
           </button>
-          <h1 className="text-2xl font-bold text-black dark:text-white">
+          <h1 className="text-2xl text-center font-bold text-black dark:text-white">
             Explore Learning Communities
           </h1>
         </div>

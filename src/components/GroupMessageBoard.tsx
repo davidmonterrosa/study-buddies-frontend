@@ -152,8 +152,11 @@ const CommunityBoard: React.FC<CommunityBoardProps> = ({
             className="w-full pr-10 px-4 py-2 rounded-[15px] drop-shadow text-sm bg-[#F6F6F6] dark:bg-transparent dark:border dark:border-[#aa7dfc40] focus:outline-none focus:ring-2 focus:ring-[#818CF8] dark:focus:ring-[#a97dfc96]"
           />
           <button
-            className="absolute right-2 top-1/2 -translate-y-1/2 cursor-pointer"
+            className={`absolute right-2 top-1/2 -translate-y-1/2 cursor-pointer ${
+              messageText.trim() === '' ? 'text-gray-400' : 'text-[#818CF8]'
+            }`}
             onClick={handleSendMessage}
+            disabled={messageText.trim() === ''}
           >
             <svg
               width="27"
@@ -171,7 +174,9 @@ const CommunityBoard: React.FC<CommunityBoardProps> = ({
               <path
                 d="M3.9696 3.01198L23.6529 12.4257C24.2346 12.704 24.4807 13.4011 24.2025 13.9829C24.0874 14.2235 23.8935 14.4174 23.6529 14.5325L3.9696 23.9462C3.38783 24.2245 2.69066 23.9784 2.41242 23.3966C2.29151 23.1438 2.26555 22.856 2.33929 22.5856L4.30801 15.3668C4.35733 15.1859 4.51 15.0521 4.69575 15.0268L14.2337 13.7312C14.3159 13.7195 14.384 13.6655 14.4155 13.5917L14.4319 13.5331C14.4475 13.4236 14.3846 13.3211 14.2859 13.2825L14.2337 13.2689L4.70691 11.9733C4.52118 11.9481 4.36855 11.8142 4.31924 11.6334L2.33929 4.3726C2.16961 3.75044 2.53641 3.10853 3.15857 2.93885C3.42893 2.86512 3.71679 2.89107 3.9696 3.01198Z"
                 fill="currentColor"
-                className="text-[#818CF8] dark:fill-[url(#darkGradient)]"
+                className={`transition-colors duration-300 ${
+                  messageText.trim() === '' ? 'text-gray-400' : 'text-[#818CF8]'
+                }`}
               />
             </svg>
           </button>
