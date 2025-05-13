@@ -3,11 +3,13 @@ import { Navbar, NavbarBrand } from "flowbite-react";
 import Link from "next/link";
 import React, { useState, useEffect, useRef } from "react";
 import NotificationsSidebar from "./NotificationsSidebar";
-import ProfileSidebar from "./ProfileSidebar";
 import CreateCommunityModal from "./CreateCommunityModal";
 import MyCommunitiesSidebar from "./HamburgerMyCommunities";
 import Dropdown from "./FilterDropdown";
 import { currentUser, getLoggedInUserData } from "@/utils/Services/DataServices";
+import { DropdownMenu } from "./ui/dropdown-menu";
+import DropdownMenuProfile from "./DropdownMenu";
+
 
 const NavBarComponent: React.FC = () => {
   const [isOpenNotifications, setIsOpenNotifications] = useState(false);
@@ -16,7 +18,6 @@ const NavBarComponent: React.FC = () => {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [isOpenRight, setIsOpenRight] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
-
   const [selectedSubjects, setSelectedSubjects] = useState<string[]>([]);
   const [selectedDifficulties, setSelectedDifficulties] = useState<string[]>([]);
 
@@ -140,18 +141,8 @@ const NavBarComponent: React.FC = () => {
               <p className="text-xl">+</p>
               <p className="">Create</p>
             </button>
-
-            {/* Profile button with notification badge */}
-            <button className="hidden lg:block rounded-full size-12 font-bold bg-white dark:bg-gradient-to-b from-[#6F58DA] to-[#5131E7] cursor-pointer relative"
-              onClick={() => setIsOpenProfile(true)}
-            >
-              {userName.slice(0, 1).toUpperCase()}
-              {/* Badge - can be made clickable to directly open notifications */}
-              <span className="absolute top-[-4px] right-[-4px] bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center cursor-pointer"
-                onClick={(e) => { e.stopPropagation(); openNotificationsSidebar(); }}>
-                3
-              </span>
-            </button>
+            {/* Button for dropdown */}
+            <DropdownMenuProfile openNotificationsSidebar={openNotificationsSidebar}/>
 
             {/* Hamburger Icon */}
             <button className="lg:hidden cursor-pointer" onClick={() => setIsOpenRight(true)}>
@@ -163,7 +154,7 @@ const NavBarComponent: React.FC = () => {
 
       {/* Sidebars and Modals */}
       <MyCommunitiesSidebar isOpen={isOpenRight} onClose={closeMyCommunities} openNotificationsSidebar={openNotificationsSidebar} />
-      <NotificationsSidebar isOpen={isOpenNotifications} onBack={() => setIsOpenNotifications(false)} onClose={() => { setIsOpenNotifications(false);  setIsOpenProfile(false); }}/>      <ProfileSidebar isOpen={isOpenProfile} onClose={() => setIsOpenProfile(false)} openNotificationsSidebar={openNotificationsSidebar} />
+      <NotificationsSidebar isOpen={isOpenNotifications} onBack={() => setIsOpenNotifications(false)} onClose={() => { setIsOpenNotifications(false);  setIsOpenProfile(false); }}/> 
       <CreateCommunityModal isOpen={isOpenModal} onClose={() => setIsOpenModal(false)} />
     </>
   );

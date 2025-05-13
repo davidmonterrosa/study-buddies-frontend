@@ -70,8 +70,8 @@ export const SidebarLink = ({
     href={href}
     onClick={onClick}
     className={`block py-2 px-3 rounded-md text-sm transition ${isActive
-        ? "bg-[#818df8] text-white dark:bg-[#6f58da]"
-        : "bg-transparent text-black dark:text-white hover:bg-[rgba(129,140,248,0.25)]"
+      ? "bg-[#818df8] text-white dark:bg-[#6f58da]"
+      : "bg-transparent text-black dark:text-white hover:bg-[rgba(129,140,248,0.25)]"
       }`}
   >
     {text}
@@ -86,7 +86,7 @@ const MyCommunitiesSidebar: React.FC<MyCommunitiesSidebarProps> = ({
   const [activeCommunity, setActiveCommunity] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { communityGroups } = useAppContext();
-  
+
   // User data state
   const [userName, setUserName] = useState<string>("");
   const [firstName, setFirstName] = useState<string>("");
@@ -133,14 +133,14 @@ const MyCommunitiesSidebar: React.FC<MyCommunitiesSidebarProps> = ({
               onClick={onClose}
               aria-label="Close"
             >
-              <img src="/assets/panelClose.svg" className="cursor-pointer size-6 dark:invert" alt="Close panel Icon"/>
+              <img src="/assets/panelClose.svg" className="cursor-pointer size-6 dark:invert" alt="Close panel Icon" />
             </button>
 
             <button
               className="cursor-pointer flex items-center text-white bg-gradient-to-r from-[#6F58DA] to-[#5131E7] rounded-[7px] px-3 py-[1.5px] gap-1 w-full"
               onClick={() => setIsModalOpen(true)}
             >
-              <PlusCircle size={20}/>
+              <PlusCircle size={20} />
               <p className="text-[18px]">Create</p>
             </button>
           </div>
@@ -169,9 +169,20 @@ const MyCommunitiesSidebar: React.FC<MyCommunitiesSidebarProps> = ({
           {/* Sticky Footer */}
           <div className="sticky bottom-0 w-full px-4 py-5 border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-[#100B28] space-y-3">
             <div className="flex items-center gap-3 w-full relative">
-              <div className="bg-gradient-to-b from-[#6F58DA] to-[#5131E7] rounded-full w-[50px] h-[50px] flex items-center justify-center">
-                <p className="text-white text-[18px] font-bold">{userName.slice(0, 1).toUpperCase()}</p>
+              <div className="relative">
+                {/* Avatar */}
+                <div className="bg-gradient-to-b from-[#6F58DA] to-[#5131E7] rounded-full w-[50px] h-[50px] flex items-center justify-center">
+                  <p className="text-white text-[18px] font-bold">
+                    {userName.slice(0, 1).toUpperCase()}
+                  </p>
+                </div>
+
+                {/* Notification Badge */}
+                <span className="absolute top-[-4px] right-[-4px] bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center z-10">
+                  3
+                </span>
               </div>
+
               <div className="flex-1">
                 <p className="text-[16px] font-semibold text-black dark:text-white">
                   {firstName} {lastName}
@@ -190,7 +201,11 @@ const MyCommunitiesSidebar: React.FC<MyCommunitiesSidebarProps> = ({
               >
                 <div className="py-0">
                   <DropdownItem icon={User}>Account</DropdownItem>
-                  <DropdownItem icon={Bell} onClick={openNotificationsSidebar}>Notifications</DropdownItem>
+                  <DropdownItem icon={Bell} onClick={openNotificationsSidebar}>Notifications
+                    <span className="ml-auto bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                      3
+                    </span>
+                  </DropdownItem>
                   <hr className="my-1" />
                   <DropdownItem
                     icon={LogOut}
