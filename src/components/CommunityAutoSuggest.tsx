@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import Dropdown from './FilterDropdown';
 
 const CommunityAutoSuggest = () => {
     const [allCommunities, setAllCommunities] = useState<any[]>([]);
@@ -6,6 +7,14 @@ const CommunityAutoSuggest = () => {
     const [suggestions, setSuggestions] = useState<any[]>([]);
     const [selectedCommunity, setSelectedCommunity] = useState<any>(null);
     const [error, setError] = useState("");
+    const [isFilterOpen, setIsFilterOpen] = useState(false);
+    const [selectedSubjects, setSelectedSubjects] = useState<string[]>([]);
+    const [selectedDifficulties, setSelectedDifficulties] = useState<string[]>([]);
+    const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+
+    const filterRef = useRef<HTMLDivElement | null>(null);
+
+    
 
     useEffect(() => {
         const fetchData = async () => {
@@ -35,6 +44,24 @@ const CommunityAutoSuggest = () => {
         setSuggestions(filteredCommunities);
     }, [query, allCommunities]);
 
+      useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+          if (filterRef.current && !filterRef.current.contains(event.target as Node)) {
+            setIsFilterOpen(false);
+            setOpenDropdown(null);
+          }
+        };
+    
+        if (isFilterOpen) {
+          document.addEventListener("mousedown", handleClickOutside);
+        }
+    
+        return () => {
+          document.removeEventListener("mousedown", handleClickOutside);
+        };
+      }, [isFilterOpen]);
+    
+
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setQuery(event.target.value);
     };
@@ -45,14 +72,39 @@ const CommunityAutoSuggest = () => {
         setSuggestions([]);
     };
 
+    const handleSubjectToggle = (subject: string) => {
+        setSelectedSubjects((prev) =>
+            prev.includes(subject) ? prev.filter((s) => s !== subject) : [...prev, subject]
+        );
+    };
+
+      const handleDropdownToggle = (dropdown: string) => {
+        if (openDropdown === dropdown) {
+          setOpenDropdown(null);
+        } else {
+          setOpenDropdown(dropdown);
+        }
+      };
+
+    const handleDifficultyToggle = (difficulty: string) => {
+        setSelectedDifficulties((prev) =>
+            prev.includes(difficulty) ? prev.filter((d) => d !== difficulty) : [...prev, difficulty]
+        );
+    };
+
     return (
-        <div className="p-4 relative">
+        <>
+            {/* Searchbar */}
+          <div className="flex bg-white items-center xl:w-xl w-lg rounded-2xl border-2 px-3 py-[3px] relative">
+            <button className="size-9 mx-2 cursor-pointer">
+              <img className="w-[25px] h-[25px]" src="../assets/searchIcon.svg" alt="Search" />
+            </button>
             <input
                 type="text"
                 value={query}
                 onChange={handleInputChange}
-                placeholder="Search Community..."
-                className="border p-2 rounded w-full"
+                placeholder="Search Communities..."
+                className="border-0 w-full focus:outline-none text-black"
             />
 
             {suggestions.length > 0 && (
@@ -71,7 +123,7 @@ const CommunityAutoSuggest = () => {
 
             {error && <p className="text-red-500 mt-2">{error}</p>}
 
-            {selectedCommunity && (
+            {/* {selectedCommunity && (
                 <div className="mt-4 border p-4 rounded shadow">
                     <h2 className="text-xl font-bold">{selectedCommunity.communityName}</h2>
                     <p>Owner: {selectedCommunity.communityOwnerName}</p>
@@ -81,9 +133,39 @@ const CommunityAutoSuggest = () => {
                     <p>Description: {selectedCommunity.communityDescription}</p>
                     <p>Status: {selectedCommunity.communityIsPublic ? 'Public' : 'Private'}</p>
                 </div>
+            )} */}
+            <button onClick={() => setIsFilterOpen(!isFilterOpen)} className="relative">
+              <img className="w-[25px] h-[25px] cursor-pointer" src="/assets/filter.svg" alt="Filter" />
+            </button>
+
+            {isFilterOpen && (
+              <div ref={filterRef} className="absolute bg-white dark:bg-gray-800 border dark:border-gray-600 rounded-lg shadow-lg w-56 mt-2 z-10 right-0 top-12" >
+                <ul className="flex flex-col">
+                  <Dropdown
+                    title="Subject"
+                    selectedOptions={selectedSubjects}
+                    onToggleOption={handleSubjectToggle}
+                    isOpen={openDropdown === "subject"}
+                    onToggle={() => handleDropdownToggle("subject")}
+                  />
+                  <Dropdown
+                    title="Difficulty"
+                    selectedOptions={selectedDifficulties}
+                    onToggleOption={handleDifficultyToggle}
+                    isOpen={openDropdown === "difficulty"}
+                    onToggle={() => handleDropdownToggle("difficulty")}
+                  />
+                </ul>
+              </div>
             )}
-        </div>
+          </div>
+        </>
+
     );
 };
 
 export default CommunityAutoSuggest;
+
+// function handleSubjectToggle(option: string): void {
+//     throw new Error('Function not implemented.');
+// }
