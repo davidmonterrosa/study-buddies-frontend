@@ -91,6 +91,8 @@ const MyCommunitiesSidebar: React.FC<MyCommunitiesSidebarProps> = ({
   const [userName, setUserName] = useState<string>("");
   const [firstName, setFirstName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
+  const [ownedCommunities, setOwnedCommunities] = useState<number[]>([])
+  const [joinedCommunities, setJoinedCommunities] = useState<number[]>([])
 
   // Lock body scroll when drawer is open
   useEffect(() => {
@@ -116,6 +118,8 @@ const MyCommunitiesSidebar: React.FC<MyCommunitiesSidebarProps> = ({
         setUserName(loggedIn.user.username || "");
         setFirstName(loggedIn.user.firstName || "");
         setLastName(loggedIn.user.lastName || "");
+        setOwnedCommunities(loggedIn.user.ownedCommunitys);
+        setJoinedCommunities(loggedIn.user.joinedCommunitys);
       }
     };
 
@@ -148,21 +152,35 @@ const MyCommunitiesSidebar: React.FC<MyCommunitiesSidebarProps> = ({
           {/* Scrollable Middle Content */}
           <div className="flex-1 overflow-y-auto p-3 space-y-4">
             <CollapseSection label="Owned Communities" icon={Users}>
-              {communityGroups.map((communityGroup, idx) => (
-                <SidebarLink
-                  key={idx}
-                  text={communityGroup.communityName}
-                  href={`/communities/${communityGroup.id}`}
-                  isActive={activeCommunity === communityGroup.communityName}
-                  onClick={() => setActiveCommunity(communityGroup.communityName)}
-                />
-              ))}
+              {communityGroups.map((communityGroup, idx) => {
+                if(ownedCommunities.includes(communityGroup.id)) {
+                  return (
+                    <SidebarLink
+                      key={idx}
+                      text={communityGroup.communityName}
+                      href={`/communities/${communityGroup.id}`}
+                      isActive={activeCommunity === communityGroup.communityName}
+                      onClick={() => setActiveCommunity(communityGroup.communityName)}
+                    />
+                  )
+                }
+              })}
             </CollapseSection>
 
             <CollapseSection label="Joined Communities" icon={Group}>
-              <SidebarLink text="Design Club" href="/communities/design-club" />
-              <SidebarLink text="Tech Talk" href="/communities/tech-talk" />
-              <SidebarLink text="Code Masters" href="/communities/code-masters" />
+              {communityGroups.map((communityGroup, idx) => {
+                if(joinedCommunities.includes(communityGroup.id)) {
+                  return (
+                    <SidebarLink
+                      key={idx}
+                      text={communityGroup.communityName}
+                      href={`/communities/${communityGroup.id}`}
+                      isActive={activeCommunity === communityGroup.communityName}
+                      onClick={() => setActiveCommunity(communityGroup.communityName)}
+                    />
+                  )
+                }
+              })}
             </CollapseSection>
           </div>
 
