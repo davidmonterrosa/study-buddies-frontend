@@ -3,6 +3,7 @@ import { CommunityChats } from '@/utils/Interfaces/UserInterfaces';
 import {
   checkToken,
   currentUser,
+  getCommunityById,
   getLoggedInUserData,
   getToken,
   sendCommunityMessage,
@@ -24,6 +25,7 @@ const CommunityBoard: React.FC<CommunityBoardProps> = ({
   const [messageText, setmessageText] = useState<string>('');
   const [senderId, setSenderId] = useState<number>(0);
   const [senderName, setSenderName] = useState<string>('');
+  const [chatBoard, setChatBoard] = useState<CommunityChats[]>(chats)
   const router = useRouter();
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
@@ -42,8 +44,13 @@ const CommunityBoard: React.FC<CommunityBoardProps> = ({
       isEdited: false,
     };
 
-    await sendCommunityMessage(communityGroupId, messageToSend, getToken());
-    setmessageText('');
+    const wasSent = await sendCommunityMessage(communityGroupId, messageToSend, getToken());
+    console.log(wasSent)
+    if(wasSent) {
+      setmessageText('');
+      const updatedCommunityData = await getCommunityById(communityGroupId);
+      setChatBoard(updatedCommunityData.community.communityChats)
+    }
   };
 
   useEffect(() => {
@@ -66,13 +73,17 @@ const CommunityBoard: React.FC<CommunityBoardProps> = ({
     if (messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
     }
-  }, [chats]);
+  }, [chatBoard]);
+
+  // useEffect(() => {
+
+  // }, [chatBoard])
 
   return (
     <div className="flex flex-col h-full max-h-full overflow-hidden">
       {/* Scrollable Chat Messages */}
       <div className="flex-1 overflow-y-auto px-4 space-y-3 pt-4 pb-1 scrollbar">
-        {chats.map((chatItem, idx) => {
+        {chatBoard.map((chatItem, idx) => {
           const isSender = chatItem.userIdSender === senderId;
 
           return (

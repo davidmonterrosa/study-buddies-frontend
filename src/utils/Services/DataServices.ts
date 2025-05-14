@@ -217,20 +217,7 @@ export const joinCommunity = async (userId: number, communityId: number, token: 
         console.log(message);
         return false;
     }
-    
-    const addCommunityResponse = await fetch(`${url}User/AddCommunityToUser/${userId}/${communityId}`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": "Bearer " + token,
-        },
-    });
-    if(!addCommunityResponse.ok) {
-        const errorData = await addCommunityResponse.json();
-        const message = errorData.message;
-        console.log(message);
-        return false;
-    }
+        
     return { success: true };
 }
 
