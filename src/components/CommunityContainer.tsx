@@ -63,6 +63,7 @@ const CommunityContainer: React.FC = () => {
                 <CommunityCard
                   key={idx}
                   communityId={communityGroup.id}
+                  directLink={`communities/${communityGroup.id}`}
                   communityName={communityGroup.communityName}
                   subject={communityGroup.communitySubject}
                   buddies={communityGroup.communityMemberCount}

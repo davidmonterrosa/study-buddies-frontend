@@ -5,6 +5,7 @@ import CommunityPreview from "./CommunityPreview";
 
 interface CommunityCardProps {
   communityId: number;
+  directLink: string;
   communityName: string;
   subject: string;
   buddies: number;
@@ -17,6 +18,7 @@ interface CommunityCardProps {
 
 const CommunityCard: React.FC<CommunityCardProps> = ({
   communityId,
+  directLink,
   communityName,
   subject,
   buddies,
@@ -70,6 +72,7 @@ const CommunityCard: React.FC<CommunityCardProps> = ({
         <DialogTitle className="invisible"> Preview </DialogTitle>
         <CommunityPreview
           communityId={communityId}
+          directLink={directLink}
           communityName={communityName}
           subject={subject}
           buddies={buddies}
