@@ -1,9 +1,11 @@
+// import { ICommunityData } from "@/utils/Interfaces/UserInterfaces";
 import { checkToken, currentUser, getLoggedInUserData, getToken, joinCommunity, requestJoin } from "@/utils/Services/DataServices";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 interface PreviewProps {
   communityId: number;
+  directLink: string;
   communityName: string;
   subject: string;
   buddies: number;
@@ -17,6 +19,7 @@ interface PreviewProps {
 
 const CommunityPreview: React.FC<PreviewProps> = ({
   communityId,
+  directLink,
   communityName,
   subject,
   buddies,
@@ -30,12 +33,14 @@ const CommunityPreview: React.FC<PreviewProps> = ({
 
   const router = useRouter();
   const [userId, setUserId] = useState<number>(0)
+  const [myCommunities, setMyCommunities] = useState<number[]>([])
 
   useEffect(() => {
     const getLoggedInData = async () => {
       const loggedIn = await getLoggedInUserData(currentUser());
       if (loggedIn) {
         setUserId(loggedIn.user.id);
+        setMyCommunities(loggedIn.user.ownedCommunitys.concat(loggedIn.user.joinedCommunitys))
       }
     }
 
@@ -47,8 +52,12 @@ const CommunityPreview: React.FC<PreviewProps> = ({
   }, [])
 
   const handleJoinBtn = async () => {
-        const result = await joinCommunity(userId, communityId, getToken());
-        console.log(result)
+        if(!myCommunities.includes(communityId)){
+          const result = await joinCommunity(userId, communityId, getToken());
+          console.log(result)
+        } else {
+          router.push(directLink)
+        }
         // if (result.valueOf() == true) {
         //   console.log("Successfully created group")
         // } else {
@@ -57,8 +66,12 @@ const CommunityPreview: React.FC<PreviewProps> = ({
   }
 
   const handleRequestBtn = async () => {
-    const result = await requestJoin(userId, communityId, getToken());
-    console.log(result)
+    if(!myCommunities.includes(communityId)) {
+      const result = await requestJoin(userId, communityId, getToken());
+      console.log(result)
+    } else {
+      router.push(directLink)
+    }
   }
 
   return (
@@ -98,11 +111,11 @@ const CommunityPreview: React.FC<PreviewProps> = ({
           {
             isPublic ?
             <button className="px-4 py-2 bg-[#0E9E6E] text-white rounded-lg cursor-pointer" onClick={handleJoinBtn}>
-              Join
+              {myCommunities.includes(communityId) ? "Visit" : "Join"}
             </button>
             :
             <button className="px-4 py-2 bg-[#0E9E6E] text-white rounded-lg cursor-pointer" onClick={handleRequestBtn}>
-              Request
+              {myCommunities.includes(communityId) ? "Visit" : "Request"}
             </button>
           }
         </div>

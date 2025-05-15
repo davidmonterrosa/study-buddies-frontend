@@ -1,27 +1,23 @@
 "use client";
 import { Navbar, NavbarBrand } from "flowbite-react";
 import Link from "next/link";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState } from "react";
 import NotificationsSidebar from "./NotificationsSidebar";
 import CreateCommunityModal from "./CreateCommunityModal";
 import MyCommunitiesSidebar from "./HamburgerMyCommunities";
-import Dropdown from "./FilterDropdown";
-import { currentUser, getLoggedInUserData } from "@/utils/Services/DataServices";
-import { DropdownMenu } from "./ui/dropdown-menu";
+// import Dropdown from "./FilterDropdown";
+// import { currentUser, getLoggedInUserData } from "@/utils/Services/DataServices";
+// import { DropdownMenu } from "./ui/dropdown-menu";
 import DropdownMenuProfile from "./DropdownMenu";
+import CommunityAutoSuggest from "./CommunityAutoSuggest";
 
 
 const NavBarComponent: React.FC = () => {
   const [isOpenNotifications, setIsOpenNotifications] = useState(false);
-  const [isOpenProfile, setIsOpenProfile] = useState(false);
+  // const [isOpenProfile, setIsOpenProfile] = useState(false);
   const [isOpenModal, setIsOpenModal] = useState(false);
-  const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [isOpenRight, setIsOpenRight] = useState(false);
-  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
-  const [selectedSubjects, setSelectedSubjects] = useState<string[]>([]);
-  const [selectedDifficulties, setSelectedDifficulties] = useState<string[]>([]);
 
-  const filterRef = useRef<HTMLDivElement | null>(null);
 
   const closeMyCommunities = () => setIsOpenRight(false);
 
@@ -30,62 +26,26 @@ const NavBarComponent: React.FC = () => {
     setIsOpenNotifications(true);
   };
 
-  const handleSubjectToggle = (subject: string) => {
-    setSelectedSubjects((prev) =>
-      prev.includes(subject) ? prev.filter((s) => s !== subject) : [...prev, subject]
-    );
-  };
-
-  const handleDifficultyToggle = (difficulty: string) => {
-    setSelectedDifficulties((prev) =>
-      prev.includes(difficulty) ? prev.filter((d) => d !== difficulty) : [...prev, difficulty]
-    );
-  };
-
-  const handleDropdownToggle = (dropdown: string) => {
-    if (openDropdown === dropdown) {
-      setOpenDropdown(null);
-    } else {
-      setOpenDropdown(dropdown);
-    }
-  };
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (filterRef.current && !filterRef.current.contains(event.target as Node)) {
-        setIsFilterOpen(false);
-        setOpenDropdown(null);
-      }
-    };
-
-    if (isFilterOpen) {
-      document.addEventListener("mousedown", handleClickOutside);
-    }
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [isFilterOpen]);
 
   // User data state
-  const [userName, setUserName] = useState<string>("");
+  // const [userName, setUserName] = useState<string>("");
  
 
   // Fetch user data
-  useEffect(() => {
-    const getLoggedInData = async () => {
-      const user = await getLoggedInUserData(currentUser());
-      if (!user || !user.user.username) return;
+  // useEffect(() => {
+  //   const getLoggedInData = async () => {
+  //     const user = await getLoggedInUserData(currentUser());
+  //     if (!user || !user.user.username) return;
 
-      const loggedIn = await getLoggedInUserData(currentUser());
+  //     const loggedIn = await getLoggedInUserData(currentUser());
 
-      if (loggedIn) {
-        setUserName(loggedIn.user.username || "");
-      }
-    };
+  //     if (loggedIn) {
+  //       setUserName(loggedIn.user.username || "");
+  //     }
+  //   };
 
-    getLoggedInData();
-  }, []);
+  //   getLoggedInData();
+  // }, []);
 
   return (
     <>
@@ -101,37 +61,8 @@ const NavBarComponent: React.FC = () => {
             </NavbarBrand>
           </div>
 
-          {/* Searchbar */}
-          <div className="flex bg-white items-center xl:w-xl w-lg rounded-2xl border-2 px-3 py-[3px]">
-            <button className="size-9 mx-2 cursor-pointer">
-              <img className="w-[25px] h-[25px]" src="../assets/searchIcon.svg" alt="Search" />
-            </button>
-            <input className="border-0 w-full focus:outline-none text-black" placeholder="Search for Learning Communities" type="text"/>
-            <button onClick={() => setIsFilterOpen(!isFilterOpen)} className="relative">
-              <img className="w-[25px] h-[25px] cursor-pointer" src="/assets/filter.svg" alt="Filter" />
-            </button>
-
-            {isFilterOpen && (
-              <div ref={filterRef} className="absolute bg-white dark:bg-gray-800 border dark:border-gray-600 rounded-lg shadow-lg w-56 mt-2 z-10 right-0 top-12" >
-                <ul className="flex flex-col">
-                  <Dropdown
-                    title="Subject"
-                    selectedOptions={selectedSubjects}
-                    onToggleOption={handleSubjectToggle}
-                    isOpen={openDropdown === "subject"}
-                    onToggle={() => handleDropdownToggle("subject")}
-                  />
-                  <Dropdown
-                    title="Difficulty"
-                    selectedOptions={selectedDifficulties}
-                    onToggleOption={handleDifficultyToggle}
-                    isOpen={openDropdown === "difficulty"}
-                    onToggle={() => handleDropdownToggle("difficulty")}
-                  />
-                </ul>
-              </div>
-            )}
-          </div>
+          {/* Search Bar with Auto-Suggest */}
+          <CommunityAutoSuggest/>
 
           {/* Right-side controls */}
           <div className="flex items-center gap-3">
@@ -154,7 +85,7 @@ const NavBarComponent: React.FC = () => {
 
       {/* Sidebars and Modals */}
       <MyCommunitiesSidebar isOpen={isOpenRight} onClose={closeMyCommunities} openNotificationsSidebar={openNotificationsSidebar} />
-      <NotificationsSidebar isOpen={isOpenNotifications} onBack={() => setIsOpenNotifications(false)} onClose={() => { setIsOpenNotifications(false);  setIsOpenProfile(false); }}/> 
+      <NotificationsSidebar isOpen={isOpenNotifications} onBack={() => setIsOpenNotifications(false)} onClose={() => { setIsOpenNotifications(false);  /*setIsOpenProfile(false);*/ }}/> 
       <CreateCommunityModal isOpen={isOpenModal} onClose={() => setIsOpenModal(false)} />
     </>
   );
