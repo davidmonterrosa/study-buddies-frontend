@@ -18,7 +18,7 @@ import {
 } from "lucide-react";
 import { useAppContext } from "@/context/CommunityContext";
 import Link from "next/link";
-import CreateCommunityModal from "./CreateCommunityModal";
+import CreateCommunityModal from "./CreateModal";
 import { currentUser, getLoggedInUserData } from "@/utils/Services/DataServices";
 
 interface MyCommunitiesSidebarProps {

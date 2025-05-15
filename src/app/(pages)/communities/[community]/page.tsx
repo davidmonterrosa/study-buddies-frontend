@@ -1,4 +1,4 @@
-import CommunityDashboard from '@/components/CommunityDashboard';
+import CommunityDashboard from '@/components/Dashboard';
 import React from 'react'
 
 const CommunityPage = async ({ params }: {params: Promise<{community: number}>}) => {

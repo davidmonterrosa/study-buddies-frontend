@@ -9,7 +9,7 @@ import { ICommunityData } from '@/utils/Interfaces/UserInterfaces'
 import BuddiesComponent from './BuddiesComponent'
 import DirectMessage from './DirectMessage'
 import CommunityBoard from './GroupMessageBoard'
-import MyCommunitiesPanel from './MyCommunitiesPanel'
+import MyCommunitiesPanel from './SidePanel'
 import { PanelLeft } from 'lucide-react'
 
 interface CommunityDashboardProps {

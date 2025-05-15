@@ -1,4 +1,4 @@
-import CommunityContainer from '@/components/CommunityContainer'
+import CommunityContainer from '@/components/ExploreContainer'
 import React from 'react'
 
 const Dashboard: React.FC = () => {

@@ -1,10 +1,10 @@
 'use client'
-import CommunityCard from '@/components/CommunityCard'
+import CommunityCard from '@/components/Card'
 import { ICommunityData } from '@/utils/Interfaces/UserInterfaces';
 import { getAllCommunities, getToken } from '@/utils/Services/DataServices';
 import { PanelLeft } from 'lucide-react';
 import React, { useEffect, useState } from 'react'
-import MyCommunitiesPanel from './MyCommunitiesPanel';
+import MyCommunitiesPanel from './SidePanel';
 import { useIsMobile } from '@/hooks/use-mobile';
 
 const CommunityContainer: React.FC = () => {
@@ -12,7 +12,7 @@ const CommunityContainer: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const isMobile = useIsMobile();
-  const pageSize = isMobile ? 6 : 12;
+  const pageSize = isMobile ? 8 : 12;
 
   useEffect(() => {
     const fetchMyCommunities = async () => {
@@ -41,7 +41,7 @@ const CommunityContainer: React.FC = () => {
       )}
 
       {/* Main content area */}
-      <div className={`transition-all duration-400 w-full min-h-[calc(0.68*100vh)] bg-white rounded-lg dark:bg-gradient-to-b dark:from-[#271E55] dark:to-[#100B28] dark:border-[2px] dark:border-[#aa7dfc40] p-4 drop-shadow-[0_2px_3px_rgba(0,0,0,0.25)] flex flex-col`}>
+      <div className={`transition-all duration-400 w-full min-h-[calc(0.68*100vh)] bg-white rounded-none lg:rounded-lg dark:bg-gradient-to-b dark:from-[#271E55] dark:to-[#100B28] lg:dark:border-[2px] lg:dark:border-[#aa7dfc40] p-4 drop-shadow-[0_2px_3px_rgba(0,0,0,0.25)] flex flex-col`}>
 
         {/* Header */}
         <div className='flex items-center gap-2 mb-4'>
@@ -54,9 +54,9 @@ const CommunityContainer: React.FC = () => {
         </div>
 
         {/* Scrollable content area */}
-        <div style={{ height: 'calc(0.80 * 100vh - 1rem)' }}>
+        <div  style={isMobile ? {} : { height: 'calc(0.80 * 100vh - 1rem)' }}>
           <div
-            className={`grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 ${sidebarOpen ? 'lg:grid-cols-3' : 'lg:grid-cols-4 2xl:grid-cols-5'} xl:grid-cols-4 gap-4`}
+            className={`grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 ${sidebarOpen ? 'lg:grid-cols-3' : 'lg:grid-cols-4 2xl:grid-cols-5'} xl:grid-cols-4  gap-4`}
           >
             {
               paginatedCommunities.map((communityGroup: ICommunityData, idx: number) => (
@@ -84,7 +84,7 @@ const CommunityContainer: React.FC = () => {
                   onClick={() => setCurrentPage(idx + 1)}
                   className={`px-3 py-1 rounded border ${
                     currentPage === idx + 1
-                      ? 'bg-blue-600 text-white'
+                      ? 'bg-gradient-to-r from-[#6F58DA] to-[#5131E7] text-white'
                       : 'bg-gray-200 dark:bg-gray-700 text-black dark:text-white'
                   }`}
                 >

@@ -3,12 +3,12 @@ import { Navbar, NavbarBrand } from "flowbite-react";
 import Link from "next/link";
 import React, { useState } from "react";
 import NotificationsSidebar from "./NotificationsSidebar";
-import CreateCommunityModal from "./CreateCommunityModal";
-import MyCommunitiesSidebar from "./HamburgerMyCommunities";
+import CreateCommunityModal from "./CreateModal";
+import MyCommunitiesSidebar from "./MobileSidebar";
 // import Dropdown from "./FilterDropdown";
 // import { currentUser, getLoggedInUserData } from "@/utils/Services/DataServices";
 // import { DropdownMenu } from "./ui/dropdown-menu";
-import DropdownMenuProfile from "./DropdownMenu";
+import DropdownMenuProfile from "./ProfileMenu";
 import CommunityAutoSuggest from "./CommunityAutoSuggest";
 
 
