@@ -15,7 +15,11 @@ const BuddiesComponent: React.FC<BuddyComponentProps> = ({
   buddies,
   onMessageClick
 }) => {
+
+  // const [communityData, setCommunityData] = useState<ICommunityData>()
+
   useEffect(() => {
+    // const communityInfo
     console.log(communityGroupId)
     console.log(buddyCount)
   }, [])
@@ -43,6 +47,11 @@ const BuddiesComponent: React.FC<BuddyComponentProps> = ({
                       </p>
                     </div>
                   }
+
+
+                  <button>
+
+                  </button>
                   <button
                     onClick={onMessageClick}
                     className="ml-auto bg-[#818CF8] cursor-pointer rounded-full w-[30px] h-[30px] flex items-center justify-center"

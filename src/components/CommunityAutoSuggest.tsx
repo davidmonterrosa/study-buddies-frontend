@@ -1,11 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Dropdown from './FilterDropdown';
+import { ICommunityData } from '@/utils/Interfaces/UserInterfaces';
 
 const CommunityAutoSuggest = () => {
-    const [allCommunities, setAllCommunities] = useState<any[]>([]);
+    const [allCommunities, setAllCommunities] = useState<ICommunityData[]>([]);
     const [query, setQuery] = useState("");
-    const [suggestions, setSuggestions] = useState<any[]>([]);
-    const [selectedCommunity, setSelectedCommunity] = useState<any>(null);
+    const [suggestions, setSuggestions] = useState<ICommunityData[]>([]);
+    // const [selectedCommunity, setSelectedCommunity] = useState<ICommunityData | null>(null);
     const [error, setError] = useState("");
     const [isFilterOpen, setIsFilterOpen] = useState(false);
     const [selectedSubjects, setSelectedSubjects] = useState<string[]>([]);
@@ -41,6 +42,7 @@ const CommunityAutoSuggest = () => {
             community && community.communityName &&
             community.communityName.toLowerCase().startsWith(query.toLowerCase())
         ).slice(0, 5);
+
         setSuggestions(filteredCommunities);
     }, [query, allCommunities]);
 
@@ -66,8 +68,8 @@ const CommunityAutoSuggest = () => {
         setQuery(event.target.value);
     };
 
-    const handleSelectCommunity = (community: any) => {
-        setSelectedCommunity(community);
+    const handleSelectCommunity = (community: ICommunityData) => {
+        // setSelectedCommunity(community);
         setQuery(community.communityName);
         setSuggestions([]);
     };

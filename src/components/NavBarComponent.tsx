@@ -1,20 +1,20 @@
 "use client";
 import { Navbar, NavbarBrand } from "flowbite-react";
 import Link from "next/link";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState } from "react";
 import NotificationsSidebar from "./NotificationsSidebar";
 import CreateCommunityModal from "./CreateCommunityModal";
 import MyCommunitiesSidebar from "./HamburgerMyCommunities";
-import Dropdown from "./FilterDropdown";
-import { currentUser, getLoggedInUserData } from "@/utils/Services/DataServices";
-import { DropdownMenu } from "./ui/dropdown-menu";
+// import Dropdown from "./FilterDropdown";
+// import { currentUser, getLoggedInUserData } from "@/utils/Services/DataServices";
+// import { DropdownMenu } from "./ui/dropdown-menu";
 import DropdownMenuProfile from "./DropdownMenu";
 import CommunityAutoSuggest from "./CommunityAutoSuggest";
 
 
 const NavBarComponent: React.FC = () => {
   const [isOpenNotifications, setIsOpenNotifications] = useState(false);
-  const [isOpenProfile, setIsOpenProfile] = useState(false);
+  // const [isOpenProfile, setIsOpenProfile] = useState(false);
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [isOpenRight, setIsOpenRight] = useState(false);
 
@@ -28,24 +28,24 @@ const NavBarComponent: React.FC = () => {
 
 
   // User data state
-  const [userName, setUserName] = useState<string>("");
+  // const [userName, setUserName] = useState<string>("");
  
 
   // Fetch user data
-  useEffect(() => {
-    const getLoggedInData = async () => {
-      const user = await getLoggedInUserData(currentUser());
-      if (!user || !user.user.username) return;
+  // useEffect(() => {
+  //   const getLoggedInData = async () => {
+  //     const user = await getLoggedInUserData(currentUser());
+  //     if (!user || !user.user.username) return;
 
-      const loggedIn = await getLoggedInUserData(currentUser());
+  //     const loggedIn = await getLoggedInUserData(currentUser());
 
-      if (loggedIn) {
-        setUserName(loggedIn.user.username || "");
-      }
-    };
+  //     if (loggedIn) {
+  //       setUserName(loggedIn.user.username || "");
+  //     }
+  //   };
 
-    getLoggedInData();
-  }, []);
+  //   getLoggedInData();
+  // }, []);
 
   return (
     <>
@@ -85,7 +85,7 @@ const NavBarComponent: React.FC = () => {
 
       {/* Sidebars and Modals */}
       <MyCommunitiesSidebar isOpen={isOpenRight} onClose={closeMyCommunities} openNotificationsSidebar={openNotificationsSidebar} />
-      <NotificationsSidebar isOpen={isOpenNotifications} onBack={() => setIsOpenNotifications(false)} onClose={() => { setIsOpenNotifications(false);  setIsOpenProfile(false); }}/> 
+      <NotificationsSidebar isOpen={isOpenNotifications} onBack={() => setIsOpenNotifications(false)} onClose={() => { setIsOpenNotifications(false);  /*setIsOpenProfile(false);*/ }}/> 
       <CreateCommunityModal isOpen={isOpenModal} onClose={() => setIsOpenModal(false)} />
     </>
   );

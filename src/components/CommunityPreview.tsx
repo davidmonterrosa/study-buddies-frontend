@@ -1,5 +1,5 @@
-import { ICommunityData } from "@/utils/Interfaces/UserInterfaces";
-import { checkToken, currentUser, getLoggedInUserData, getMyCommunities, getToken, joinCommunity, requestJoin } from "@/utils/Services/DataServices";
+// import { ICommunityData } from "@/utils/Interfaces/UserInterfaces";
+import { checkToken, currentUser, getLoggedInUserData, getToken, joinCommunity, requestJoin } from "@/utils/Services/DataServices";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
