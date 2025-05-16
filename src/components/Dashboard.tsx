@@ -55,7 +55,7 @@ const CommunityDashboard: React.FC<CommunityDashboardProps> = ({ communityId }) 
             {/* Sidebar button (only visible on lg) */}
             <button
               onClick={() => setSidebarOpen(prev => !prev)}
-              className="text-black dark:text-white hidden lg:block"
+              className="text-black cursor-pointer dark:text-white hidden lg:block"
             >
               <PanelLeft />
             </button>

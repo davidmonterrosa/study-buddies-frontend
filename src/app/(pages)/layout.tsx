@@ -9,7 +9,7 @@ const Layout = ({
   children: React.ReactNode;
 }>) => {
   return (
-    <div className="bg-white dark:bg-[#110C29] min-h-[calc(100vh-70px)]">
+    <div className="bg-white dark:bg-[#110C29] min-h-screen">
       <NavBarComponent />
       <section className="flex flex-row gap-6 lg:p-4">
         {children}
