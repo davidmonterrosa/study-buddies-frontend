@@ -14,12 +14,16 @@ import {
   User,
   Bell,
   LogOut,
-  PlusCircle
+  PlusCircle,
+  Trash
 } from "lucide-react";
 import { useAppContext } from "@/context/CommunityContext";
 import Link from "next/link";
 import CreateCommunityModal from "./CreateModal";
 import { currentUser, getLoggedInUserData } from "@/utils/Services/DataServices";
+import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
+import { Dialog } from "./ui/dialog";
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "./ui/alert-dialog";
 
 interface MyCommunitiesSidebarProps {
   isOpen: boolean;
@@ -66,16 +70,37 @@ export const SidebarLink = ({
   isActive?: boolean;
   onClick?: () => void;
 }) => (
-  <Link
-    href={href}
-    onClick={onClick}
-    className={`block py-2 px-3 rounded-md text-sm transition ${isActive
-      ? "bg-[#818df8] text-white dark:bg-[#6f58da]"
-      : "bg-transparent text-black dark:text-white hover:bg-[rgba(129,140,248,0.25)]"
-      }`}
-  >
-    {text}
-  </Link>
+  <div className="flex justify-between items-center">
+    <Link
+      href={href}
+      onClick={onClick}
+      className={`block py-2 px-3 rounded-md text-sm transition ${isActive
+        ? "bg-[#818df8] text-white dark:bg-[#6f58da]"
+        : "bg-transparent text-black dark:text-white hover:bg-[rgba(129,140,248,0.25)]"
+        }`}
+    >
+      {text}
+    </Link>
+    <AlertDialog>
+  <AlertDialogTrigger>
+    <Trash/>
+  </AlertDialogTrigger>
+  <AlertDialogContent>
+    <AlertDialogHeader>
+      <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+      <AlertDialogDescription>
+        This action cannot be undone. This will permanently delete your account
+        and remove your data from our servers.
+      </AlertDialogDescription>
+    </AlertDialogHeader>
+    <AlertDialogFooter>
+      <AlertDialogCancel>Cancel</AlertDialogCancel>
+      <AlertDialogAction>Continue</AlertDialogAction>
+    </AlertDialogFooter>
+  </AlertDialogContent>
+</AlertDialog>
+
+  </div>
 );
 
 const MyCommunitiesSidebar: React.FC<MyCommunitiesSidebarProps> = ({
