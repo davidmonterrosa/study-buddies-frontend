@@ -18,8 +18,10 @@ import {
 } from "lucide-react";
 import { useAppContext } from "@/context/CommunityContext";
 import Link from "next/link";
-import CreateCommunityModal from "./CreateModal";
+
 import { currentUser, getLoggedInUserData } from "@/utils/Services/DataServices";
+import CreateCommunityModal from "./CreateModal";
+
 
 interface MyCommunitiesSidebarProps {
   isOpen: boolean;
@@ -242,7 +244,10 @@ const MyCommunitiesSidebar: React.FC<MyCommunitiesSidebarProps> = ({
         </div>
       </Drawer>
 
-      <CreateCommunityModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+      <CreateCommunityModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        />
     </>
   );
 };

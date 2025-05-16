@@ -11,6 +11,8 @@ import DirectMessage from './DirectMessage'
 import CommunityBoard from './GroupMessageBoard'
 import MyCommunitiesPanel from './SidePanel'
 import { PanelLeft } from 'lucide-react'
+import SessionsComponent from './SessionsComponent'
+import { CreateSessionModal } from './CreateSession'
 
 interface CommunityDashboardProps {
   communityId: number;
@@ -61,7 +63,7 @@ const CommunityDashboard: React.FC<CommunityDashboardProps> = ({ communityId }) 
             </button>
 
             {/* Title and badges together */}
-            <div className="flex flex-col  items-center gap-2 md:flex-row md:gap-5">
+            <div className="flex flex-col  items-center gap-2 lg:flex-row lg:gap-5">
               <h1 className="text-xl md:text-2xl lg:text-[30px] font-bold text-black dark:text-white">
                 {communityData?.communityName || 'Community'}
               </h1>
@@ -104,9 +106,10 @@ const CommunityDashboard: React.FC<CommunityDashboardProps> = ({ communityId }) 
                 </div>
               )}
             </TabsContent>
-
             <TabsContent value="sessionsTab" className="flex-grow overflow-y-auto">
-              <DirectMessage />
+              <SessionsComponent/>
+              <CreateSessionModal/>
+              
             </TabsContent>
 
             <TabsContent value="buddiesTab" className="flex-grow overflow-y-auto">
