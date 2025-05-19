@@ -90,26 +90,29 @@ const CommunityDashboard: React.FC<CommunityDashboardProps> = ({ communityId }) 
 
           {/* Right side: Create Session Modal (conditionally shown) */}
           {activeTab === 'sessionsTab' && (
-  <div className="mt-2 lg:mt-0">
-          <Dialog>
-            <DialogTrigger asChild>
-              <Button className=" hidden lg:flex items-center justify-center cursor-pointer text-white bg-gradient-to-r from-[#6F58DA] to-[#5131E7] rounded-lg px-[18px] py-2.5 gap-1">
-                <img className="w-[25px] h-[25px] invert" src="/assets/sessions.svg" alt="Join Sessions" />
-                <p>Create Session</p>
-              </Button>
-            </DialogTrigger>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>Create a Session</DialogTitle>
-                <DialogDescription>
-                  Fill out the form below to schedule your new session.
-                </DialogDescription>
-              </DialogHeader>
-              <CreateSessionModal />
-            </DialogContent>
-          </Dialog>
-          </div>
-        )}
+            <div className="mt-2 lg:mt-0">
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button className=" hidden lg:flex items-center justify-center cursor-pointer text-white bg-gradient-to-r from-[#6F58DA] to-[#5131E7] rounded-lg px-[18px] py-2.5 gap-1">
+                    <img className="w-[25px] h-[25px] invert" src="/assets/sessions.svg" alt="Join Sessions" />
+                    <p>Create Session</p>
+                  </Button>
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogHeader>
+                    <div className="flex flex-col items-center">
+                      <div className="bg-[#818CF8] w-[50px] h-[50px] rounded-full flex items-center justify-center">
+                        <img className="w-[35px] h-[35px]" src="/assets/sessions.svg" alt="Join Sessions" />
+                      </div>
+                      <DialogTitle className="text-xl font-bold mt-2">Create a Session</DialogTitle>
+                      <DialogDescription>Fill in the details below to schedule your session.</DialogDescription>
+                    </div>
+                  </DialogHeader>
+                  <CreateSessionModal />
+                </DialogContent>
+              </Dialog>
+            </div>
+          )}
 
 
         </header>

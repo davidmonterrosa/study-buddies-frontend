@@ -23,8 +23,8 @@ const CreateSessionModal = () => {
   };
 
   return (
-    <div className="space-y-4">
-      <div>
+    <div className="grid gap-4 py-4">
+      <div className="grid gap-2">
         <Label htmlFor="sessionName">Session Name</Label>
         <Input
           id="sessionName"
@@ -33,7 +33,7 @@ const CreateSessionModal = () => {
           onChange={(e) => setSessionName(e.target.value)}
         />
       </div>
-      <div>
+      <div className="grid gap-2">
         <Label htmlFor="date">
           <div className="flex items-center gap-1">
             <CalendarIcon className="w-4 h-4" />
@@ -48,7 +48,7 @@ const CreateSessionModal = () => {
           className="dark:[color-scheme:dark]"
         />
       </div>
-      <div>
+      <div className="grid gap-2">
         <Label>
           <div className="flex items-center gap-1">
             <Clock className="w-4 h-4" />
@@ -62,7 +62,7 @@ const CreateSessionModal = () => {
           className="dark:[color-scheme:dark]"
         />
       </div>
-      <div>
+      <div className="grid gap-2">
         <Label>End Time</Label>
         <Input
           type="time"
@@ -71,7 +71,7 @@ const CreateSessionModal = () => {
           className="dark:[color-scheme:dark]"
         />
       </div>
-      <div>
+      <div className="grid gap-2">
         <Label htmlFor="link">Link</Label>
         <Input
           id="link"
