@@ -150,7 +150,7 @@ const CommunityBoard: React.FC<CommunityBoardProps> = ({
       </div>
 
       {/* Message Input */}
-      <div className="p-1 flex items-center bg-white dark:bg-[#0e0724] rounded-b-[15px] sticky bottom-0 z-10">
+      <div className="p-1 flex items-center sticky bottom-0 z-10">
         <div className="relative flex-1">
           <input
             type="text"

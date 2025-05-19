@@ -45,7 +45,8 @@ const CommunityDashboard: React.FC<CommunityDashboardProps> = ({ communityId }) 
   }, [communityData?.communityChats])
 
   return (
-    <div className={`flex w-full h-screen lg:h-[88vh] ${sidebarOpen ? 'lg:gap-4' : ''}`}>
+    <div className={`flex w-full h-[calc(100vh-62px)] lg:h-[calc(0.90*100vh-1rem)]
+    ${sidebarOpen ? 'lg:gap-4' : ''}`}>
       {/* Sidebar */}
       {sidebarOpen && (
         <div className="hidden lg:block w-[300px] transition-all duration-300">
@@ -54,7 +55,7 @@ const CommunityDashboard: React.FC<CommunityDashboardProps> = ({ communityId }) 
       )}
 
       {/* Main Content */}
-      <main className="w-full p-2 transition-all duration-300 rounded-lg dark:bg-gradient-to-b dark:from-[#271E55] dark:to-[#100B28] dark:border-[2px] dark:border-[#aa7dfc40] bg-white lg:p-4 drop-shadow-[0_3px_4px_rgba(0,0,0,0.25)]">
+      <main className="w-full p-2 transition-all duration-300 lg:rounded-lg dark:bg-gradient-to-b dark:from-[#271E55] dark:to-[#100B28] lg:dark:border-[2px] lg:dark:border-[#aa7dfc40] bg-white lg:p-4 drop-shadow-[0_3px_4px_rgba(0,0,0,0.25)]">
 
         {/* Header */}
         <header className="flex flex-col items-center justify-center text-center gap-2 lg:flex-row md:items-center md:justify-between">
@@ -118,7 +119,7 @@ const CommunityDashboard: React.FC<CommunityDashboardProps> = ({ communityId }) 
         </header>
 
         {/* Tabs */}
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="flex flex-col h-[calc(90vh-8rem)]">
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="flex flex-col  h-[90%] lg:h-[94%] xl:h-[96%]">
           <TabsList className="bg-[#F6F6F6] dark:bg-[#140D34] dark:border dark:border-[#aa7dfc40] lg:border-0 lg:bg-transparent lg:dark:bg-transparent lg:dark:border-0 gap-6 w-full rounded-lg">
             <TabsTrigger value="communityBoardTab" className="tab-trigger cursor-pointer">Community Board</TabsTrigger>
             <TabsTrigger value="sessionsTab" className="tab-trigger cursor-pointer">Sessions</TabsTrigger>
@@ -139,7 +140,7 @@ const CommunityDashboard: React.FC<CommunityDashboardProps> = ({ communityId }) 
               )}
             </TabsContent>
 
-            <TabsContent value="sessionsTab" className="flex-grow overflow-y-auto">
+            <TabsContent value="sessionsTab" className="flex-grow overflow-y-auto scrollbar">
               <SessionsComponent />
             </TabsContent>
 
