@@ -214,7 +214,7 @@ const MyCommunitiesSidebar: React.FC<MyCommunitiesSidebarProps> = ({
                 placement="top-start"
                 renderTrigger={() => (
                   <button className="p-1 rounded hover:bg-gray-200 dark:hover:bg-gray-700">
-                    <EllipsisVertical className="w-5 h-5 text-black dark:text-white" />
+                    <EllipsisVertical className="w-5 h-5 text-black dark:text-white cursor-pointer" />
                   </button>
                 )}
                 className="w-full -translate-y-3 border border-gray-200 dark:border-[#aa7dfc] bg-white dark:bg-[#140D34]"

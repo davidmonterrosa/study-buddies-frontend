@@ -80,25 +80,25 @@ const DropdownMenuProfile: React.FC<DropdownMenuProfileProps> = ({ openNotificat
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
-                    <DropdownMenuItem>
+                    <DropdownMenuItem className="cursor-pointer">
                         <User className="mr-2 h-4 w-4 text-black dark:text-white" />
                         Account
                     </DropdownMenuItem>
-                    <DropdownMenuItem onClick={openNotificationsSidebar}>
+                    <DropdownMenuItem className="cursor-pointer" onClick={openNotificationsSidebar}>
                         <Bell className="mr-2 h-4 w-4 text-black dark:text-white" />
                         Notifications
                         <span className="ml-auto bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
                             3
                         </span>
                     </DropdownMenuItem>
-                    <DropdownMenuItem>
+                    <DropdownMenuItem >
                        <ThemeToggleDropdownItem/>
                     </DropdownMenuItem>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem
                     onClick={logout}
-                    className="text-red-600 dark:text-red-500"
+                    className="text-red-600 dark:text-red-500 cursor-pointer"
                 >
                     <LogOut className="mr-2 h-4 w-4 text-black dark:text-white" />
                     Log out

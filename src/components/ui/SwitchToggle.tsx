@@ -24,7 +24,7 @@ interface SwitchToggleProps {
             checked ? "translate-x-5" : "translate-x-0"
           }`}
         />
-        <span className="ml-3 text-sm font-medium select-none text-white">
+        <span className="ml-3 text-sm font-medium select-none dark:text-white">
           {checked ? labelOn : labelOff}
         </span>
       </label>

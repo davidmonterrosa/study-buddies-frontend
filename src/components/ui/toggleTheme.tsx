@@ -23,7 +23,7 @@ export function ThemeToggleDropdownItem() {
   };
 
   return (
-    <DropdownMenuItem className="p-0" onClick={toggleTheme}>
+    <DropdownMenuItem className="p-0 cursor-pointer" onClick={toggleTheme}>
       {isDark ? <Sun className="mr-2 h-4 w-4 text-white" /> : <Moon className="mr-2 h-4 w-4 text-black" />}
       Theme
     </DropdownMenuItem>

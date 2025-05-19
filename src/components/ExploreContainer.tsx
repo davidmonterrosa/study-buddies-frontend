@@ -67,7 +67,7 @@ const CommunityContainer: React.FC = () => {
                 className={`px-3 py-1 rounded border ${
                   currentPage === idx + 1
                     ? 'bg-gradient-to-r from-[#6F58DA] to-[#5131E7] text-white'
-                    : 'bg-gray-200 dark:bg-gray-700 text-black dark:text-white'
+                    : 'bg-gray-200 dark:bg-gray-700 text-black dark:text-white cursor-pointer'
                 }`}
               >
                 {idx + 1}

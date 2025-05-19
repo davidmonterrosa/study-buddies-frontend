@@ -151,7 +151,7 @@ const CreateCommunityModal: React.FC<CreateCommunityModalProps> = ({ isOpen, onC
             <p className="font-medium">Subject Area</p>
             <div ref={subjectDropdownRef} className="relative">
               <button
-                className="w-full text-left text-[16px] bg-gradient-to-r from-[#6F58DA] to-[#5131E7] text-white border rounded-[10px] px-4 py-2 flex justify-between items-center"
+                className="w-full text-left text-[16px] bg-gradient-to-r from-[#6F58DA] to-[#5131E7] text-white border rounded-[10px] px-4 py-2 flex justify-between items-center cursor-pointer"
                 onClick={() => setShowSubjectDropdown(!showSubjectDropdown)}
               >
                 {comSubject || "Select a Subject"}
@@ -160,12 +160,12 @@ const CreateCommunityModal: React.FC<CreateCommunityModalProps> = ({ isOpen, onC
                 </svg>
               </button>
               {showSubjectDropdown && (
-                <div className="absolute mt-1 w-full bg-white text-black border rounded-md shadow-lg z-10">
+                <div className="absolute mt-1 w-full dark:bg-zinc-950  bg-white border rounded-md shadow-lg z-10">
                   {["Exams", "Mathematics", "Science", "Language", "Social Science", "Arts and Humanities"].map(
                     (subject) => (
                       <div
                         key={subject}
-                        className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                        className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-zinc-900 cursor-pointer"
                         onClick={() => {
                           setComSubject(subject);
                           setShowSubjectDropdown(false);
@@ -175,10 +175,10 @@ const CreateCommunityModal: React.FC<CreateCommunityModalProps> = ({ isOpen, onC
                       </div>
                     )
                   )}
-                  <div className="border-t px-4 py-2">
+                  <div className="border-t border-slate-200 dark:border-zinc-900 px-4 py-2">
                     <input
                       type="text"
-                      className="w-full border rounded px-2 py-1"
+                      className="w-full border rounded border-slate-300 dark:border-zinc-900  px-2 py-1"
                       placeholder="Enter custom subject"
                       value={comSubject}
                       onChange={(e) => setComSubject(e.target.value)}
@@ -196,7 +196,7 @@ const CreateCommunityModal: React.FC<CreateCommunityModalProps> = ({ isOpen, onC
             <p className="font-medium">Difficulty Level</p>
             <div ref={difficultyDropdownRef} className="relative">
               <button
-                className="w-full text-left text-[16px] bg-gradient-to-r from-[#6F58DA] to-[#5131E7] text-white border rounded-[10px] px-4 py-2 flex justify-between items-center"
+                className="w-full text-left text-[16px] bg-gradient-to-r from-[#6F58DA] to-[#5131E7] text-white border rounded-[10px] px-4 py-2 flex justify-between items-center cursor-pointer"
                 onClick={() => setShowDifficultyDropdown(!showDifficultyDropdown)}
               >
                 {comDifficulty || "Select Difficulty Level"}
@@ -205,11 +205,11 @@ const CreateCommunityModal: React.FC<CreateCommunityModalProps> = ({ isOpen, onC
                 </svg>
               </button>
               {showDifficultyDropdown && (
-                <div className="absolute mt-1 w-full bg-white text-black border rounded-md shadow-lg z-10">
+                <div className="absolute mt-1 w-full dark:bg-zinc-950  bg-white dark:text-white text-black border rounded-md shadow-lg z-10">
                   {["Beginner", "Intermediate", "Advanced", "Anyone"].map((level) => (
                     <div
                       key={level}
-                      className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                      className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-zinc-900 cursor-pointer"
                       onClick={() => {
                         setComDifficulty(level);
                         setShowDifficultyDropdown(false);
@@ -236,13 +236,13 @@ const CreateCommunityModal: React.FC<CreateCommunityModalProps> = ({ isOpen, onC
 
         <div className="flex flex-col gap-4 mt-4 sm:flex-row sm:gap-6 sm:justify-end">
           <button
-            className="bg-red-500 font-bold text-white rounded-[10px] px-4 py-2 w-full sm:w-auto"
+            className="bg-red-500 cursor-pointer font-bold text-white rounded-[10px] px-4 py-2 w-full sm:w-auto"
             onClick={onClose}
           >
             Cancel
           </button>
           <button
-            className="bg-gradient-to-r from-[#6F58DA] to-[#5131E7] text-white rounded-[10px] font-bold px-4 py-2 w-full sm:w-auto"
+            className="bg-gradient-to-r from-[#6F58DA] to-[#5131E7] text-white rounded-[10px] font-bold px-4 py-2 w-full sm:w-auto cursor-pointer"
             onClick={handleSubmit}
           >
             Create Community

@@ -127,7 +127,7 @@ const SignIn = () => {
                   <label className="block text-[20px] font-medium mb-2">Birthday:</label>
                   <input
                     type="date"
-                    className="w-full p-3 bg-[#F6F6F6] text-black rounded-[15px]"
+                    className="w-full p-3 bg-[#F6F6F6] text-black rounded-[15px] dark:[color-scheme:dark]"
                     required
                   />
                 </div>
