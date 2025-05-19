@@ -58,7 +58,7 @@ const CommunityDashboard: React.FC<CommunityDashboardProps> = ({ communityId }) 
       <main className="w-full p-2 transition-all duration-300 lg:rounded-lg dark:bg-gradient-to-b dark:from-[#271E55] dark:to-[#100B28] lg:dark:border-[2px] lg:dark:border-[#aa7dfc40] bg-white lg:p-4 drop-shadow-[0_3px_4px_rgba(0,0,0,0.25)]">
 
         {/* Header */}
-        <header className="flex flex-col items-center justify-center text-center gap-2 lg:flex-row md:items-center md:justify-between">
+        <header className="flex flex-col items-center justify-center text-center gap-0 lg:flex-row md:items-center md:justify-between">
           {/* Button + Title + Badges as one group */}
           <div className="flex flex-col items-center gap-2 md:flex-row md:items-center">
             {/* Sidebar button (only visible on lg) */}
@@ -70,7 +70,7 @@ const CommunityDashboard: React.FC<CommunityDashboardProps> = ({ communityId }) 
             </button>
 
             {/* Title and badges together */}
-            <div className="flex flex-col items-center gap-2 lg:flex-row lg:gap-5">
+            <div className="flex flex-col items-center gap-0 lg:flex-row lg:gap-5">
               <h1 className="text-xl md:text-2xl lg:text-[30px] font-bold text-black dark:text-white">
                 {communityData?.communityName || 'Community'}
               </h1>
@@ -88,34 +88,6 @@ const CommunityDashboard: React.FC<CommunityDashboardProps> = ({ communityId }) 
               </div>
             </div>
           </div>
-
-          {/* Right side: Create Session Modal (conditionally shown) */}
-          {activeTab === 'sessionsTab' && (
-            <div className="mt-2 lg:mt-0">
-              <Dialog>
-                <DialogTrigger asChild>
-                  <Button className=" hidden lg:flex items-center justify-center cursor-pointer text-white bg-gradient-to-r from-[#6F58DA] to-[#5131E7] rounded-lg px-[18px] py-2.5 gap-1">
-                    <img className="w-[25px] h-[25px] invert" src="/assets/sessions.svg" alt="Join Sessions" />
-                    <p>Create Session</p>
-                  </Button>
-                </DialogTrigger>
-                <DialogContent>
-                  <DialogHeader>
-                    <div className="flex flex-col items-center">
-                      <div className="bg-[#818CF8] w-[50px] h-[50px] rounded-full flex items-center justify-center">
-                        <img className="w-[35px] h-[35px]" src="/assets/sessions.svg" alt="Join Sessions" />
-                      </div>
-                      <DialogTitle className="text-xl font-bold mt-2">Create a Session</DialogTitle>
-                      <DialogDescription>Fill in the details below to schedule your session.</DialogDescription>
-                    </div>
-                  </DialogHeader>
-                  <CreateSessionModal />
-                </DialogContent>
-              </Dialog>
-            </div>
-          )}
-
-
         </header>
 
         {/* Tabs */}
@@ -140,9 +112,50 @@ const CommunityDashboard: React.FC<CommunityDashboardProps> = ({ communityId }) 
               )}
             </TabsContent>
 
-            <TabsContent value="sessionsTab" className="flex-grow overflow-y-auto scrollbar">
-              <SessionsComponent />
+            <TabsContent value="sessionsTab" className="relative flex flex-col h-full overflow-hidden">
+              {/* Scrollable content */}
+              <div className="flex-1 overflow-y-auto scrollbar pt-4 pb-3"> {/* Add padding bottom so sticky button isn't overlapped */}
+                <SessionsComponent />
+              </div>
+
+              {/* Sticky Button at Bottom (small screens only) */}
+              <div className="sticky bottom-0 h-[50px] z-10 p-2 border-t border-gray-200 dark:border-[#ffffff0f]">
+                <Dialog>
+                  <div className="flex justify-center">
+                    <DialogTrigger asChild>
+                      <button className="w-[50%] cursor-pointer min-w-[185px] max-w-[700px] flex items-center justify-center px-4 py-2 text-white bg-gradient-to-r from-[#6F58DA] to-[#5131E7] rounded-full shadow-md gap-2">
+                        <img
+                          className="w-[25px] h-[25px] invert"
+                          src="/assets/sessions.svg"
+                          alt="Join Sessions"
+                        />
+                        <span className="text-md font-medium">Create Session</span>
+                      </button>
+                    </DialogTrigger>
+                  </div>
+                  <DialogContent>
+                    <DialogHeader>
+                      <div className="flex flex-col items-center">
+                        <div className="bg-[#818CF8] w-[50px] h-[50px] rounded-full flex items-center justify-center">
+                          <img
+                            className="w-[35px] h-[35px]"
+                            src="/assets/sessions.svg"
+                            alt="Join Sessions"
+                          />
+                        </div>
+                        <DialogTitle className="text-xl font-bold mt-2">Create a Session</DialogTitle>
+                        <DialogDescription>
+                          Fill in the details below to schedule your session.
+                        </DialogDescription>
+                      </div>
+                    </DialogHeader>
+                    <CreateSessionModal />
+                  </DialogContent>
+                </Dialog>
+
+              </div>
             </TabsContent>
+
 
             <TabsContent value="buddiesTab" className="flex-grow overflow-y-auto">
               {communityData && !showDM && (
