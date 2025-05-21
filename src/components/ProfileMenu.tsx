@@ -80,9 +80,9 @@ const DropdownMenuProfile: React.FC<DropdownMenuProfileProps> = ({ openNotificat
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
-                    <DropdownMenuItem className="cursor-pointer">
+                    <DropdownMenuItem className="cursor-pointer" onClick={() => router.push('/profile')}>
                         <User className="mr-2 h-4 w-4 text-black dark:text-white" />
-                        Account
+                        Profile
                     </DropdownMenuItem>
                     <DropdownMenuItem className="cursor-pointer" onClick={openNotificationsSidebar}>
                         <Bell className="mr-2 h-4 w-4 text-black dark:text-white" />

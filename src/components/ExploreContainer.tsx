@@ -13,7 +13,7 @@ const CommunityContainer: React.FC = () => {
 
   const { sidebarOpen, toggleSidebar } = useSidebar();
   const breakpoint = useBreakpoint()
-  const pageSize = breakpoint === 'xl' ? 16 : breakpoint === 'lg' ? 12 : 12
+  const pageSize = (breakpoint === 'xl' || breakpoint === '2xl' || breakpoint === '3xl') ? 16 : breakpoint === 'lg' ? 16 : 10
 
   useEffect(() => {
     const fetchMyCommunities = async () => {
@@ -67,9 +67,9 @@ const CommunityContainer: React.FC = () => {
       </div>
 
       {/* Scrollable Grid Section */}
-      <div className="w-full flex-1 relative lg:h-[calc(80vh-1rem)]">
+      <div className="w-full flex-1 relative h-full overflow-y-auto scrollbar">
         <div
-          className={`grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 pb-15 md:pb-15 lg:pb-0`}
+          className={`grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:grid-rows-4 2xl:grid-cols-4 2xl:grid-rows-4 gap-4 pb-15 md:pb-15 lg:pb-0 flex-grow`}
         >
           {paginatedCommunities.map((communityGroup: ICommunityData, idx: number) => (
             <CommunityCard
@@ -87,23 +87,24 @@ const CommunityContainer: React.FC = () => {
             />
           ))}
         </div>
-
-        {/* Mobile Pagination Buttons (Fixed to Bottom) */}
-        <div className="lg:hidden absolute bottom-0 left-0 w-full flex justify-center gap-2  py-2 z-10">
-          {Array.from({ length: totalPages }, (_, idx) => (
-            <button
-              key={idx}
-              onClick={() => setCurrentPage(idx + 1)}
-              className={`px-3 py-1 rounded border ${
-                currentPage === idx + 1
-                  ? 'bg-gradient-to-r from-[#6F58DA] to-[#5131E7] text-white'
-                  : 'bg-gray-200 dark:bg-gray-700 text-black dark:text-white'
-              }`}
-            >
-              {idx + 1}
-            </button>
-          ))}
-        </div>
+        {/* Pagination Buttons */}
+        {totalPages > 1 && (
+          <div className="w-full flex lg:hidden justify-center gap-2">
+            {Array.from({ length: totalPages }, (_, idx) => (
+              <button
+                key={idx}
+                onClick={() => setCurrentPage(idx + 1)}
+                className={`px-3 py-1 rounded border ${
+                  currentPage === idx + 1
+                    ? 'bg-gradient-to-r from-[#6F58DA] to-[#5131E7] text-white'
+                    : 'bg-gray-200 dark:bg-gray-700 text-black dark:text-white cursor-pointer'
+                }`}
+              >
+                {idx + 1}
+              </button>
+            ))}
+          </div>
+        )}
       </div>
     </>
   )
