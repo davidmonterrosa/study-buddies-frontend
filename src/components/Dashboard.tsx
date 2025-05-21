@@ -145,7 +145,7 @@ const CommunityDashboard: React.FC<CommunityDashboardProps> = ({ communityId }) 
           </TabsContent>
 
 
-          <TabsContent value="buddiesTab" className="flex-grow overflow-y-auto">
+          <TabsContent value="buddiesTab" className="flex-grow overflow-y-auto scrollbar">
             {communityData && !showDM && (
               <BuddiesComponent
                 communityGroupId={communityId}

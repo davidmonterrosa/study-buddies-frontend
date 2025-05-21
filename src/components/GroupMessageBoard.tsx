@@ -80,9 +80,9 @@ const CommunityBoard: React.FC<CommunityBoardProps> = ({
   // }, [chatBoard])
 
   return (
-    <div className="flex flex-col h-full max-h-full overflow-hidden">
+    <div className="flex flex-col h-full max-h-full min-h-0 overflow-hidden">
       {/* Scrollable Chat Messages */}
-      <div className="flex-1 overflow-y-auto px-4 space-y-3 pt-4 pb-1 scrollbar">
+      <div className="flex-1 min-h-0 overflow-y-auto space-y-3 pt-4 pb-1 scrollbar">
         {chatBoard.map((chatItem, idx) => {
           const isSender = chatItem.userIdSender === senderId;
 
@@ -150,7 +150,7 @@ const CommunityBoard: React.FC<CommunityBoardProps> = ({
       </div>
 
       {/* Message Input */}
-      <div className="p-1 flex items-center sticky bottom-0 z-10">
+      <div className="p-2 flex items-center sticky bottom-0 z-10 bg-white dark:bg-[#100B28] border-t border-gray-200 dark:border-[#aa7dfc40]">
         <div className="relative flex-1">
           <input
             type="text"
