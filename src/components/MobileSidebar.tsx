@@ -220,7 +220,11 @@ const MyCommunitiesSidebar: React.FC<MyCommunitiesSidebarProps> = ({
                 className="w-full -translate-y-3 border border-gray-200 dark:border-[#aa7dfc] bg-white dark:bg-[#140D34]"
               >
                 <div className="py-0">
-                  <DropdownItem icon={User}>Account</DropdownItem>
+                  <Link href="/profile" passHref legacyBehavior>
+                    <a className="flex items-center gap-2 py-2 px-3 rounded-md text-sm transition hover:bg-[rgba(129,140,248,0.25)]">
+                      <User className="w-4 h-4" /> Account
+                    </a>
+                  </Link>
                   <DropdownItem icon={Bell} onClick={openNotificationsSidebar}>Notifications
                     <span className="ml-auto bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
                       3

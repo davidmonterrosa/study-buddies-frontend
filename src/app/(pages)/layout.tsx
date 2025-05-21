@@ -3,6 +3,7 @@
 import NavBarComponent from '@/components/NavBarComponent';
 import React, { useState, createContext, useContext } from 'react';
 import MyCommunitiesPanel from '@/components/SidePanel';
+import { usePathname } from 'next/navigation';
 
 // Context for sidebar state
 const SidebarContext = createContext<{ sidebarOpen: boolean; toggleSidebar: () => void }>({
@@ -25,6 +26,8 @@ const Layout = ({
 }>) => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const toggleSidebar = () => setSidebarOpen((open) => !open);
+  const pathname = usePathname();
+  const showSidePanel = pathname !== "/profile";
 
   return (
     <SidebarContext.Provider value={{ sidebarOpen, toggleSidebar }}>
@@ -32,9 +35,11 @@ const Layout = ({
         <NavBarComponent />
         <section className="flex flex-row gap-6 lg:p-4 h-[calc(0.90*100vh-1rem)]">
           {/* Sidepanel for large screens */}
-          <div className={`hidden lg:block w-[300px] ${!sidebarOpen ? 'lg:hidden' : ''}`}>
-            <MyCommunitiesPanel visible={sidebarOpen} />
-          </div>
+          {showSidePanel && (
+            <div className={`hidden lg:block w-[300px] ${!sidebarOpen ? 'lg:hidden' : ''}`}>
+              <MyCommunitiesPanel visible={sidebarOpen} />
+            </div>
+          )}
           {/* Main content container */}
           <MainContentContainer>{children}</MainContentContainer>
         </section>
