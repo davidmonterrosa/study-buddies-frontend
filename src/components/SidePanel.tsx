@@ -31,6 +31,12 @@ const MyCommunitiesPanel: React.FC<Props> = ({ visible }) => {
     fetchMyCommunities();
   }, []);
 
+    const updateSideBarData = (owned: number[], joined: number[]) => {
+    console.log("Updating Sidebar with: ", )
+    setOwnedCommunities(owned);
+    setJoinedCommunities(joined);
+  }
+
   return (
     <aside
       className={`
@@ -63,6 +69,7 @@ const MyCommunitiesPanel: React.FC<Props> = ({ visible }) => {
                   href={`/communities/${communityGroup.id}`}
                   isActive={activeCommunity === communityGroup.communityName}
                   onClick={() => setActiveCommunity(communityGroup.communityName)}
+                  updateFunction={updateSideBarData}
                 />
               )
             }
@@ -79,6 +86,7 @@ const MyCommunitiesPanel: React.FC<Props> = ({ visible }) => {
                   href={`/communities/${communityGroup.id}`}
                   isActive={activeCommunity === communityGroup.communityName}
                   onClick={() => setActiveCommunity(communityGroup.communityName)}
+                  updateFunction={updateSideBarData}
                 />
               )
             }

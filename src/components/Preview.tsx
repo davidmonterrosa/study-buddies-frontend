@@ -54,6 +54,9 @@ const CommunityPreview: React.FC<PreviewProps> = ({
   const handleJoinBtn = async () => {
         if(!myCommunities.includes(communityId)){
           const result = await joinCommunity(userId, communityId, getToken());
+          if(result) {
+            onCancel;
+          }
           console.log(result)
         } else {
           router.push(directLink)
@@ -68,6 +71,9 @@ const CommunityPreview: React.FC<PreviewProps> = ({
   const handleRequestBtn = async () => {
     if(!myCommunities.includes(communityId)) {
       const result = await requestJoin(userId, communityId, getToken());
+      if(result) {
+        onCancel;
+      }
       console.log(result)
     } else {
       router.push(directLink)
