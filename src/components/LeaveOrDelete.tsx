@@ -22,6 +22,7 @@ const LeaveOrDelete: React.FC<LeaveOrDeleteProps> = ({
     // const [firstName, setFirstName] = useState<string>("");
     // const [lastName, setLastName] = useState<string>("");
     const [ownedCommunities, setOwnedCommunities] = useState<number[]>([])
+    // const [isDark, setIsDark] = useState<boolean>(checkTheme() === "dark");
     // const [joinedCommunities, setJoinedCommunities] = useState<number[]>([])
     const [communityId, setCommunityId] = useState<number>(-1)
     const [community, setCommunity] = useState<ICommunityData>({
@@ -116,16 +117,20 @@ const LeaveOrDelete: React.FC<LeaveOrDeleteProps> = ({
         getCommunityDetails();
     }, [])
 
+
+
     return (
         <>
             {community.id !== 0 &&
                 (<AlertDialog>
                     <AlertDialogTrigger onClick={handleActiveState} className='hover:bg-[rgba(129,140,248,0.25)] cursor-pointer rounded-full p-2'>
-                        <Trash stroke={`${isActive ? "red" : "white"}`} />
+                
+                        <Trash className={`${isActive ? "stroke-red-500" : "dark:stroke-white stroke-black"}`} />
+
                     </AlertDialogTrigger>
                     <AlertDialogContent>
                         <AlertDialogHeader>
-                            <AlertDialogTitle className='font-bold text-red-500'>{`${ownedCommunities.includes(communityId) ? "Are you sure you want to Delete this community?" : "Are you sure you want to leave this community?"}`}</AlertDialogTitle>
+                            <AlertDialogTitle className='font-bold text-red-500'>{`${ownedCommunities.includes(communityId) ? `Are you sure you want to delete ${community.communityName}?` : `Are you sure you want to leave ${community.communityName}?`}`}</AlertDialogTitle>
                             <AlertDialogDescription>
                                 This action cannot be undone.
                             </AlertDialogDescription>

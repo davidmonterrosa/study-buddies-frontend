@@ -75,17 +75,26 @@ export const SidebarLink = ({
   onClick?: () => void;
   updateFunction: (owned: number[], joined: number[]) => void;
 }) => (
-  <div className="flex justify-between items-center">
+  <div className={`flex justify-between items-center `}>
     <Link
       href={href}
       onClick={onClick}
-      className={`block py-2 px-3 rounded-md text-sm transition ${isActive
+      className={`hover:cursor-pointer text-sm py-2 px-3 rounded-md transition ${isActive
         ? "bg-[#818df8] text-white dark:bg-[#6f58da]"
         : "bg-transparent text-black dark:text-white hover:bg-[rgba(129,140,248,0.25)]"
         }`}
     >
-      {text}
+      <p >
+        {text}
+      </p>
     </Link>
+      {/* <button className="z-50 hover:cursor-pointer dark:hover:stroke-0">
+        <span className="sr-only">Community Options</span>
+        {
+          <EllipsisVertical className="stroke-none dark:hover:stroke-white hover:stroke-black"/>
+        }
+      </button> */}
+
     <LeaveOrDelete updateFunction={updateFunction} communityURL={href}/>
   </div>
 );
