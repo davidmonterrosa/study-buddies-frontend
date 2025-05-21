@@ -14,12 +14,17 @@ import {
   User,
   Bell,
   LogOut,
-  PlusCircle
+  PlusCircle,
+  // Trash
 } from "lucide-react";
 import { useAppContext } from "@/context/CommunityContext";
 import Link from "next/link";
 
 import { currentUser, getLoggedInUserData } from "@/utils/Services/DataServices";
+// import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
+// import { Dialog } from "./ui/dialog";
+// import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "./ui/alert-dialog";
+import LeaveOrDelete from "./LeaveOrDelete";
 import CreateCommunityModal from "./CreateModal";
 
 
@@ -62,22 +67,27 @@ export const SidebarLink = ({
   href,
   isActive = false,
   onClick,
+  updateFunction,
 }: {
   text: string;
   href: string;
   isActive?: boolean;
   onClick?: () => void;
+  updateFunction: (owned: number[], joined: number[]) => void;
 }) => (
-  <Link
-    href={href}
-    onClick={onClick}
-    className={`block py-2 px-3 rounded-md text-sm transition ${isActive
-      ? "bg-[#818df8] text-white dark:bg-[#6f58da]"
-      : "bg-transparent text-black dark:text-white hover:bg-[rgba(129,140,248,0.25)]"
-      }`}
-  >
-    {text}
-  </Link>
+  <div className="flex justify-between items-center">
+    <Link
+      href={href}
+      onClick={onClick}
+      className={`block py-2 px-3 rounded-md text-sm transition ${isActive
+        ? "bg-[#818df8] text-white dark:bg-[#6f58da]"
+        : "bg-transparent text-black dark:text-white hover:bg-[rgba(129,140,248,0.25)]"
+        }`}
+    >
+      {text}
+    </Link>
+    <LeaveOrDelete updateFunction={updateFunction} communityURL={href}/>
+  </div>
 );
 
 const MyCommunitiesSidebar: React.FC<MyCommunitiesSidebarProps> = ({
@@ -128,6 +138,17 @@ const MyCommunitiesSidebar: React.FC<MyCommunitiesSidebarProps> = ({
     getLoggedInData();
   }, []);
 
+  const updateSideBarData = (owned: number[], joined: number[]) => {
+    console.log("Updating Sidebar with: ", )
+    setOwnedCommunities(owned);
+    setJoinedCommunities(joined);
+  }
+
+  useEffect(() => {
+    console.log("Owned: ", ownedCommunities)
+    console.log("Joined: ", joinedCommunities)
+  }, [ownedCommunities, joinedCommunities])
+
   return (
     <>
       <Drawer open={isOpen} onClose={onClose} position="right" className="p-0 w-full sm:w-[320px]">
@@ -154,8 +175,7 @@ const MyCommunitiesSidebar: React.FC<MyCommunitiesSidebarProps> = ({
           {/* Scrollable Middle Content */}
           <div className="flex-1 overflow-y-auto p-3 space-y-4">
             <CollapseSection label="Owned Communities" icon={Users}>
-              {communityGroups.map((communityGroup, idx) => {
-                if(ownedCommunities.includes(communityGroup.id)) {
+              {communityGroups.filter((community) => ownedCommunities.includes(community.id)).map((communityGroup, idx) => {
                   return (
                     <SidebarLink
                       key={idx}
@@ -163,15 +183,14 @@ const MyCommunitiesSidebar: React.FC<MyCommunitiesSidebarProps> = ({
                       href={`/communities/${communityGroup.id}`}
                       isActive={activeCommunity === communityGroup.communityName}
                       onClick={() => setActiveCommunity(communityGroup.communityName)}
+                      updateFunction={updateSideBarData}
                     />
                   )
-                }
               })}
             </CollapseSection>
 
             <CollapseSection label="Joined Communities" icon={Group}>
-              {communityGroups.map((communityGroup, idx) => {
-                if(joinedCommunities.includes(communityGroup.id)) {
+              {communityGroups.filter((community) => joinedCommunities.includes(community.id)).map((communityGroup, idx) => {
                   return (
                     <SidebarLink
                       key={idx}
@@ -179,9 +198,10 @@ const MyCommunitiesSidebar: React.FC<MyCommunitiesSidebarProps> = ({
                       href={`/communities/${communityGroup.id}`}
                       isActive={activeCommunity === communityGroup.communityName}
                       onClick={() => setActiveCommunity(communityGroup.communityName)}
+                      updateFunction={updateSideBarData}
+
                     />
                   )
-                }
               })}
             </CollapseSection>
           </div>

@@ -170,9 +170,33 @@ export const upDateCommunity = async (community: ICommunityData, token: string) 
     return data.success;
 }
 
-// export const deleteCommunity = async (community: ICommunityData, token: string) => {
-//     const response = await fetch (`${url}CommunityControllers/`)
-// }
+export const deleteCommunity = async (community: ICommunityData, token: string) => {
+    console.log("This is what was passed to deleteCommunity: ", community);
+    if(community === null) {
+        console.error("Community Object is ", community)
+        return false;
+    }
+    const response = await fetch (`${url}Community/DeleteCommunity/${community.id}/${community.communityIsDeleted}`, {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + token,
+        }
+    });
+
+    if(!response.ok) {
+        const errorData = await response.json();
+        console.log(errorData)
+        const message = errorData.message;
+        console.log(message);
+        return false;
+    }
+    const data = await response.json();
+    console.log(data)
+    return data;
+}
+
+
 
 export const getToken = () => {
     return localStorage.getItem("Token") ?? "";
@@ -219,6 +243,25 @@ export const joinCommunity = async (userId: number, communityId: number, token: 
     }
         
     return { success: true };
+}
+
+export const removeMember = async (userId: number, communityId: number, token: string) => {
+    const removeMemberResponse = await fetch(`${url}Community/removeMemberFromCommunity/${communityId}/${userId}`, {
+        method: "Delete",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + token,
+        }
+    });
+    if(!removeMemberResponse.ok) {
+        const errorData = await removeMemberResponse.json();
+        const message = errorData.message;
+        console.log(message);
+        return false;
+    }
+
+    const data = removeMemberResponse.json();
+    return data;
 }
 
 export const requestJoin = async (userId: number, communityId: number, token: string) => {
