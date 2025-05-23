@@ -13,7 +13,7 @@ const CommunityContainer: React.FC = () => {
 
   const { sidebarOpen, toggleSidebar } = useSidebar();
   const breakpoint = useBreakpoint()
-  const pageSize = (breakpoint === 'xl' || breakpoint === '2xl' || breakpoint === '3xl') ? 16 : breakpoint === 'lg' ? 16 : 10
+  const pageSize = (breakpoint === 'xl' || breakpoint === '2xl' || breakpoint === '3xl') ? 16 : breakpoint === 'lg' ? 12 : 12
 
   useEffect(() => {
     const fetchMyCommunities = async () => {
@@ -69,7 +69,7 @@ const CommunityContainer: React.FC = () => {
       {/* Scrollable Grid Section */}
       <div className="w-full flex-1 relative h-full overflow-y-auto scrollbar">
         <div
-          className={`grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:grid-rows-4 2xl:grid-cols-4 2xl:grid-rows-4 gap-4 pb-15 md:pb-15 lg:pb-0 flex-grow`}
+          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:grid-rows-4 2xl:grid-cols-4 2xl:grid-rows-4 gap-4 pb-8 flex-grow"
         >
           {paginatedCommunities.map((communityGroup: ICommunityData, idx: number) => (
             <CommunityCard

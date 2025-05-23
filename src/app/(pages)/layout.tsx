@@ -14,7 +14,7 @@ const SidebarContext = createContext<{ sidebarOpen: boolean; toggleSidebar: () =
 export const useSidebar = () => useContext(SidebarContext);
 
 const MainContentContainer = ({ children }: { children: React.ReactNode }) => (
-  <div className="transition-all duration-400 w-full h-full lg:h-[calc(0.90*100vh-1rem)] bg-white rounded-none lg:rounded-lg dark:bg-gradient-to-b dark:from-[#271E55] dark:to-[#100B28] lg:dark:border-[2px] lg:dark:border-[#aa7dfc40] p-2 lg:p-4 lg:drop-shadow-[0_2px_3px_rgba(0,0,0,0.25)] flex flex-col relative">
+  <div className="transition-all duration-400 w-full flex-1 min-h-0 bg-white rounded-none lg:rounded-lg dark:bg-gradient-to-b dark:from-[#271E55] dark:to-[#100B28] lg:dark:border-[2px] lg:dark:border-[#aa7dfc40] p-2 lg:p-4 lg:drop-shadow-[0_2px_3px_rgba(0,0,0,0.25)] flex flex-col relative">
     {children}
   </div>
 );
@@ -31,9 +31,9 @@ const Layout = ({
 
   return (
     <SidebarContext.Provider value={{ sidebarOpen, toggleSidebar }}>
-      <div className="bg-white dark:bg-[#110C29] h-screen overflow-hidden">
+      <div className="bg-white dark:bg-[#110C29] min-h-screen">
         <NavBarComponent />
-        <section className="flex flex-row gap-6 lg:p-4 h-[calc(0.90*100vh-1rem)]">
+        <section className="flex flex-row gap-6 lg:p-4 flex-1 min-h-0">
           {/* Sidepanel for large screens */}
           {showSidePanel && (
             <div className={`hidden lg:block w-[300px] ${!sidebarOpen ? 'lg:hidden' : ''}`}>
