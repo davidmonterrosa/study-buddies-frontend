@@ -52,6 +52,11 @@ const ProfilePage: React.FC = () => {
     setEditModalOpen(false);
   };
 
+  // Add updateCommunities function
+  const updateCommunities = (owned: number[], joined: number[]) => {
+    setUser((prev: any) => prev ? { ...prev, ownedCommunitys: owned, joinedCommunitys: joined } : prev);
+  };
+
   if (!user) return null;
 
   const joinedCommunities = allCommunities.filter((c: ICommunityData) => user.joinedCommunitys.includes(c.id));
@@ -124,7 +129,7 @@ const ProfilePage: React.FC = () => {
                 required
               />
             </label>
-            <label className="flex flex-col gap-1">
+            {/* <label className="flex flex-col gap-1">
               Password
               <input
                 type="password"
@@ -133,7 +138,7 @@ const ProfilePage: React.FC = () => {
                 onChange={e => setEditPassword(e.target.value)}
                 placeholder="New password"
               />
-            </label>
+            </label> */}
             <DialogFooter>
               <Button color='red-200' className="bg-red-500 cursor-pointer text-white" type="button" onClick={() => setEditModalOpen(false)}>
                 Cancel
@@ -174,6 +179,7 @@ const ProfilePage: React.FC = () => {
                   cardType={activeTab}
                   currentUserId={user.id}
                   showDropdown={true}
+                  updateCommunities={updateCommunities}
                 />
               ))
             )}
@@ -218,6 +224,7 @@ const ProfilePage: React.FC = () => {
                   cardType={activeTab}
                   currentUserId={user.id}
                   showDropdown={true}
+                  updateCommunities={updateCommunities}
                 />
               ))
             )}

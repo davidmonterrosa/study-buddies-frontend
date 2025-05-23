@@ -9,11 +9,15 @@ import { ICommunityData } from '@/utils/Interfaces/UserInterfaces'
 interface LeaveOrDeleteProps {
     updateFunction: (owned: number[], joined: number[]) => void
     communityURL: string
+    closeParentDialog?: () => void
+    cardType?: 'joined' | 'owned'
 }
 
 const LeaveOrDelete: React.FC<LeaveOrDeleteProps> = ({
     updateFunction,
-    communityURL
+    communityURL,
+    closeParentDialog,
+    cardType
 }) => {
 
     const [isActive, setIsActive] = useState<boolean>(false)
@@ -61,10 +65,11 @@ const LeaveOrDelete: React.FC<LeaveOrDeleteProps> = ({
             console.log("Updated Joined Communities: ", result.success);
             if (result.success == true && newCommunityData?.success == true) {
                 updateFunction(newCommunityData?.user.ownedCommunitys, newCommunityData?.user.joinedCommunitys);
+                setIsActive(false);
+                if (closeParentDialog) closeParentDialog();
             } else {
                 console.log("Failed to leave community");
             }
-            setIsActive(false);
 
         } else {
             const result = await deleteCommunity(community, getToken());
@@ -74,10 +79,11 @@ const LeaveOrDelete: React.FC<LeaveOrDeleteProps> = ({
             if (result.success == true && newCommunityData?.success == true) {
                 console.log(result);
                 updateFunction(newCommunityData?.user.ownedCommunitys, newCommunityData?.user.joinedCommunitys);
+                setIsActive(false);
+                if (closeParentDialog) closeParentDialog();
             } else {
                 console.log("Failed to delete community");
             }
-            setIsActive(false);
         }
     }
 
@@ -99,7 +105,7 @@ const LeaveOrDelete: React.FC<LeaveOrDeleteProps> = ({
             }
         };
         console.log(urlArray)
-        setCommunityId(Number(urlArray[2]))
+        setCommunityId(Number(urlArray[1]))
 
         getLoggedInData();
     }, [])
@@ -107,11 +113,14 @@ const LeaveOrDelete: React.FC<LeaveOrDeleteProps> = ({
 
     useEffect(() => {
         const getCommunityDetails = async () => {
-            console.log("id to apply to getCommunityById(id)", Number(urlArray[2]))
-            const returnedCommunity = await getCommunityById(Number(urlArray[2]));
+            console.log("id to apply to getCommunityById(id)", Number(urlArray[1]))
+            const returnedCommunity = await getCommunityById(Number(urlArray[1]));
+            if (!returnedCommunity || !returnedCommunity.community) {
+                console.error("Community not found or API error");
+                return;
+            }
             returnedCommunity.community.communityIsDeleted = true;
             console.log(returnedCommunity)
-            // returnedCommunity.community.communityIsDeleted 
             setCommunity(returnedCommunity.community);
         }
         getCommunityDetails();
@@ -123,10 +132,16 @@ const LeaveOrDelete: React.FC<LeaveOrDeleteProps> = ({
         <>
             {community.id !== 0 &&
                 (<AlertDialog>
-                    <AlertDialogTrigger onClick={handleActiveState} className='hover:bg-[rgba(129,140,248,0.25)] cursor-pointer rounded-full p-2'>
-                
-                        <Trash className={`${isActive ? "stroke-red-500" : "dark:stroke-white stroke-black"}`} />
-
+                    <AlertDialogTrigger asChild>
+                        <div
+                            className="flex items-center gap-2 px-2 py-1 cursor-pointer hover:bg-[rgba(129,140,248,0.10)] rounded"
+                            onClick={e => { e.stopPropagation(); handleActiveState(); }}
+                        >
+                            <Trash className={`${isActive ? "stroke-red-500" : "dark:stroke-white stroke-black"}`} />
+                            <span className="text-sm text-black dark:text-white select-none">
+                                {cardType === 'owned' ? 'Delete Community' : 'Leave Community'}
+                            </span>
+                        </div>
                     </AlertDialogTrigger>
                     <AlertDialogContent>
                         <AlertDialogHeader>
@@ -136,8 +151,8 @@ const LeaveOrDelete: React.FC<LeaveOrDeleteProps> = ({
                             </AlertDialogDescription>
                         </AlertDialogHeader>
                         <AlertDialogFooter>
-                            <AlertDialogCancel onClick={handleActiveState}>Cancel</AlertDialogCancel>
-                            <AlertDialogAction onClick={handleRemovalAction}>Continue</AlertDialogAction>
+                            <AlertDialogCancel onClick={e => { handleActiveState(); if (closeParentDialog) closeParentDialog(); }}>Cancel</AlertDialogCancel>
+                            <AlertDialogAction onClick={e => { e.stopPropagation(); handleRemovalAction(); }}>Continue</AlertDialogAction>
                         </AlertDialogFooter>
                     </AlertDialogContent>
                 </AlertDialog>)

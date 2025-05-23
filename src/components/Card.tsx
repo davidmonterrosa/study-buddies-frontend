@@ -20,6 +20,8 @@ interface CommunityCardProps {
   cardType?: 'joined' | 'owned';
   currentUserId?: number;
   showDropdown?: boolean;
+  updateCommunities?: (owned: number[], joined: number[]) => void;
+  closeParentDialog?: () => void;
 }
 
 const CommunityCard: React.FC<CommunityCardProps> = ({
@@ -35,7 +37,9 @@ const CommunityCard: React.FC<CommunityCardProps> = ({
   description,
   cardType,
   currentUserId,
-  showDropdown
+  showDropdown,
+  updateCommunities,
+  closeParentDialog
 }) => {
   const [open, setOpen] = useState(false);
 
@@ -52,12 +56,19 @@ const CommunityCard: React.FC<CommunityCardProps> = ({
             {(showDropdown || cardType) ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <button className="p-1 rounded-full hover:bg-[rgba(129,140,248,0.25)] focus:outline-none">
+                  <button className="p-1 rounded-full hover:bg-[rgba(129,140,248,0.25)] focus:outline-none" onClick={e => e.stopPropagation()}>
                     <EllipsisVertical className="w-6 h-6 text-white" />
                   </button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
-                Leave
+                  {updateCommunities && (
+                    <LeaveOrDelete
+                      updateFunction={updateCommunities}
+                      communityURL={`communities/${communityId}`}
+                      closeParentDialog={() => setOpen(false)}
+                      cardType={cardType}
+                    />
+                  )}
                 </DropdownMenuContent>
               </DropdownMenu>
             ) : (
