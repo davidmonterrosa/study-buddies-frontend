@@ -9,8 +9,9 @@ export default function Home() {
   const navigate = (mode:string) => {
     push(`../login-register?mode=${mode}`);
   };
+  const token = ''
 
-  getAllDirectMessages(1);
+  getAllDirectMessages(1, token);
 
   return (
     <div className="min-h-screen flex flex-col lg:flex-row">
