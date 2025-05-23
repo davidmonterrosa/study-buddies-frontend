@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import { getDifficultyColor } from "@/utils/Services/StyleHelpers";
 import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "./ui/dialog";
 import CommunityPreview from "./Preview";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from "./ui/dropdown-menu";
+import { EllipsisVertical } from "lucide-react";
+import LeaveOrDelete from "@/components/LeaveOrDelete";
 
 interface CommunityCardProps {
   communityId: number;
@@ -14,6 +17,9 @@ interface CommunityCardProps {
   userName: string;
   isPublic: boolean;
   description: string;
+  cardType?: 'joined' | 'owned';
+  currentUserId?: number;
+  showDropdown?: boolean;
 }
 
 const CommunityCard: React.FC<CommunityCardProps> = ({
@@ -26,7 +32,10 @@ const CommunityCard: React.FC<CommunityCardProps> = ({
   initials,
   userName,
   isPublic,
-  description
+  description,
+  cardType,
+  currentUserId,
+  showDropdown
 }) => {
   const [open, setOpen] = useState(false);
 
@@ -40,11 +49,24 @@ const CommunityCard: React.FC<CommunityCardProps> = ({
             <h1 className="font-bold text-[20px] overflow-hidden text-nowrap">
               {communityName}
             </h1>
-            <img
-              className="w-[30px]"
-              src={isPublic ? "/assets/Unlock.svg" : "/assets/Lock.svg"}
-              alt={isPublic ? "Public Community" : "Private Community"}
-            />
+            {(showDropdown || cardType) ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <button className="p-1 rounded-full hover:bg-[rgba(129,140,248,0.25)] focus:outline-none">
+                    <EllipsisVertical className="w-6 h-6 text-white" />
+                  </button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                Leave
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <img
+                className="w-[30px]"
+                src={isPublic ? "/assets/Unlock.svg" : "/assets/Lock.svg"}
+                alt={isPublic ? "Public Community" : "Private Community"}
+              />
+            )}
           </div>
           <h2 className="font-semibold text-[16px] text-left">{subject}</h2>
           <div className="flex flex-wrap gap-2 text-[14px] font-semibold mt-2">

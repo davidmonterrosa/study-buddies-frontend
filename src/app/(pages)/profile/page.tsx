@@ -171,6 +171,9 @@ const ProfilePage: React.FC = () => {
                   userName={community.communityOwnerName}
                   isPublic={community.communityIsPublic}
                   description={community.communityDescription}
+                  cardType={activeTab}
+                  currentUserId={user.id}
+                  showDropdown={true}
                 />
               ))
             )}
@@ -212,6 +215,9 @@ const ProfilePage: React.FC = () => {
                   userName={community.communityOwnerName}
                   isPublic={community.communityIsPublic}
                   description={community.communityDescription}
+                  cardType={activeTab}
+                  currentUserId={user.id}
+                  showDropdown={true}
                 />
               ))
             )}
