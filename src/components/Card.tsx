@@ -69,11 +69,11 @@ const CommunityCard: React.FC<CommunityCardProps> = ({
       </DialogTrigger>
 
       <DialogContent aria-description="Preview of Community Content">
-        <DialogTitle className="invisible"> Preview </DialogTitle>
+        <DialogTitle className="text-4xl font-bold text-black dark:text-white"> {communityName} </DialogTitle>
         <CommunityPreview
           communityId={communityId}
           directLink={directLink}
-          communityName={communityName}
+          communityName={''}
           subject={subject}
           buddies={buddies}
           difficulty={difficulty}
