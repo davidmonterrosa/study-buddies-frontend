@@ -1,4 +1,5 @@
 "use client";
+import { getAllDirectMessages } from "@/utils/Services/DirectMessageSerices";
 import { useRouter } from "next/navigation";
 
 export default function Home() {
@@ -8,6 +9,8 @@ export default function Home() {
   const navigate = (mode:string) => {
     push(`../login-register?mode=${mode}`);
   };
+
+  getAllDirectMessages(1);
 
   return (
     <div className="min-h-screen flex flex-col lg:flex-row">
