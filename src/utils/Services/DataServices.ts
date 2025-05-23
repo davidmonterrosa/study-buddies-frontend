@@ -264,6 +264,27 @@ export const removeMember = async (userId: number, communityId: number, token: s
     return data;
 }
 
+export const changeRole = async (communityId: number, userId: number, role: string, token: string) => {
+    const changeRoleResponse = await fetch(`${url}Community/EditCommunityRole/${communityId}/${userId}/${role}`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "Application/json",
+            "Authorization": "Bearer " + token
+        },
+    });
+
+    if(!changeRoleResponse.ok) {
+        const errorData = await changeRoleResponse.json();
+        console.log(errorData)
+        const message = errorData.message;
+        console.log(message);
+        return false;
+    }
+    const data = await changeRoleResponse.json();
+    console.log(data)
+    return data;
+}
+
 export const requestJoin = async (userId: number, communityId: number, token: string) => {
     const addRequestToCommunity = await fetch(`${url}Community/addRequestToCommunity/${communityId}/${userId}`, {
         method: "POST",
