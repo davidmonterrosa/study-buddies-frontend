@@ -135,7 +135,7 @@ const ProfilePage: React.FC = () => {
               />
             </label>
             <DialogFooter>
-              <Button color='red-200' className="bg-red-500 cursor-pointer" type="button" onClick={() => setEditModalOpen(false)}>
+              <Button color='red-200' className="bg-red-500 cursor-pointer text-white" type="button" onClick={() => setEditModalOpen(false)}>
                 Cancel
               </Button>
               <Button className="cursor-pointer bg-gradient-to-r from-[#6F58DA] to-[#5131E7]" type="submit">
