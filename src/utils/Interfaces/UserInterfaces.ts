@@ -36,7 +36,6 @@ export interface CommunityChats {
 }
 
 
-
 export interface IUserCredentials {
     username: string
     firstName: string
@@ -58,10 +57,26 @@ export interface IUserNameId {
 }
 
 // export interface IFirstAndLastName {
-//     firstName: string
-//     lastName: string
-// }
-
-export interface Itoken {
-    token: string
-}
+    //     firstName: string
+    //     lastName: string
+    // }
+    
+    export interface Itoken {
+        token: string
+    }
+    
+    export interface Event {
+        id: number;
+        communityId: number;
+        eventName: string;
+        eventDescription: string | null;
+        eventDate: string; 
+        eventUrl: string;
+        eventLocation: string | null;
+        eventOrganizers: any[]; 
+        eventParticipants: any[]; 
+        maxParticipants: number;
+        currentParticipants: number;
+        eventIsPublic: boolean;
+        eventIsCancelled: boolean;
+    }

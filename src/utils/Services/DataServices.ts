@@ -304,3 +304,35 @@ export const requestJoin = async (userId: number, communityId: number, token: st
     const data = await addRequestToCommunity.json();
     return data;
 }
+
+// ----------------------------- Events/Sessions Management -------------------------------
+// Add Sessions
+export async function createCommunityEvent(eventData: any, token: string) {
+    // Creates a new community event
+    const response = await fetch(`${url}CommunityEvents/createEvent`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify(eventData),
+    });
+    return response.json();
+}
+
+// Deletes a community event by community and event ID
+export async function deleteCommunityEvent(communityId: number, eventId: number, token: string) {
+    const response = await fetch(`${url}CommunityEvents/deleteEvent/${communityId}/${eventId}`, {
+        method: 'DELETE',
+        headers: {
+            'Authorization': `Bearer ${token}`,
+        },
+    });
+    return response.json();
+}
+
+export const getEventsByCommunityId = async (communityId: number) => {
+    const response = await fetch(`${url}CommunityEvents/getEventsByCommunityId/${communityId}`);
+    const data = await response.json();
+    return data.Events || data.events || data || [];
+}
