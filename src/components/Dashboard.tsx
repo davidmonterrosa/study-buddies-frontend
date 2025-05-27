@@ -109,7 +109,7 @@ const CommunityDashboard: React.FC<CommunityDashboardProps> = ({ communityId }) 
 
           <TabsContent value="sessionsTab" className="relative flex flex-col h-full overflow-hidden">
             {/* Scrollable content */}
-            <div className="flex-1 overflow-y-auto scrollbar pt-4 pb-3">
+            <div className="flex-1 overflow-y-auto scrollbar pt-4 pb-3"> {/* Add padding bottom so sticky button isn't overlapped */}
               <SessionsComponent communityId={communityId} newSession={newSession} fetchAfterCreate={true} />
             </div>
 

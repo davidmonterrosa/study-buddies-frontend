@@ -31,6 +31,20 @@ const SessionsComponent = ({ communityId, newSession, fetchAfterCreate }: Sessio
   const getValidUrl = (url: string) =>
     url && !/^https?:\/\//i.test(url) ? `https://${url}` : url;
 
+  // Helper to format date and time in 12-hour format with AM/PM
+  const formatSessionTime = (session: Event) => {
+    const dateObj = new Date(session.eventDate);
+    const mm = String(dateObj.getMonth() + 1).padStart(2, '0');
+    const dd = String(dateObj.getDate()).padStart(2, '0');
+    const yyyy = dateObj.getFullYear();
+    let hours = dateObj.getHours();
+    const minutes = String(dateObj.getMinutes()).padStart(2, '0');
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12'
+    return `${mm}/${dd}/${yyyy} ${hours}:${minutes} ${ampm}`;
+  };
+
   return (
     <section className="flex flex-col overflow-hidden mt-4">
       <div className="flex-1 md:px-4 overflow-y-auto space-y-3">
@@ -43,7 +57,7 @@ const SessionsComponent = ({ communityId, newSession, fetchAfterCreate }: Sessio
               <div className="flex items-center gap-2">
                 <div className="flex flex-col space-x-2">
                   <p className="font-semibold text-[18px]">{session.eventName}</p>
-                  <p className="font-semibold text-sm">{session.eventDate}</p>
+                  <p className="font-semibold text-sm">{formatSessionTime(session)}</p>
                   <p className="text-xs text-gray-200 mt-1">
                     Created by: {session.eventOrganizers && session.eventOrganizers.length > 0
                       ? `${session.eventOrganizers[0].firstName || ''} ${session.eventOrganizers[0].lastName || ''}`.trim() || 'Unknown'

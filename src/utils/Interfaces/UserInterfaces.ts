@@ -35,6 +35,21 @@ export interface CommunityChats {
     isEdited: boolean
 }
 
+export interface Event {
+    id: number;
+    communityId: number;
+    eventName: string;
+    eventDescription: string | null;
+    eventDate: string; // ISO 8601 string
+    eventUrl: string;
+    eventLocation: string | null;
+    eventOrganizers: any[]; // You can replace `any` with a specific type if known
+    eventParticipants: any[]; // Same as above
+    maxParticipants: number;
+    currentParticipants: number;
+    eventIsPublic: boolean;
+    eventIsCancelled: boolean;
+}
 
 export interface IUserCredentials {
     username: string
@@ -57,26 +72,10 @@ export interface IUserNameId {
 }
 
 // export interface IFirstAndLastName {
-    //     firstName: string
-    //     lastName: string
-    // }
-    
-    export interface Itoken {
-        token: string
-    }
-    
-    export interface Event {
-        id: number;
-        communityId: number;
-        eventName: string;
-        eventDescription: string | null;
-        eventDate: string; 
-        eventUrl: string;
-        eventLocation: string | null;
-        eventOrganizers: any[]; 
-        eventParticipants: any[]; 
-        maxParticipants: number;
-        currentParticipants: number;
-        eventIsPublic: boolean;
-        eventIsCancelled: boolean;
-    }
+//     firstName: string
+//     lastName: string
+// }
+
+export interface Itoken {
+    token: string
+}

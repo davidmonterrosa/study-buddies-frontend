@@ -20,34 +20,14 @@ const CreateSessionModal = ({ communityId, onSessionCreated }: CreateSessionModa
   const [link, setLink] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [confirmation, setConfirmation] = useState("");
-
-  const formatDate = (date: Date): string => {
-    const mm = String(date.getMonth() + 1).padStart(2, '0');
-    const dd = String(date.getDate()).padStart(2, '0');
-    const yyyy = date.getFullYear();
-    return `${mm}/${dd}/${yyyy}`;
-  };
-
-  const formatTimeRange = (start: string, end: string): string => {
-    const formatTime = (time: string) => {
-      const [hours, minutes] = time.split(':');
-      return `${parseInt(hours)}:${minutes}`;
-    };
-    return `${formatTime(start)} - ${formatTime(end)}`;
-  };
 
   const handleSubmit = async () => {
     setLoading(true);
     setError("");
-    setConfirmation("");
-
-    const eventDateTime = new Date(`${date}T${startTime}`);
-
     const sessionData: Partial<Event> = {
       communityId,
       eventName: sessionName,
-      eventDate: eventDateTime.toISOString(),
+      eventDate: new Date(`${date}T${startTime}`).toISOString(),
       eventUrl: link,
       eventDescription: "",
       eventLocation: "",
@@ -58,24 +38,15 @@ const CreateSessionModal = ({ communityId, onSessionCreated }: CreateSessionModa
       eventOrganizers: [],
       eventParticipants: [],
     };
-
     console.log("Sending sessionData:", sessionData);
-
     try {
       const token = getToken();
       const result = await createCommunityEvent(sessionData, token);
       console.log("Backend result:", result);
-
       const isSuccess = result.Success || result.success;
       const eventObj = result.Event || result.event;
-
       if (isSuccess && eventObj) {
         onSessionCreated(eventObj);
-
-        const formattedDate = formatDate(eventDateTime);
-        const formattedTime = formatTimeRange(startTime, endTime);
-        setConfirmation(`Session created for ${formattedDate}, ${formattedTime}`);
-
         setSessionName("");
         setDate("");
         setStartTime("");
@@ -149,11 +120,8 @@ const CreateSessionModal = ({ communityId, onSessionCreated }: CreateSessionModa
           onChange={(e) => setLink(e.target.value)}
         />
       </div>
-      <Button onClick={handleSubmit} disabled={loading}>
-        {loading ? "Creating..." : "Create Session"}
-      </Button>
+      <Button onClick={handleSubmit} disabled={loading}>{loading ? "Creating..." : "Create Session"}</Button>
       {error && <div className="text-red-500 mt-2">{error}</div>}
-      {confirmation && <div className="text-green-600 mt-2">{confirmation}</div>}
     </div>
   );
 };
