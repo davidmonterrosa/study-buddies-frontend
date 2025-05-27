@@ -4,6 +4,7 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 import { Trash } from 'lucide-react'
 import { currentUser, deleteCommunity, getCommunityById, getLoggedInUserData, getMyCommunities, getToken, removeMember } from '@/utils/Services/DataServices'
 import { ICommunityData } from '@/utils/Interfaces/UserInterfaces'
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './ui/tooltip'
 // import { useAppContext } from '@/context/CommunityContext'
 
 interface LeaveOrDeleteProps {
@@ -137,10 +138,18 @@ const LeaveOrDelete: React.FC<LeaveOrDeleteProps> = ({
                             className="flex items-center gap-2 px-2 py-1 cursor-pointer hover:bg-[rgba(129,140,248,0.10)] rounded"
                             onClick={e => { e.stopPropagation(); handleActiveState(); }}
                         >
-                            <Trash className={`${isActive ? "stroke-red-500" : "dark:stroke-white stroke-black"}`} />
-                            <span className="text-sm text-black dark:text-white select-none">
-                                {cardType === 'owned' ? 'Delete Community' : 'Leave Community'}
-                            </span>
+                            <TooltipProvider>
+                                <Tooltip>
+                                    <TooltipTrigger>
+                                        <Trash className={`${isActive ? "stroke-red-500" : "dark:stroke-white stroke-black"}`} />
+                                    </TooltipTrigger>
+                                    <TooltipContent>
+                                        <span className="text-sm dark:text-black text-white select-none">
+                                            {cardType === 'owned' ? 'Delete Community' : 'Leave Community'}
+                                        </span>
+                                    </TooltipContent>
+                                </Tooltip>
+                            </TooltipProvider>
                         </div>
                     </AlertDialogTrigger>
                     <AlertDialogContent>

@@ -3,11 +3,12 @@ import React, { useEffect, useState, useRef } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from "@/components/ui/separator";
 import CommunityCard from "@/components/Card";
-import { getLoggedInUserData, getMyCommunities, getToken, getAllCommunities, currentUser } from "@/utils/Services/DataServices";
+import { getLoggedInUserData, getToken, getAllCommunities, currentUser } from "@/utils/Services/DataServices";
 import { useBreakpoint } from "@/hooks/use-mobile";
 import { ICommunityData } from "@/utils/Interfaces/UserInterfaces";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogClose } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Button } from "flowbite-react";
+import EditCard from "@/components/EditCard";
 
 const ProfilePage: React.FC = () => {
   const [user, setUser] = useState<any>(null);
@@ -164,7 +165,7 @@ const ProfilePage: React.FC = () => {
               <div className="col-span-full text-center text-gray-500 mt-8">No joined communities.</div>
             ) : (
               paginatedCommunities.map((community: ICommunityData, idx: number) => (
-                <CommunityCard
+                <EditCard
                   key={idx}
                   communityId={community.id}
                   directLink={`communities/${community.id}`}
@@ -209,7 +210,7 @@ const ProfilePage: React.FC = () => {
               <div className="col-span-full text-center text-gray-500 mt-8">No owned communities.</div>
             ) : (
               paginatedCommunities.map((community: ICommunityData, idx: number) => (
-                <CommunityCard
+                <EditCard
                   key={idx}
                   communityId={community.id}
                   directLink={`communities/${community.id}`}

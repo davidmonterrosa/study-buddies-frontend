@@ -96,14 +96,15 @@ const CommunityDashboard: React.FC<CommunityDashboardProps> = ({ communityId }) 
 
         <div className="flex flex-col flex-grow overflow-hidden">
           <TabsContent value="communityBoardTab" className="flex flex-col flex-grow overflow-hidden">
-            {communityData && (
+            {communityData ? (
               <div className="flex flex-col flex-grow h-full">
                 <CommunityBoard
                   communityGroupId={communityId}
                   chats={communityData.communityChats}
                 />
               </div>
-            )}
+            ): <h1 className='text-2xl text-center'>This community no longer exists</h1>
+            }
           </TabsContent>
 
           <TabsContent value="sessionsTab" className="relative flex flex-col h-full overflow-hidden">
@@ -152,14 +153,15 @@ const CommunityDashboard: React.FC<CommunityDashboardProps> = ({ communityId }) 
 
 
           <TabsContent value="buddiesTab" className="flex-grow overflow-y-auto scrollbar">
-            {communityData && !showDM && (
+            {(communityData && !showDM) ? (
               <BuddiesComponent
                 communityGroupId={communityId}
                 buddyCount={communityData.communityMemberCount}
                 buddies={communityData.communityMembers}
                 onMessageClick={ handleMessaging }
               />
-            )}
+            ): <h1 className='text-2xl text-center'>This community no longer exists</h1>
+            }
             {showDM && <DirectMessage buddy={buddyToDM} onBackClick={() => setShowDM(false)} />}
           </TabsContent>
         </div>

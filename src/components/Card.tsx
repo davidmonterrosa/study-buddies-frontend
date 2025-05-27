@@ -36,12 +36,19 @@ const CommunityCard: React.FC<CommunityCardProps> = ({
   isPublic,
   description,
   cardType,
-  currentUserId,
+  // currentUserId,
   showDropdown,
   updateCommunities,
-  closeParentDialog
+  // closeParentDialog
 }) => {
   const [open, setOpen] = useState(false);
+
+  const handleOptions = () => {
+    if(open === true) {
+      setOpen(false);
+    }
+
+  }
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -53,31 +60,11 @@ const CommunityCard: React.FC<CommunityCardProps> = ({
             <h1 className="font-bold text-[20px] overflow-hidden text-nowrap">
               {communityName}
             </h1>
-            {(showDropdown || cardType) ? (
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <button className="p-1 rounded-full hover:bg-[rgba(129,140,248,0.25)] focus:outline-none" onClick={e => e.stopPropagation()}>
-                    <EllipsisVertical className="w-6 h-6 text-white" />
-                  </button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
-                  {updateCommunities && (
-                    <LeaveOrDelete
-                      updateFunction={updateCommunities}
-                      communityURL={`communities/${communityId}`}
-                      closeParentDialog={() => setOpen(false)}
-                      cardType={cardType}
-                    />
-                  )}
-                </DropdownMenuContent>
-              </DropdownMenu>
-            ) : (
               <img
                 className="w-[30px]"
                 src={isPublic ? "/assets/Unlock.svg" : "/assets/Lock.svg"}
                 alt={isPublic ? "Public Community" : "Private Community"}
               />
-            )}
           </div>
           <h2 className="font-semibold text-[16px] text-left">{subject}</h2>
           <div className="flex flex-wrap gap-2 text-[14px] font-semibold mt-2">
