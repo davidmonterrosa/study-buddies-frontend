@@ -3,23 +3,63 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
 import { CalendarIcon, Clock } from "lucide-react";
+import { createCommunityEvent } from "@/utils/Services/DataServices";
+import { getToken } from "@/utils/Services/DataServices";
+import { Event } from "@/utils/Interfaces/UserInterfaces";
 
-const CreateSessionModal = () => {
+interface CreateSessionModalProps {
+  communityId: number;
+  onSessionCreated: (session: Event) => void;
+}
+
+const CreateSessionModal = ({ communityId, onSessionCreated }: CreateSessionModalProps) => {
   const [sessionName, setSessionName] = useState("");
   const [date, setDate] = useState("");
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
   const [link, setLink] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  const handleSubmit = () => {
-    const timeRange = `${startTime} - ${endTime}`;
-    const sessionData = {
-      sessionName,
-      date,
-      time: timeRange,
-      link,
+  const handleSubmit = async () => {
+    setLoading(true);
+    setError("");
+    const sessionData: Partial<Event> = {
+      communityId,
+      eventName: sessionName,
+      eventDate: new Date(`${date}T${startTime}`).toISOString(),
+      eventUrl: link,
+      eventDescription: "",
+      eventLocation: "",
+      maxParticipants: 0,
+      currentParticipants: 0,
+      eventIsPublic: true,
+      eventIsCancelled: false,
+      eventOrganizers: [],
+      eventParticipants: [],
     };
-    console.log("Session created:", sessionData);
+    console.log("Sending sessionData:", sessionData);
+    try {
+      const token = getToken();
+      const result = await createCommunityEvent(sessionData, token);
+      console.log("Backend result:", result);
+      const isSuccess = result.Success || result.success;
+      const eventObj = result.Event || result.event;
+      if (isSuccess && eventObj) {
+        onSessionCreated(eventObj);
+        setSessionName("");
+        setDate("");
+        setStartTime("");
+        setEndTime("");
+        setLink("");
+      } else {
+        setError(result?.Message || result?.message || "Failed to create session");
+      }
+    } catch (e) {
+      setError("Failed to create session");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -80,7 +120,8 @@ const CreateSessionModal = () => {
           onChange={(e) => setLink(e.target.value)}
         />
       </div>
-      <Button onClick={handleSubmit}>Create Session</Button>
+      <Button onClick={handleSubmit} disabled={loading}>{loading ? "Creating..." : "Create Session"}</Button>
+      {error && <div className="text-red-500 mt-2">{error}</div>}
     </div>
   );
 };

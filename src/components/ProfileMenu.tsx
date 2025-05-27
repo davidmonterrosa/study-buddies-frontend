@@ -53,7 +53,7 @@ const DropdownMenuProfile: React.FC<DropdownMenuProfileProps> = ({ openNotificat
                 {/* Button */}
                 <button className="hidden lg:flex items-center gap-2 cursor-pointer relative">
                     {/* Avatar */}
-                    <div className="bg-gradient-to-b from-[#6F58DA] to-[#5131E7] rounded-full w-12 h-12 flex items-center justify-center">
+                    <div className="bg-gradient-to-b from-[#6F58DA] to-[#5131E7] hover:from-[#7e6ae6] hover:to-[#6F58DA] hover:brightness-110 rounded-full w-12 h-12 flex items-center justify-center">
                         <p className="text-white text-lg font-bold">
                             {userName.slice(0, 1).toUpperCase()}
                         </p>

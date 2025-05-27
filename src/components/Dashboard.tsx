@@ -29,6 +29,8 @@ const CommunityDashboard: React.FC<CommunityDashboardProps> = ({ communityId }) 
   const [buddyToDM, setBuddyToDm] = useState<number>(-1)
   const [activeTab, setActiveTab] = useState('communityBoardTab')
   const messageContainerRef = useRef<HTMLDivElement | null>(null)
+  const [showModal, setShowModal] = useState(false);
+  const [newSession, setNewSession] = useState<any>(null);
 
   const { toggleSidebar } = useSidebar();
 
@@ -51,6 +53,10 @@ const CommunityDashboard: React.FC<CommunityDashboardProps> = ({ communityId }) 
     setBuddyToDm(buddyId);
     setShowDM(true)
   }
+  const handleSessionCreated = (session: any) => {
+    setNewSession(session);
+    setShowModal(false);
+  };
 
   return (
     <>
@@ -110,15 +116,15 @@ const CommunityDashboard: React.FC<CommunityDashboardProps> = ({ communityId }) 
           <TabsContent value="sessionsTab" className="relative flex flex-col h-full overflow-hidden">
             {/* Scrollable content */}
             <div className="flex-1 overflow-y-auto scrollbar pt-4 pb-3"> {/* Add padding bottom so sticky button isn't overlapped */}
-              <SessionsComponent />
+              <SessionsComponent communityId={communityId} newSession={newSession} fetchAfterCreate={true} />
             </div>
 
             {/* Sticky Button at Bottom (small screens only) */}
             <div className="sticky bottom-0 h-[50px] z-10 p-2 border-t border-gray-200 dark:border-[#ffffff0f]">
-              <Dialog>
+              <Dialog open={showModal} onOpenChange={setShowModal}>
                 <div className="flex justify-center">
                   <DialogTrigger asChild>
-                    <button className="w-[50%] cursor-pointer min-w-[185px] max-w-[700px] flex items-center justify-center px-4 py-2 text-white bg-gradient-to-r from-[#6F58DA] to-[#5131E7] rounded-full shadow-md gap-2">
+                    <button className="w-[50%] cursor-pointer min-w-[185px] max-w-[700px] flex items-center justify-center px-4 py-2 text-white bg-gradient-to-r from-[#6F58DA] to-[#5131E7] hover:from-[#7e6ae6] hover:to-[#6F58DA] hover:brightness-110 rounded-full shadow-md gap-2">
                       <img
                         className="w-[25px] h-[25px] invert"
                         src="/assets/sessions.svg"
@@ -144,10 +150,9 @@ const CommunityDashboard: React.FC<CommunityDashboardProps> = ({ communityId }) 
                       </DialogDescription>
                     </div>
                   </DialogHeader>
-                  <CreateSessionModal />
+                  <CreateSessionModal communityId={communityId} onSessionCreated={handleSessionCreated} />
                 </DialogContent>
               </Dialog>
-
             </div>
           </TabsContent>
 
