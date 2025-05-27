@@ -35,6 +35,21 @@ export interface CommunityChats {
     isEdited: boolean
 }
 
+export interface DirectMessages {
+    Id: number 
+    SenderId: number 
+    ReceiverId: number 
+    Message: string 
+    AttachmentUrl: string | null
+    DateTime: string 
+    IsRead: boolean 
+    RecieverRead: boolean 
+    IsDeleted: boolean 
+    DeletedAt: string
+    IsEdited: boolean 
+    EditedAt: string | null
+}
+
 
 
 export interface IUserCredentials {
