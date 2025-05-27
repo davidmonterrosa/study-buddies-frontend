@@ -26,6 +26,7 @@ interface CommunityDashboardProps {
 const CommunityDashboard: React.FC<CommunityDashboardProps> = ({ communityId }) => {
   const [communityData, setCommunityData] = useState<ICommunityData>()
   const [showDM, setShowDM] = useState(false)
+  const [buddyToDM, setBuddyToDm] = useState<number>(-1)
   const [activeTab, setActiveTab] = useState('communityBoardTab')
   const messageContainerRef = useRef<HTMLDivElement | null>(null)
 
@@ -45,6 +46,11 @@ const CommunityDashboard: React.FC<CommunityDashboardProps> = ({ communityId }) 
       container.scrollTop = container.scrollHeight
     }
   }, [communityData?.communityChats])
+
+  const handleMessaging = (buddyId: number) => {
+    setBuddyToDm(buddyId);
+    setShowDM(true)
+  }
 
   return (
     <>
@@ -151,10 +157,10 @@ const CommunityDashboard: React.FC<CommunityDashboardProps> = ({ communityId }) 
                 communityGroupId={communityId}
                 buddyCount={communityData.communityMemberCount}
                 buddies={communityData.communityMembers}
-                onMessageClick={() => setShowDM(true)}
+                onMessageClick={ handleMessaging }
               />
             )}
-            {showDM && <DirectMessage onBackClick={() => setShowDM(false)} />}
+            {showDM && <DirectMessage buddy={buddyToDM} onBackClick={() => setShowDM(false)} />}
           </TabsContent>
         </div>
       </Tabs>

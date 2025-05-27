@@ -75,9 +75,6 @@ const CommunityBoard: React.FC<CommunityBoardProps> = ({
     }
   }, [chatBoard]);
 
-  // useEffect(() => {
-
-  // }, [chatBoard])
 
   return (
     <div className="flex flex-col h-full max-h-full min-h-0 overflow-hidden">

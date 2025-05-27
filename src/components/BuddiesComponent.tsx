@@ -14,7 +14,7 @@ interface BuddyComponentProps {
   communityGroupId: number;
   buddyCount: number;
   buddies: CommunityMember[];
-  onMessageClick: () => void;
+  onMessageClick: (id: number) => void;
 }
 
 const BuddiesComponent: React.FC<BuddyComponentProps> = ({
@@ -89,7 +89,7 @@ const BuddiesComponent: React.FC<BuddyComponentProps> = ({
                       {
                         buddy.role !== "owner" &&
                         <button
-                          onClick={onMessageClick}
+                          onClick={() => onMessageClick(buddy.userId)}
                           className="ml-auto bg-[#818CF8] cursor-pointer rounded-full w-[30px] h-[30px] flex items-center justify-center"
                         >
                           <img className="w-5" src="/assets/Message.svg" alt="Message Icon" />

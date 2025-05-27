@@ -82,6 +82,19 @@ export const checkToken = () => {
     return result;
 }
 
+
+export const getUserById = async (userId: number) => {
+    const response = await fetch(`${url}User/getUserById/${userId}`);
+    if(!response.ok) {
+        const errorData = await response.json();
+        const message = errorData.message;
+        console.log(message);
+        return false;
+    }
+    const data = response.json();
+    return data
+}
+
 export const getAllCommunities = async (token: string) => {
     const response = await fetch(`${url}Community/getAllCommunities`, {
         method: "GET",
