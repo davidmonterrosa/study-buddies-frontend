@@ -74,6 +74,7 @@ const DirectMessage: React.FC<DirectMessageProps> = ({ onBackClick, buddy }) => 
           );
           if (chatWithBuddy) {
             setMessages(chatWithBuddy.messages);
+            console.log(chatWithBuddy.messages)
           } else {
             setMessages([]);
           }
@@ -81,15 +82,16 @@ const DirectMessage: React.FC<DirectMessageProps> = ({ onBackClick, buddy }) => 
       }
     }
     getDirectMessages();
+    console.log(senderId)
   }, [senderId])
 
-  const isNewDay = (date: string) => {
-    if (date !== previousDay) {
-      setPreviousDay(date);
-      return true;
-    }
-    return false;
-  }
+  // const isNewDay = (date: string) => {
+  //   if (date !== previousDay) {
+  //     setPreviousDay(date);
+  //     return true;
+  //   }
+  //   return false;
+  // }
 
   const handleSendMessage = async () => {
     if (!messageText || messageText.trim() === '') return;
@@ -133,28 +135,28 @@ const DirectMessage: React.FC<DirectMessageProps> = ({ onBackClick, buddy }) => 
       <div className="flex-1 md:px-4 overflow-y-auto space-y-3 pb-2">
         {
           (messages.length > 0 && senderId != -1) ? messages.map((message, idx) => {
-            console.log(message)
+            const isSender = message.senderId === senderId;
+            console.log(isSender)
             return (
               // Messages Scrollable Container
               <div key={idx}>
                 {/* Time Stamp */}
-                {
-                  isNewDay(message.DateTime) ?
+                {/* {
+                  isNewDay(message.dateTime) ?
                   (<div className="flex justify-center pb-4">
                       <div className="bg-[#F3F3F3] dark:bg-[#140D34] dark:border dark:border-[#aa7dfc40] rounded-[10px] py-[2px] px-[5px] max-h-10 flex items-center justify-center">
                         <p className="text-center font-bold">4/22/25</p>
                       </div>
                     </div>) : null
-                }
+                } */}
 
                 {
-                 
-                  (message.SenderId === senderId) ? (
+                  isSender ? (
                     // {/* Sent Message */}
                     <div className="flex justify-end">
                       <div className="flex flex-col items-end w-full">
                         <div className="flex items-center gap-2 mb-1">
-                          <p className="text-xs text-gray-500">{formatPostTimeStamp(message.DateTime)}</p>
+                          <p className="text-xs text-gray-500">{formatPostTimeStamp(message.dateTime)}</p>
                           <p className="font-semibold text-sm">You</p>
                           <div className="bg-[#3730A3] rounded-full w-[30px] h-[30px] flex items-center justify-center">
                             <p className="text-[14px] font-bold text-white">{`${senderName.charAt(0).toUpperCase()}`}</p>
@@ -162,7 +164,9 @@ const DirectMessage: React.FC<DirectMessageProps> = ({ onBackClick, buddy }) => 
                         </div>
                         <div className="bg-[#CBD0FF] dark:bg-[#3D3179] dark:border border-[#aa7dfc40] px-3 py-2 rounded-[25px] rounded-tr-none text-sm w-fit max-w-[75%]">
                           <p>
-                            {message.Message}
+                            {
+                              `${message.message}`
+                            }
                           </p>
                         </div>
                       </div>
@@ -177,11 +181,11 @@ const DirectMessage: React.FC<DirectMessageProps> = ({ onBackClick, buddy }) => 
                             <p className="text-[14px] font-bold text-black">{buddyInfo.user.firstName.charAt(0).toUpperCase()}</p>
                           </div>
                           <p className="font-semibold text-sm">{`${buddyInfo.user.firstName} ${buddyInfo.user.lastName}`}</p>
-                          <p className="text-xs text-gray-500">{`${formatPostTimeStamp(message.DateTime)}`}</p>
+                          <p className="text-xs text-gray-500">{`${formatPostTimeStamp(message.dateTime)}`}</p>
                         </div>
                         <div className="bg-[#F6F6F6] dark:bg-[#140D34] dark:border border-[#aa7dfc40] px-3 py-2 rounded-[25px] rounded-tl-none text-sm w-fit max-w-[75%]">
                           <p>
-                            {`${message.Message}`}
+                            {`${message.message}`}
                           </p>
                         </div>
                       </div>

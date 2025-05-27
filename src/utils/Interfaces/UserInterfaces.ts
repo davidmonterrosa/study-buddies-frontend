@@ -36,18 +36,18 @@ export interface CommunityChats {
 }
 
 export interface DirectMessages {
-    Id: number 
-    SenderId: number 
-    ReceiverId: number 
-    Message: string 
-    AttachmentUrl: string | null
-    DateTime: string 
-    IsRead: boolean 
-    RecieverRead: boolean 
-    IsDeleted: boolean 
-    DeletedAt: string
-    IsEdited: boolean 
-    EditedAt: string | null
+    id: number 
+    senderId: number 
+    receiverId: number 
+    message: string 
+    attachmentUrl: string | null
+    dateTime: string 
+    isRead: boolean 
+    recieverRead: boolean 
+    isDeleted: boolean 
+    deletedAt: string
+    isEdited: boolean 
+    editedAt: string | null
 }
 
 
