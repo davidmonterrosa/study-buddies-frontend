@@ -15,6 +15,8 @@ import {
   Bell,
   LogOut,
   PlusCircle,
+  Moon,
+  Sun,
   // Trash
 } from "lucide-react";
 import { useAppContext } from "@/context/CommunityContext";
@@ -254,15 +256,45 @@ const MyCommunitiesSidebar: React.FC<MyCommunitiesSidebarProps> = ({
                       <User className="w-4 h-4" /> Account
                     </a>
                   </Link>
-                  <DropdownItem icon={Bell} onClick={openNotificationsSidebar}>Notifications
+                  <DropdownItem
+                    icon={Bell}
+                    className="rounded-md"
+                    onMouseEnter={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => { e.currentTarget.style.backgroundColor = 'rgba(129,140,248,0.25)'; }}
+                    onMouseLeave={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => { e.currentTarget.style.backgroundColor = ''; }}
+                    onClick={openNotificationsSidebar}
+                  >
+                    Notifications
                     <span className="ml-auto bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
                       3
                     </span>
                   </DropdownItem>
+                  
+                  <button
+                    className="flex items-center gap-2 py-2 px-3 rounded-md text-sm transition hover:bg-[rgba(129,140,248,0.25)] w-full"
+                    onClick={() => {
+                      const storedTheme = localStorage.getItem("theme");
+                      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+                      const isDark = storedTheme === "dark" || (!storedTheme && prefersDark);
+                      const newTheme = isDark ? "light" : "dark";
+                      document.documentElement.classList.toggle("dark", newTheme === "dark");
+                      localStorage.setItem("theme", newTheme);
+                    }}
+                  >
+                    {/* Use current theme to show correct icon */}
+                    {typeof window !== "undefined" && (document.documentElement.classList.contains("dark") ? (
+                      <Sun className="mr-2 h-4 w-4 text-black dark:text-white" />
+                    ) : (
+                      <Moon className="mr-2 h-4 w-4 text-black" />
+                    ))}
+                    Theme
+                  </button>
+                 
                   <hr className="my-1" />
                   <DropdownItem
                     icon={LogOut}
-                    className="text-red-600 dark:text-red-500"
+                    className="text-red-600 dark:text-red-500 rounded-md"
+                    onMouseEnter={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => { e.currentTarget.style.backgroundColor = 'rgba(129,140,248,0.25)'; }}
+                    onMouseLeave={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => { e.currentTarget.style.backgroundColor = ''; }}
                     onClick={() => {
                       localStorage.removeItem("Token");
                       window.location.href = "/";
