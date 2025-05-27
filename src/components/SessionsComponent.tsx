@@ -53,7 +53,7 @@ const SessionsComponent = ({ communityId, newSession, fetchAfterCreate }: Sessio
         )}
         {sessions.map((session) => (
           <div className="flex items-start gap-2" key={session.id}>
-            <div className="bg-linear-to-b from-[#473FCB] text-white to-[#231E6D] dark:bg-linear-to-b dark:from-[#271E55] dark:to-[#100B28] dark:border-[2px] dark:border-[#aa7dfc40] px-3 py-3 rounded-lg w-full text-sm">
+            <div className="bg-linear-to-b from-[#473FCB]  text-white to-[#231E6D] dark:bg-linear-to-b dark:from-[#271E55] dark:to-[#100B28] dark:border-[2px] dark:border-[#aa7dfc40] px-3 py-3 rounded-lg w-full text-sm">
               <div className="flex items-center gap-2">
                 <div className="flex flex-col space-x-2">
                   <p className="font-semibold text-[18px]">{session.eventName}</p>
@@ -71,7 +71,7 @@ const SessionsComponent = ({ communityId, newSession, fetchAfterCreate }: Sessio
                   className="ml-auto"
                 >
                   <button
-                    className="bg-[#818CF8] cursor-pointer rounded-[10px] px-3 py-1 flex items-center justify-center"
+                    className="bg-[#818CF8] hover:from-[#7e6ae6] hover:to-[#6F58DA] hover:brightness-110 font-bold cursor-pointer rounded-[10px] px-3 py-1 flex items-center justify-center"
                     disabled={!session.eventUrl}
                     title={session.eventUrl ? 'Join Session' : 'No link provided'}
                   >

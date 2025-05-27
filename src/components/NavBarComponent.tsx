@@ -47,7 +47,7 @@ const NavBarComponent: React.FC = () => {
 
           {/* Right-side controls */}
           <div className="flex items-center gap-3">
-            <button className="hidden lg:flex items-center justify-center cursor-pointer text-white bg-gradient-to-r from-[#6F58DA] to-[#5131E7] rounded-full px-[18px] py-2.5 gap-1"
+            <button className="hidden lg:flex items-center justify-center cursor-pointer text-white bg-gradient-to-r from-[#6F58DA] to-[#5131E7] hover:from-[#7e6ae6] hover:to-[#6F58DA] hover:brightness-110 rounded-full px-[18px] py-2.5 gap-1"
               onClick={() => setIsModalOpen(true)}
             >
               <p className="text-xl">+</p>

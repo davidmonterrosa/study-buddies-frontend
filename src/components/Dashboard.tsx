@@ -118,7 +118,7 @@ const CommunityDashboard: React.FC<CommunityDashboardProps> = ({ communityId }) 
               <Dialog open={showModal} onOpenChange={setShowModal}>
                 <div className="flex justify-center">
                   <DialogTrigger asChild>
-                    <button className="w-[50%] cursor-pointer min-w-[185px] max-w-[700px] flex items-center justify-center px-4 py-2 text-white bg-gradient-to-r from-[#6F58DA] to-[#5131E7] rounded-full shadow-md gap-2">
+                    <button className="w-[50%] cursor-pointer min-w-[185px] max-w-[700px] flex items-center justify-center px-4 py-2 text-white bg-gradient-to-r from-[#6F58DA] to-[#5131E7] hover:from-[#7e6ae6] hover:to-[#6F58DA] hover:brightness-110 rounded-full shadow-md gap-2">
                       <img
                         className="w-[25px] h-[25px] invert"
                         src="/assets/sessions.svg"

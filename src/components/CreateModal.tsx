@@ -151,7 +151,7 @@ const CreateCommunityModal: React.FC<CreateCommunityModalProps> = ({ isOpen, onC
             <p className="font-medium">Subject Area</p>
             <div ref={subjectDropdownRef} className="relative">
               <button
-                className="w-full text-left text-[16px] bg-gradient-to-r from-[#6F58DA] to-[#5131E7] text-white border rounded-[10px] px-4 py-2 flex justify-between items-center cursor-pointer"
+                className="w-full text-left text-[16px] bg-gradient-to-r from-[#6F58DA] to-[#5131E7] hover:from-[#7e6ae6] hover:to-[#6F58DA] hover:brightness-110 text-white border rounded-[10px] px-4 py-2 flex justify-between items-center cursor-pointer"
                 onClick={() => setShowSubjectDropdown(!showSubjectDropdown)}
               >
                 {comSubject || "Select a Subject"}
@@ -196,7 +196,7 @@ const CreateCommunityModal: React.FC<CreateCommunityModalProps> = ({ isOpen, onC
             <p className="font-medium">Difficulty Level</p>
             <div ref={difficultyDropdownRef} className="relative">
               <button
-                className="w-full text-left text-[16px] bg-gradient-to-r from-[#6F58DA] to-[#5131E7] text-white border rounded-[10px] px-4 py-2 flex justify-between items-center cursor-pointer"
+                className="w-full text-left text-[16px] bg-gradient-to-r from-[#6F58DA] to-[#5131E7] hover:from-[#7e6ae6] hover:to-[#6F58DA] hover:brightness-110 text-white border rounded-[10px] px-4 py-2 flex justify-between items-center cursor-pointer"
                 onClick={() => setShowDifficultyDropdown(!showDifficultyDropdown)}
               >
                 {comDifficulty || "Select Difficulty Level"}
@@ -242,7 +242,7 @@ const CreateCommunityModal: React.FC<CreateCommunityModalProps> = ({ isOpen, onC
             Cancel
           </button>
           <button
-            className="bg-gradient-to-r from-[#6F58DA] to-[#5131E7] text-white rounded-[10px] font-bold px-4 py-2 w-full sm:w-auto cursor-pointer"
+            className="bg-gradient-to-r from-[#6F58DA] to-[#5131E7] hover:from-[#7e6ae6] hover:to-[#6F58DA] hover:brightness-110 text-white rounded-[10px] font-bold px-4 py-2 w-full sm:w-auto cursor-pointer"
             onClick={handleSubmit}
           >
             Create Community
