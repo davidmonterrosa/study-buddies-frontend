@@ -81,7 +81,7 @@ export const SidebarLink = ({
     <Link
       href={href}
       onClick={onClick}
-      className={`hover:cursor-pointer text-sm py-2 px-3 rounded-md transition ${isActive
+      className={`hover:cursor-pointer text-sm w-full py-2 px-3 rounded-md transition ${isActive
         ? "bg-[#818df8] text-white dark:bg-[#6f58da]"
         : "bg-transparent text-black dark:text-white hover:bg-[rgba(129,140,248,0.25)]"
         }`}

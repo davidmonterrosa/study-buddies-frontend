@@ -49,7 +49,33 @@ const LeaveOrDelete: React.FC<LeaveOrDeleteProps> = ({
 
     const urlArray = communityURL.split('/');
 
-    const handleActiveState = () => {
+    const getCommunityDetails = async () => {
+        console.log("id to apply to getCommunityById(id)", Number(urlArray[1]))
+        const returnedCommunity = await getCommunityById(Number(urlArray[1]));
+        let communityData = null;
+
+        if (returnedCommunity) {
+            if (returnedCommunity.community) {
+                communityData = returnedCommunity.community;
+            } else if (returnedCommunity.id) {
+                communityData = returnedCommunity;
+            }
+        }
+
+        if (!communityData) {
+            console.error("Community not found or API error");
+            return;
+        }
+
+        communityData.communityIsDeleted = true;
+        console.log(communityData)
+        setCommunity(communityData);
+    }
+
+    const handleActiveState = async () => {
+        if (!isActive) {
+            await getCommunityDetails();
+        }
         setIsActive(!isActive);
     }
 
@@ -110,23 +136,6 @@ const LeaveOrDelete: React.FC<LeaveOrDeleteProps> = ({
 
         getLoggedInData();
     }, [])
-
-
-    useEffect(() => {
-        const getCommunityDetails = async () => {
-            console.log("id to apply to getCommunityById(id)", Number(urlArray[1]))
-            const returnedCommunity = await getCommunityById(Number(urlArray[1]));
-            if (!returnedCommunity || !returnedCommunity.community) {
-                console.error("Community not found or API error");
-                return;
-            }
-            returnedCommunity.community.communityIsDeleted = true;
-            console.log(returnedCommunity)
-            setCommunity(returnedCommunity.community);
-        }
-        getCommunityDetails();
-    }, [])
-
 
 
     return (
