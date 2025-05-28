@@ -5,6 +5,7 @@ import { Trash } from 'lucide-react'
 import { currentUser, deleteCommunity, getCommunityById, getLoggedInUserData, /*getMyCommunities,*/ getToken, removeMember } from '@/utils/Services/DataServices'
 import { ICommunityData } from '@/utils/Interfaces/UserInterfaces'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './ui/tooltip'
+import { useRouter } from 'next/navigation'
 // import { useAppContext } from '@/context/CommunityContext'
 
 interface LeaveOrDeleteProps {
@@ -20,7 +21,7 @@ const LeaveOrDelete: React.FC<LeaveOrDeleteProps> = ({
     closeParentDialog,
     cardType
 }) => {
-
+    const router = useRouter();
     const [isActive, setIsActive] = useState<boolean>(false)
     const [userId, setUserId] = useState<number>(-1)
     // const [userName, setUserName] = useState<string>("");
@@ -80,12 +81,10 @@ const LeaveOrDelete: React.FC<LeaveOrDeleteProps> = ({
     }
 
     const handleRemovalAction = async () => {
-
         if(!community || community.id === 0) {
             console.log("Community Data not yet loaded")
             return;
         }
-
         if (!ownedCommunities.includes(communityId)) {
             const result = await removeMember(userId, communityId, getToken());
             const newCommunityData = await getLoggedInUserData(currentUser());
@@ -94,20 +93,20 @@ const LeaveOrDelete: React.FC<LeaveOrDeleteProps> = ({
                 updateFunction(newCommunityData?.user.ownedCommunitys, newCommunityData?.user.joinedCommunitys);
                 setIsActive(false);
                 if (closeParentDialog) closeParentDialog();
+                window.location.reload();
             } else {
                 console.log("Failed to leave community");
             }
-
         } else {
             const result = await deleteCommunity(community, getToken());
             const newCommunityData = await getLoggedInUserData(currentUser());
             console.log("Updated Joined Communities: ", result);
-
             if (result.success == true && newCommunityData?.success == true) {
                 console.log(result);
                 updateFunction(newCommunityData?.user.ownedCommunitys, newCommunityData?.user.joinedCommunitys);
                 setIsActive(false);
                 if (closeParentDialog) closeParentDialog();
+                window.location.reload();
             } else {
                 console.log("Failed to delete community");
             }
@@ -140,27 +139,27 @@ const LeaveOrDelete: React.FC<LeaveOrDeleteProps> = ({
 
     return (
         <>
-            {community.id !== 0 &&
-                (<AlertDialog>
-                    <AlertDialogTrigger asChild>
-                        <div
-                            className="flex items-center gap-2 px-2 py-1 cursor-pointer hover:bg-[rgba(129,140,248,0.10)] rounded"
-                            onClick={e => { e.stopPropagation(); handleActiveState(); }}
-                        >
-                            <TooltipProvider>
-                                <Tooltip>
-                                    <TooltipTrigger>
-                                        <Trash className={`${isActive ? "stroke-red-500" : "dark:stroke-white stroke-black"}`} />
-                                    </TooltipTrigger>
-                                    <TooltipContent>
-                                        <span className="text-sm dark:text-black text-white select-none">
-                                            {cardType === 'owned' ? 'Delete Community' : 'Leave Community'}
-                                        </span>
-                                    </TooltipContent>
-                                </Tooltip>
-                            </TooltipProvider>
-                        </div>
-                    </AlertDialogTrigger>
+            <AlertDialog>
+                <AlertDialogTrigger asChild>
+                    <div
+                        className="flex items-center gap-2 px-2 py-1 cursor-pointer hover:bg-[rgba(129,140,248,0.10)] rounded"
+                        onClick={e => { e.stopPropagation(); handleActiveState(); }}
+                    >
+                        <TooltipProvider>
+                            <Tooltip>
+                                <TooltipTrigger>
+                                    <Trash className={`${isActive ? "stroke-red-500" : "dark:stroke-white stroke-black"}`} />
+                                </TooltipTrigger>
+                                <TooltipContent>
+                                    <span className="text-sm dark:text-black text-white select-none">
+                                        {cardType === 'owned' ? 'Delete Community' : 'Leave Community'}
+                                    </span>
+                                </TooltipContent>
+                            </Tooltip>
+                        </TooltipProvider>
+                    </div>
+                </AlertDialogTrigger>
+                {community.id !== 0 ? (
                     <AlertDialogContent>
                         <AlertDialogHeader>
                             <AlertDialogTitle className='font-bold text-red-500'>{`${ownedCommunities.includes(communityId) ? `Are you sure you want to delete ${community.communityName}?` : `Are you sure you want to leave ${community.communityName}?`}`}</AlertDialogTitle>
@@ -173,8 +172,8 @@ const LeaveOrDelete: React.FC<LeaveOrDeleteProps> = ({
                             <AlertDialogAction onClick={e => { e.stopPropagation(); handleRemovalAction(); }}>Continue</AlertDialogAction>
                         </AlertDialogFooter>
                     </AlertDialogContent>
-                </AlertDialog>)
-            }
+                ) : null}
+            </AlertDialog>
         </>
     )
 }

@@ -90,14 +90,7 @@ export const SidebarLink = ({
         {text}
       </p>
     </Link>
-      {/* <button className="z-50 hover:cursor-pointer dark:hover:stroke-0">
-        <span className="sr-only">Community Options</span>
-        {
-          <EllipsisVertical className="stroke-none dark:hover:stroke-white hover:stroke-black"/>
-        }
-      </button> */}
-
-    <LeaveOrDelete updateFunction={updateFunction} communityURL={href}/>
+    {/* <LeaveOrDelete updateFunction={updateFunction} communityURL={href}/> */}
   </div>
 );
 
