@@ -1,5 +1,5 @@
 "use client";
-import { getAllDirectMessages } from "@/utils/Services/DirectMessageSerices";
+// import { getAllDirectMessages } from "@/utils/Services/DirectMessageSerices";
 import { useRouter } from "next/navigation";
 
 export default function Home() {

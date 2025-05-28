@@ -1,4 +1,4 @@
-import { CommunityChats, ICommunityData, IEditUserDTO, IUserCredentials, IUserNameId } from "../Interfaces/UserInterfaces";
+import { CommunityChats, ICommunityData, IEditUserDTO, IUserCredentials, IUserNameId, SessionsEvent } from "../Interfaces/UserInterfaces";
 
 const url = "https://study-buddys-backend.azurewebsites.net/";
 
@@ -339,7 +339,7 @@ export const requestJoin = async (userId: number, communityId: number, token: st
 
 // ----------------------------- Events/Sessions Management -------------------------------
 // Add Sessions
-export async function createCommunityEvent(eventData: any, token: string) {
+export async function createCommunityEvent(eventData: SessionsEvent, token: string) {
     // Creates a new community event
     const response = await fetch(`${url}CommunityEvents/createEvent`, {
         method: 'POST',

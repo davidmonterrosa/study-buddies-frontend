@@ -5,7 +5,7 @@ import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs'
 import { Separator } from './ui/separator'
 import { getCommunityById } from '@/utils/Services/DataServices'
-import { ICommunityData } from '@/utils/Interfaces/UserInterfaces'
+import { ICommunityData, SessionsEvent } from '@/utils/Interfaces/UserInterfaces'
 import BuddiesComponent from './BuddiesComponent'
 import DirectMessage from './DirectMessage'
 import CommunityBoard from './GroupMessageBoard'
@@ -14,7 +14,7 @@ import { PanelLeft } from 'lucide-react'
 import SessionsComponent from './SessionsComponent'
 
 import { Dialog, DialogContent, DialogDescription, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
-import { Button } from 'flowbite-react'
+// import { Button } from 'flowbite-react'
 import CreateSessionModal from './CreateSession'
 import { DialogHeader } from './ui/dialog'
 import { useSidebar } from '@/app/(pages)/layout'
@@ -30,7 +30,7 @@ const CommunityDashboard: React.FC<CommunityDashboardProps> = ({ communityId }) 
   const [activeTab, setActiveTab] = useState('communityBoardTab')
   const messageContainerRef = useRef<HTMLDivElement | null>(null)
   const [showModal, setShowModal] = useState(false);
-  const [newSession, setNewSession] = useState<any>(null);
+  const [newSession, setNewSession] = useState<SessionsEvent | null>(null);
 
   const { toggleSidebar } = useSidebar();
 
@@ -53,7 +53,7 @@ const CommunityDashboard: React.FC<CommunityDashboardProps> = ({ communityId }) 
     setBuddyToDm(buddyId);
     setShowDM(true)
   }
-  const handleSessionCreated = (session: any) => {
+  const handleSessionCreated = (session: SessionsEvent) => {
     setNewSession(session);
     setShowModal(false);
   };
@@ -116,7 +116,9 @@ const CommunityDashboard: React.FC<CommunityDashboardProps> = ({ communityId }) 
           <TabsContent value="sessionsTab" className="relative flex flex-col h-full overflow-hidden">
             {/* Scrollable content */}
             <div className="flex-1 overflow-y-auto scrollbar pt-4 pb-3"> {/* Add padding bottom so sticky button isn't overlapped */}
-              <SessionsComponent communityId={communityId} newSession={newSession} fetchAfterCreate={true} />
+              {newSession &&
+                <SessionsComponent communityId={communityId} newSession={newSession} fetchAfterCreate={true} />
+              }
             </div>
 
             {/* Sticky Button at Bottom (small screens only) */}

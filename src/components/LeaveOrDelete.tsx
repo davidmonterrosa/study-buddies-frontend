@@ -5,7 +5,7 @@ import { Trash } from 'lucide-react'
 import { currentUser, deleteCommunity, getCommunityById, getLoggedInUserData, /*getMyCommunities,*/ getToken, removeMember } from '@/utils/Services/DataServices'
 import { ICommunityData } from '@/utils/Interfaces/UserInterfaces'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './ui/tooltip'
-import { useRouter } from 'next/navigation'
+// import { useRouter } from 'next/navigation'
 // import { useAppContext } from '@/context/CommunityContext'
 
 interface LeaveOrDeleteProps {
@@ -21,7 +21,7 @@ const LeaveOrDelete: React.FC<LeaveOrDeleteProps> = ({
     closeParentDialog,
     cardType
 }) => {
-    const router = useRouter();
+    // const router = useRouter();
     const [isActive, setIsActive] = useState<boolean>(false)
     const [userId, setUserId] = useState<number>(-1)
     // const [userName, setUserName] = useState<string>("");

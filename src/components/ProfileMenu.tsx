@@ -44,6 +44,10 @@ const DropdownMenuProfile: React.FC<DropdownMenuProfileProps> = ({ openNotificat
         fetchUserData();
     }, []);
 
+    useEffect(() => {
+        
+    }, [requestNotifications])
+
     const logout = () => {
         localStorage.removeItem("Token");
         router.push("/");
@@ -93,9 +97,13 @@ const DropdownMenuProfile: React.FC<DropdownMenuProfileProps> = ({ openNotificat
                     <DropdownMenuItem className="cursor-pointer" onClick={openNotificationsSidebar}>
                         <Bell className="mr-2 h-4 w-4 text-black dark:text-white" />
                         Notifications
-                        <span className="ml-auto bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                            3
-                        </span>
+                        {
+                            requestNotifications.length > 0 ?
+                            <span className="ml-auto bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                                {requestNotifications.length}
+                            </span>
+                            : null
+                        }
                     </DropdownMenuItem>
                     <DropdownMenuItem >
                        <ThemeToggleDropdownItem/>
