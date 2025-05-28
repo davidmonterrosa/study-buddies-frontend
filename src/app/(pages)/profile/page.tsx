@@ -10,6 +10,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "
 import { Button } from "flowbite-react";
 import EditCard from "@/components/EditCard";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 const ProfilePage: React.FC = () => {
   const [user, setUser] = useState<IUserNameId | null>(null);
@@ -84,6 +85,11 @@ const ProfilePage: React.FC = () => {
     if(edittedUser != null && edittedUser != undefined && user != null){
       console.log(edittedUser)
       await editUser(user.user.id, edittedUser, getToken())
+      localStorage.setItem("postReloadToast", JSON.stringify({
+        type: "success",
+        message: "Profile updated!",
+        description: "Your profile has been updated successfully."
+      }));
       window.location.reload();
     }
     setEditModalOpen(false);

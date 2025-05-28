@@ -9,6 +9,7 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
 import { Button } from "./ui/button";
 import { Separator } from "./ui/separator";
+import { toast } from "sonner";
 
 interface BuddyComponentProps {
   communityGroupId: number;
@@ -61,6 +62,37 @@ const BuddiesComponent: React.FC<BuddyComponentProps> = ({
   //   // setBuddiesList()
   // }, [showRoleDialog])
 
+  // Remove member handler
+  const handleRemoveMember = async (buddy: CommunityMember) => {
+    await removeMember(buddy.userId, communityGroupId, getToken());
+    setBuddiesList(prev => prev.filter(b => b.userId !== buddy.userId));
+    localStorage.setItem("postReloadToast", JSON.stringify({
+      type: "success",
+      message: "Member Removed",
+      description: `${buddy.firstName} ${buddy.lastName} has been removed from the community.`
+    }));
+    window.location.reload();
+  };
+
+  // Change role handler
+  const handleChangeRole = async (newRole: string) => {
+    if (selectedBuddy) {
+      await changeRole(communityGroupId, selectedBuddy.userId, newRole, getToken());
+      setBuddiesList(prev =>
+        prev.map(b =>
+          b.userId === selectedBuddy.userId ? { ...b, role: newRole } : b
+        )
+      );
+      setShowRoleDialog(false);
+      localStorage.setItem("postReloadToast", JSON.stringify({
+        type: "success",
+        message: "Role Changed",
+        description: `${selectedBuddy.firstName} ${selectedBuddy.lastName} is now a ${capitalizeTitle(newRole)}.`
+      }));
+      window.location.reload();
+    }
+  };
+
   return (
     <>
       {ownedCommunities.length > 0 &&
@@ -100,65 +132,24 @@ const BuddiesComponent: React.FC<BuddyComponentProps> = ({
                         (ownedCommunities.includes(Number(communityGroupId)) && buddy.role !== "owner") &&
                         (<>
 
-                          <Dialog open={showRoleDialog} onOpenChange={setShowRoleDialog}>
-                            <DropdownMenu modal={false}>
-                              <DropdownMenuTrigger asChild className="relative">
-                                <button className="ml-2 p-1 hover:bg-muted hover:cursor-pointer rounded-full transition-colors" aria-label="Actions menu">
-                                  <EllipsisVertical className="dark:stroke-white stroke-black" />
-                                </button>
-                              </DropdownMenuTrigger>
-                              <DropdownMenuContent className="w-80 absolute top-0 right-0">
-                                <DropdownMenuLabel>{`Manage ${buddy.firstName} ${buddy.lastName}`}</DropdownMenuLabel>
-                                <DropdownMenuSeparator />
-                                <DropdownMenuItem className="hover:cursor-pointer" onClick={async () => { await removeMember(buddy.userId, communityGroupId, getToken()); window.location.reload(); }}>
-                                  <UserMinus className="w-4 h-4 mr-2 inline text-red-500"  />
-                                  <p className="text-red-500">
-                                    Remove
-                                  </p> 
-                                </DropdownMenuItem>
-                                <DropdownMenuItem className="hover:cursor-pointer" onClick={() => { setSelectedBuddy(buddy); setShowRoleDialog(true); }}>
-                                  <UserCog className="w-4 h-4 mr-2 inline" /> Change Role
-                                </DropdownMenuItem>
-                              </DropdownMenuContent>
-                            </DropdownMenu>
-                            <DialogContent>
-                              <DialogHeader>
-                                <DialogTitle>Change Role</DialogTitle>
-                                <DialogDescription className="sr-only">Menu for changing roles of selected buddy</DialogDescription>
-                              </DialogHeader>
-
-                              <div className="space-y-4">
-                                <p>Assign a new role to <strong>{selectedBuddy?.firstName} {selectedBuddy?.lastName}</strong></p>
-                                <Select defaultValue={selectedBuddy?.role} onValueChange={async (newRole: string) => {
-                                  if (selectedBuddy) {
-                                    await changeRole(communityGroupId, selectedBuddy.userId, newRole, getToken());
-                                    setBuddiesList(prev =>
-                                      prev.map(b =>
-                                        b.userId === selectedBuddy.userId ? { ...b, role: newRole } : b
-                                      )
-                                    );
-                                    setShowRoleDialog(false);
-                                    window.location.reload();
-                                  }
-                                }}>
-                                  <SelectTrigger className="hover:cursor-pointer">
-                                    <SelectValue placeholder="Select new role" />
-                                  </SelectTrigger>
-                                  <SelectContent>
-                                    <SelectItem className="hover:cursor-pointer" value="student">Student</SelectItem>
-                                    <SelectItem className="hover:cursor-pointer" value="teacher">Teacher</SelectItem>
-                                    <SelectItem className="hover:cursor-pointer" value="ta">TA/Tutor</SelectItem>
-                                    <Separator className="border-1" />
-                                    <SelectItem className="hover:cursor-pointer font-bold bg-red-500 dark:text-white text-black mt-1" value="owner">Owner</SelectItem>
-                                  </SelectContent>
-                                </Select>
-                              </div>
-
-                              <DialogFooter>
-                                <Button className="bg-red-500 hover:bg-red-500 hover:brightness-110 text-white" onClick={() => setShowRoleDialog(false)}>Cancel</Button>
-                              </DialogFooter>
-                            </DialogContent>
-                          </Dialog>
+                          <DropdownMenu modal={false}>
+                            <DropdownMenuTrigger asChild className="relative">
+                              <button className="ml-2 p-1 hover:bg-muted hover:cursor-pointer rounded-full transition-colors" aria-label="Actions menu">
+                                <EllipsisVertical className="dark:stroke-white stroke-black" />
+                              </button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent className="w-80 absolute top-0 right-0">
+                              <DropdownMenuLabel>{`Manage ${buddy.firstName} ${buddy.lastName}`}</DropdownMenuLabel>
+                              <DropdownMenuSeparator />
+                              <DropdownMenuItem className="hover:cursor-pointer" onClick={() => handleRemoveMember(buddy)}>
+                                <UserMinus className="w-4 h-4 mr-2 inline text-red-500" />
+                                <p className="text-red-500">Remove</p>
+                              </DropdownMenuItem>
+                              <DropdownMenuItem className="hover:cursor-pointer" onClick={() => { setSelectedBuddy(buddy); setShowRoleDialog(true); }}>
+                                <UserCog className="w-4 h-4 mr-2 inline" /> Change Role
+                              </DropdownMenuItem>
+                            </DropdownMenuContent>
+                          </DropdownMenu>
                         </>)
 
                         // changeRole(communityGroupId, buddy.userId, buddy.role, getToken()))}
@@ -172,6 +163,33 @@ const BuddiesComponent: React.FC<BuddyComponentProps> = ({
 
         </section>)}
 
+      {/* Role Change Dialog (single, outside the map) */}
+      <Dialog open={showRoleDialog} onOpenChange={setShowRoleDialog}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Change Role</DialogTitle>
+            <DialogDescription className="sr-only">Menu for changing roles of selected buddy</DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4">
+            <p>Assign a new role to <strong>{selectedBuddy?.firstName} {selectedBuddy?.lastName}</strong></p>
+            <Select defaultValue={selectedBuddy?.role} onValueChange={handleChangeRole}>
+              <SelectTrigger className="hover:cursor-pointer">
+                <SelectValue placeholder="Select new role" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem className="hover:cursor-pointer" value="student">Student</SelectItem>
+                <SelectItem className="hover:cursor-pointer" value="teacher">Teacher</SelectItem>
+                <SelectItem className="hover:cursor-pointer" value="ta">TA/Tutor</SelectItem>
+                <Separator className="border-1" />
+                <SelectItem className="hover:cursor-pointer font-bold bg-red-500 dark:text-white text-black mt-1" value="owner">Owner</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          <DialogFooter>
+            <Button className="bg-red-500 hover:bg-red-500 hover:brightness-110 text-white" onClick={() => setShowRoleDialog(false)}>Cancel</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </>
   );
 };

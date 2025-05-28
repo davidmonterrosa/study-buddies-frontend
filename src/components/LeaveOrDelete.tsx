@@ -6,6 +6,7 @@ import { currentUser, deleteCommunity, getCommunityById, getLoggedInUserData, /*
 import { ICommunityData } from '@/utils/Interfaces/UserInterfaces'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './ui/tooltip'
 import { useRouter } from 'next/navigation'
+import { toast } from "sonner";
 // import { useAppContext } from '@/context/CommunityContext'
 
 interface LeaveOrDeleteProps {
@@ -93,9 +94,14 @@ const LeaveOrDelete: React.FC<LeaveOrDeleteProps> = ({
                 updateFunction(newCommunityData?.user.ownedCommunitys, newCommunityData?.user.joinedCommunitys);
                 setIsActive(false);
                 if (closeParentDialog) closeParentDialog();
+                localStorage.setItem("postReloadToast", JSON.stringify({
+                  type: "success",
+                  message: "Left Community",
+                  description: `You have left ${community.communityName}.`
+                }));
                 window.location.reload();
             } else {
-                console.log("Failed to leave community");
+                toast.error("Error", { description: "Failed to leave community." })
             }
         } else {
             const result = await deleteCommunity(community, getToken());
@@ -106,9 +112,14 @@ const LeaveOrDelete: React.FC<LeaveOrDeleteProps> = ({
                 updateFunction(newCommunityData?.user.ownedCommunitys, newCommunityData?.user.joinedCommunitys);
                 setIsActive(false);
                 if (closeParentDialog) closeParentDialog();
+                localStorage.setItem("postReloadToast", JSON.stringify({
+                  type: "success",
+                  message: "Community Deleted",
+                  description: `You have deleted ${community.communityName}.`
+                }));
                 window.location.reload();
             } else {
-                console.log("Failed to delete community");
+                toast.error("Error", { description: "Failed to delete community." })
             }
         }
     }
