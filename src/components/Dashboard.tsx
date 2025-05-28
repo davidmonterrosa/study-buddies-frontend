@@ -89,7 +89,7 @@ const CommunityDashboard: React.FC<CommunityDashboardProps> = ({ communityId }) 
             {/* Difficulty & Subject badges */}
             <div className="flex flex-wrap justify-center mb-1 lg:mb-0 gap-4 md:gap-5">
               <div className={`${getDifficultyColor(communityData?.communityDifficulty || 'Beginner')}
-                 text-center text-black rounded-[10px] py-[2px] px-[5px] max-h-10 w-25 text-sm font-semibold`}>
+                  text-center text-black rounded-[10px] py-[2px] px-[5px] max-h-10 w-25 text-sm font-semibold`}>
                 <p>{communityData?.communityDifficulty || 'Beginner'}</p>
               </div>
               <div className="bg-[#818CF8] text-center rounded-[10px] py-[2px] px-[5px] max-h-10 w-25 text-sm font-semibold">
@@ -122,7 +122,7 @@ const CommunityDashboard: React.FC<CommunityDashboardProps> = ({ communityId }) 
                 </div>
                 {/* The input bar in CommunityBoard should be sticky or fixed as needed */}
               </div>
-            ): <h1 className='text-2xl text-center'>This community no longer exists</h1>
+            ) : <h1 className='text-2xl text-center'>This community no longer exists</h1>
             }
           </TabsContent>
 
@@ -176,7 +176,7 @@ const CommunityDashboard: React.FC<CommunityDashboardProps> = ({ communityId }) 
                 communityGroupId={communityId}
                 buddyCount={communityData.communityMemberCount}
                 buddies={communityData.communityMembers}
-                onMessageClick={ handleMessaging }
+                onMessageClick={handleMessaging}
               />
             ): <h1 className='text-xl text-center'>This community no longer exists</h1>
             }
