@@ -11,7 +11,7 @@ const CommunityContainer: React.FC = () => {
   const [communityGroups, setCommunityGroups] = useState<ICommunityData[]>([])
   const [currentPage, setCurrentPage] = useState<number>(1)
 
-  const { sidebarOpen, toggleSidebar } = useSidebar();
+  const { /*sidebarOpen,*/ toggleSidebar } = useSidebar();
   const breakpoint = useBreakpoint()
   const pageSize = (breakpoint === 'xl' || breakpoint === '2xl' || breakpoint === '3xl') ? 16 : breakpoint === 'lg' ? 12 : 12
 

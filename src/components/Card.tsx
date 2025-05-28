@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { getDifficultyColor } from "@/utils/Services/StyleHelpers";
 import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "./ui/dialog";
 import CommunityPreview from "./Preview";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from "./ui/dropdown-menu";
-import { EllipsisVertical } from "lucide-react";
-import LeaveOrDelete from "@/components/LeaveOrDelete";
+// import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from "./ui/dropdown-menu";
+// import { EllipsisVertical } from "lucide-react";
+// import LeaveOrDelete from "@/components/LeaveOrDelete";
 
 interface CommunityCardProps {
   communityId: number;
@@ -35,20 +35,20 @@ const CommunityCard: React.FC<CommunityCardProps> = ({
   userName,
   isPublic,
   description,
-  cardType,
+  // cardType,
   // currentUserId,
-  showDropdown,
-  updateCommunities,
+  // showDropdown,
+  // updateCommunities,
   // closeParentDialog
 }) => {
   const [open, setOpen] = useState(false);
 
-  const handleOptions = () => {
-    if(open === true) {
-      setOpen(false);
-    }
+  // const handleOptions = () => {
+  //   if(open === true) {
+  //     setOpen(false);
+  //   }
 
-  }
+  // }
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>

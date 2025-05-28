@@ -1,4 +1,4 @@
-import { CommunityChats, ICommunityData, IUserCredentials, IUserNameId } from "../Interfaces/UserInterfaces";
+import { CommunityChats, ICommunityData, IEditUserDTO, IUserCredentials, IUserNameId } from "../Interfaces/UserInterfaces";
 
 const url = "https://study-buddys-backend.azurewebsites.net/";
 
@@ -93,6 +93,25 @@ export const getUserById = async (userId: number) => {
     }
     const data = response.json();
     return data
+}
+
+export const editUser = async (userId: number, user:IEditUserDTO, token: string) => {
+    const response = await fetch(`${url}User/editUserInfo/${userId}`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + token,
+        },
+        body:JSON.stringify(user)
+    });
+    if(!response.ok) {
+        const errorData = await response.json();
+        const message = errorData.message;
+        console.log(message);
+        return false;
+    }
+    const data = response.json();
+    return data;
 }
 
 export const getAllCommunities = async (token: string) => {
