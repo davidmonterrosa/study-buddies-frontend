@@ -317,6 +317,24 @@ export const changeRole = async (communityId: number, userId: number, role: stri
     return data;
 }
 
+export const getAllRequestsToOwner = async (userId: number, token: string) => {
+    const requestsReponse = await fetch(`${url}Community/GetAllOwnersRequsdtsFromEachCommunityAsync/${userId}`, {
+        method: "GET",
+        headers: {
+            "Authorization": "Bearer " + token,
+        }
+    });
+    if(!requestsReponse.ok) {
+        const data = await requestsReponse.json();
+        const message = data.message;
+        console.log(message);
+        return null;
+    }
+    const data = await requestsReponse.json();
+    console.log(data);
+    return data;
+}
+
 export const requestJoin = async (userId: number, communityId: number, token: string) => {
     const addRequestToCommunity = await fetch(`${url}Community/addRequestToCommunity/${communityId}/${userId}`, {
         method: "POST",

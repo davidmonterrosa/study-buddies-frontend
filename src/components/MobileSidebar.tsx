@@ -22,12 +22,13 @@ import {
 import { useAppContext } from "@/context/CommunityContext";
 import Link from "next/link";
 
-import { currentUser, getLoggedInUserData } from "@/utils/Services/DataServices";
+import { currentUser, getAllRequestsToOwner, getLoggedInUserData, getToken } from "@/utils/Services/DataServices";
 // import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 // import { Dialog } from "./ui/dialog";
 // import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "./ui/alert-dialog";
 // import LeaveOrDelete from "./LeaveOrDelete";
 import CreateCommunityModal from "./CreateModal";
+import { IRequestData } from "@/utils/Interfaces/UserInterfaces";
 
 
 interface MyCommunitiesSidebarProps {
@@ -117,12 +118,13 @@ const MyCommunitiesSidebar: React.FC<MyCommunitiesSidebarProps> = ({
   const { communityGroups } = useAppContext();
 
   // User data state
+  const [userId, setUserId] = useState<number>(-1)
   const [userName, setUserName] = useState<string>("");
   const [firstName, setFirstName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
   const [ownedCommunities, setOwnedCommunities] = useState<number[]>([])
   const [joinedCommunities, setJoinedCommunities] = useState<number[]>([])
-  const [requestNotifications, setRequestNotifications] = useState<number[]>([]);
+  const [requestNotifications, setRequestNotifications] = useState<IRequestData[]>([]);
   // Lock body scroll when drawer is open
   useEffect(() => {
     if (isOpen) {
@@ -142,14 +144,16 @@ const MyCommunitiesSidebar: React.FC<MyCommunitiesSidebarProps> = ({
       if (!user || !user.user.username) return;
 
       const loggedIn = await getLoggedInUserData(user.user.username);
-
       if (loggedIn) {
+        const notificationData = await getAllRequestsToOwner(loggedIn.user.id, getToken())
+        setUserId(loggedIn.user.id)
         setUserName(loggedIn.user.username || "");
         setFirstName(loggedIn.user.firstName || "");
         setLastName(loggedIn.user.lastName || "");
         setOwnedCommunities(loggedIn.user.ownedCommunitys);
         setJoinedCommunities(loggedIn.user.joinedCommunitys);
-        setRequestNotifications(loggedIn.user.communityRequests)
+        console.log("Request data: ", notificationData)
+        setRequestNotifications(notificationData)
       }
     };
 
@@ -166,6 +170,18 @@ const MyCommunitiesSidebar: React.FC<MyCommunitiesSidebarProps> = ({
     console.log("Owned: ", ownedCommunities)
     console.log("Joined: ", joinedCommunities)
   }, [ownedCommunities, joinedCommunities])
+
+  useEffect(() => {
+    const getUpdatedNotifications = async () => {
+      if(userId != -1) {
+        const notificationData = await getAllRequestsToOwner(userId, getToken())
+        console.log("This is the shape of the request data: ", notificationData)
+        setRequestNotifications(notificationData)
+      }
+    }
+    getUpdatedNotifications()
+
+  }, [])
 
   return (
     <>
@@ -237,7 +253,7 @@ const MyCommunitiesSidebar: React.FC<MyCommunitiesSidebarProps> = ({
 
                 {/* Notification Badge */}
                 {
-                  requestNotifications.length > 0 ?
+                  requestNotifications ?
                   <span className="absolute top-[-4px] right-[-4px] bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center z-10">
                     {requestNotifications.length}
                   </span>
@@ -276,9 +292,9 @@ const MyCommunitiesSidebar: React.FC<MyCommunitiesSidebarProps> = ({
                   >
                     Notifications
                     {
-                      requestNotifications.length > 0 ?
+                      requestNotifications && requestNotifications.length > 0 ?
                       <span className="ml-auto bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                        {requestNotifications.length}
+                        {requestNotifications[0].communityRequestCountNumber}
                       </span>
                       : null
                     }
