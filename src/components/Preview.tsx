@@ -56,17 +56,12 @@ const CommunityPreview: React.FC<PreviewProps> = ({
         if(!myCommunities.includes(communityId)){
           const result = await joinCommunity(userId, communityId, getToken());
           if(result) {
-            localStorage.setItem("postReloadToast", JSON.stringify({
-              type: "success",
-              message: "Joined Community",
+            toast.success("Joined Community", {
               description: `You have joined ${communityName} successfully!`
-            }));
-            window.location.reload();
+            });
           } else {
-            toast({
-              title: "Error",
-              description: `Failed to join ${communityName}.`,
-              variant: "destructive"
+            toast.error("Error", {
+              description: `Failed to join ${communityName}.`
             });
           }
           console.log(result)

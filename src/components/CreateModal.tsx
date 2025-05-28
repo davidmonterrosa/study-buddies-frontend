@@ -109,13 +109,9 @@ const CreateCommunityModal: React.FC<CreateCommunityModalProps> = ({ isOpen, onC
     console.log(communityGroup);
     const result = await createNewCommunity(communityGroup, getToken());
     if (result == true) {
-      // Instead of showing toast and then reloading, set a flag for post-reload toast
-      localStorage.setItem("postReloadToast", JSON.stringify({
-        type: "success",
-        message: "Community Created!",
+      toast.success("Community Created!", {
         description: "Your new community has been created successfully!"
-      }));
-      window.location.reload();
+      });
     } else {
       toast.error("Error", { description: "Failed to create community." });
     }

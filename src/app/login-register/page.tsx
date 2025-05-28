@@ -4,6 +4,7 @@ import { createAccount, getLoggedInUserData, login } from '@/utils/Services/Data
 import { Eye, EyeClosed } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import React, { Suspense, useState, useEffect } from 'react';
+import { toast } from "sonner";
 
 const SignIn = () => {
   const [isUserAlready, setIsUserAlready] = useState<boolean>(false);
@@ -67,6 +68,11 @@ const SignIn = () => {
             if (userNameAndId) {
               localStorage.setItem("User", userNameAndId.user.username);
             }
+            localStorage.setItem("postReloadToast", JSON.stringify({
+              type: "success",
+              message: "Account Created!",
+              description: "Welcome to Study Buddies!"
+            }));
             router.push('/landing');
           }
         } else {
