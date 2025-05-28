@@ -6,6 +6,7 @@ import { CalendarIcon, Clock } from "lucide-react";
 import { createCommunityEvent } from "@/utils/Services/DataServices";
 import { getToken } from "@/utils/Services/DataServices";
 import { Event } from "@/utils/Interfaces/UserInterfaces";
+import { toast } from "sonner";
 
 interface CreateSessionModalProps {
   communityId: number;
@@ -52,8 +53,15 @@ const CreateSessionModal = ({ communityId, onSessionCreated }: CreateSessionModa
         setStartTime("");
         setEndTime("");
         setLink("");
+        localStorage.setItem("postReloadToast", JSON.stringify({
+          type: "success",
+          message: "Session Created!",
+          description: "Your session has been created successfully!"
+        }));
+        window.location.reload();
       } else {
         setError(result?.Message || result?.message || "Failed to create session");
+        toast.error("Error", { description: result?.Message || result?.message || "Failed to create session" });
       }
     } catch {
       setError("Failed to create session");

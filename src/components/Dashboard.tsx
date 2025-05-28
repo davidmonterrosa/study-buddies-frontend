@@ -108,7 +108,7 @@ const CommunityDashboard: React.FC<CommunityDashboardProps> = ({ communityId }) 
           <TabsTrigger value="buddiesTab" className="tab-trigger cursor-pointer">Buddies</TabsTrigger>
         </TabsList>
 
-        <Separator className="rounded-sm dark:border-white border-[1px]" />
+        <Separator className="rounded-sm dark:border-gray-200 border-[1px]" />
 
         <div className="flex flex-col flex-grow min-h-0 overflow-hidden">
           <TabsContent value="communityBoardTab" className="flex flex-col flex-grow min-h-0 overflow-hidden">
@@ -171,16 +171,16 @@ const CommunityDashboard: React.FC<CommunityDashboardProps> = ({ communityId }) 
 
 
           <TabsContent value="buddiesTab" className="flex-grow overflow-y-auto scrollbar">
-            {(communityData && !showDM) ? (
+            {showDM ? (
+              <DirectMessage buddy={buddyToDM} onBackClick={() => setShowDM(false)} />
+            ) : communityData ? (
               <BuddiesComponent
                 communityGroupId={communityId}
                 buddyCount={communityData.communityMemberCount}
                 buddies={communityData.communityMembers}
                 onMessageClick={handleMessaging}
               />
-            ): <h1 className='text-xl text-center'>This community no longer exists</h1>
-            }
-            {showDM && <DirectMessage buddy={buddyToDM} onBackClick={() => setShowDM(false)} />}
+            ) : null}
           </TabsContent>
         </div>
       </Tabs>

@@ -2,6 +2,7 @@
 import { checkToken, currentUser, getLoggedInUserData, getToken, joinCommunity, requestJoin } from "@/utils/Services/DataServices";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 interface PreviewProps {
   communityId: number;
@@ -55,7 +56,18 @@ const CommunityPreview: React.FC<PreviewProps> = ({
         if(!myCommunities.includes(communityId)){
           const result = await joinCommunity(userId, communityId, getToken());
           if(result) {
-            onCancel();
+            localStorage.setItem("postReloadToast", JSON.stringify({
+              type: "success",
+              message: "Joined Community",
+              description: `You have joined ${communityName} successfully!`
+            }));
+            window.location.reload();
+          } else {
+            toast({
+              title: "Error",
+              description: `Failed to join ${communityName}.`,
+              variant: "destructive"
+            });
           }
           console.log(result)
         } else {

@@ -12,6 +12,7 @@ import {
 } from "@/utils/Services/DataServices";
 import { useRouter } from "next/navigation";
 import { SwitchToggle } from "./ui/SwitchToggle";
+import { toast } from "sonner";
 
 interface CreateCommunityModalProps {
   isOpen: boolean;
@@ -108,11 +109,15 @@ const CreateCommunityModal: React.FC<CreateCommunityModalProps> = ({ isOpen, onC
     console.log(communityGroup);
     const result = await createNewCommunity(communityGroup, getToken());
     if (result == true) {
-      console.log("Successfully created group");
-      onClose();
-      window.location.reload()
+      // Instead of showing toast and then reloading, set a flag for post-reload toast
+      localStorage.setItem("postReloadToast", JSON.stringify({
+        type: "success",
+        message: "Community Created!",
+        description: "Your new community has been created successfully!"
+      }));
+      window.location.reload();
     } else {
-      console.log("Not created");
+      toast.error("Error", { description: "Failed to create community." });
     }
   };
 
