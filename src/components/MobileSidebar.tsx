@@ -109,7 +109,7 @@ const MyCommunitiesSidebar: React.FC<MyCommunitiesSidebarProps> = ({
   const [lastName, setLastName] = useState<string>("");
   const [ownedCommunities, setOwnedCommunities] = useState<number[]>([])
   const [joinedCommunities, setJoinedCommunities] = useState<number[]>([])
-
+  const [requestNotifications, setRequestNotifications] = useState<number[]>([]);
   // Lock body scroll when drawer is open
   useEffect(() => {
     if (isOpen) {
@@ -136,6 +136,7 @@ const MyCommunitiesSidebar: React.FC<MyCommunitiesSidebarProps> = ({
         setLastName(loggedIn.user.lastName || "");
         setOwnedCommunities(loggedIn.user.ownedCommunitys);
         setJoinedCommunities(loggedIn.user.joinedCommunitys);
+        setRequestNotifications(loggedIn.user.communityRequests)
       }
     };
 
@@ -257,9 +258,13 @@ const MyCommunitiesSidebar: React.FC<MyCommunitiesSidebarProps> = ({
                     onClick={openNotificationsSidebar}
                   >
                     Notifications
-                    <span className="ml-auto bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                      3
-                    </span>
+                    {
+                      requestNotifications.length > 0 ?
+                      <span className="ml-auto bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                        {}
+                      </span>
+                      : null
+                    }
                   </DropdownItem>
                   
                   <button

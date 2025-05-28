@@ -23,7 +23,7 @@ const NotificationsSidebar: React.FC<NotificationsSidebarProps> = ({ isOpen, onC
         </div>
 
         {/* DM Notification */}
-        <div className="flex items-start gap-2 pt-2">
+        {/* <div className="flex items-start gap-2 pt-2">
           <div className="bg-[#F6F6F6] dark:bg-[#140D34] dark:border-[1px] dark:border-[#aa7dfc40] px-3 py-2 rounded-lg w-full text-sm">
             <div className="flex mt-2 gap-2 items-center">
               <div className="bg-[#818CF8] rounded-full w-[30px] h-[30px] flex items-center justify-center">
@@ -37,10 +37,10 @@ const NotificationsSidebar: React.FC<NotificationsSidebarProps> = ({ isOpen, onC
               Anyone interested in joining?
             </p>
           </div>
-        </div>
+        </div> */}
 
         {/* Created Community Notification */}
-        <div className="flex items-start gap-2 pt-2">
+        {/* <div className="flex items-start gap-2 pt-2">
           <div className="bg-[#3730A3] dark:bg-[#140D34] dark:border-[1px] dark:border-[#aa7dfc40] px-3 py-2 rounded-lg w-full text-sm">
             <div className="flex gap-2 items-center">
               <div className="bg-[#818CF8] rounded-full w-[50px] h-[50px] flex items-center justify-center shrink-0">
@@ -55,7 +55,7 @@ const NotificationsSidebar: React.FC<NotificationsSidebarProps> = ({ isOpen, onC
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
 
       </div>
     </div>
