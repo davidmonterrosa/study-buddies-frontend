@@ -1,6 +1,7 @@
 'use client'
 import { Itoken } from '@/utils/Interfaces/UserInterfaces';
 import { createAccount, getLoggedInUserData, login } from '@/utils/Services/DataServices';
+import { Eye, EyeClosed } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import React, { Suspense, useState, useEffect } from 'react';
 
@@ -10,7 +11,9 @@ const SignIn = () => {
   const [firstName, setFirstName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  
+  const [showPassword, setShowPassword] = useState(false);
+
+  const togglePassword = () => setShowPassword(prev => !prev);
   const router = useRouter();
 
   const searchParams = useSearchParams();
@@ -53,12 +56,25 @@ const SignIn = () => {
       // Create Account Logic
       const result = await createAccount(inputCredentials);
 
-      if (result){
-        console.log("Account Created")
-        setIsUserAlready(true)
+      if (result) {
+        // Account created, now log the user in automatically
+        const token: Itoken = await login({ username, password, firstName, lastName });
+
+        if (token != null) {
+          if (typeof window != null) {
+            localStorage.setItem("Token", token.token);
+            const userNameAndId = await getLoggedInUserData(username);
+            if (userNameAndId) {
+              localStorage.setItem("User", userNameAndId.user.username);
+            }
+            router.push('/landing');
+          }
+        } else {
+          alert("Account created, but automatic login failed. Please try logging in.");
+        }
       } else {
         console.log("Username already exists");
-      } 
+      }
 
     } else {
       // Login Logic
@@ -67,16 +83,22 @@ const SignIn = () => {
       if (token != null) {
         if (typeof window != null) {
           localStorage.setItem("Token", token.token);
-          console.log(username)
           const userNameAndId = await getLoggedInUserData(username);
-          if(userNameAndId) {
-            localStorage.setItem("User", userNameAndId.user.username); 
+          if (userNameAndId) {
+            localStorage.setItem("User", userNameAndId.user.username);
           }
           router.push('/landing');
         }
       } else {
         alert("Invalid credentials");
       }
+    }
+  }
+
+  const handleKeyDown = (event: React.KeyboardEvent) => {
+    if (event.key === 'Enter') {
+      event.preventDefault(); // Prevent form submission on Enter key
+      handleSubmit(); // Call the submit handler
     }
   }
 
@@ -89,7 +111,7 @@ const SignIn = () => {
           Connect, Collaborate, and Conquer Your Studies Together!
         </h1>
       </div>
-      
+
       {/* Form Section */}
       <div className="w-full min-h-screen lg:w-[30%] bg-white dark:bg-linear-to-b dark:from-[#271E55] dark:to-[#100B28] dark:border-[1px] dark:border-[#aa7dfc40] flex flex-col items-center justify-center p-8">
         <div className="w-full max-w-[700px] mx-auto flex flex-col justify-center">
@@ -139,20 +161,32 @@ const SignIn = () => {
                 type="email"
                 className="w-full p-2 lg:p-3 bg-[#F6F6F6] text-black rounded-[15px]"
                 placeholder="Email"
+                onKeyDown={handleKeyDown}
                 required
                 onChange={(e) => setUsername(e.target.value)}
               />
             </div>
 
-            <div className=" mb-2 lg:mb-4">
+            <div className="relative mb-2 lg:mb-4">
               <label className="block text-[20px] font-medium mb-2">Password:</label>
-              <input
-                type="password"
-                className="w-full p-2 lg:p-3 bg-[#F6F6F6] text-black rounded-[15px]"
-                placeholder="Password"
-                required
-                onChange={(e) => setPassword(e.target.value)}
-              />
+              <div className="flex items-center bg-[#F6F6F6] rounded-[15px] px-2">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  className="w-full p-2 lg:p-3 bg-transparent text-black outline-none"
+                  placeholder="Password"
+                  onKeyDown={handleKeyDown}
+                  required
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+                <button
+                  type="button"
+                  onClick={togglePassword}
+                  className="ml-2 mr-1.5 text-gray-600 focus:outline-none"
+                  tabIndex={-1}
+                >
+                  {showPassword ? <Eye /> : <EyeClosed />}
+                </button>
+              </div>
             </div>
 
             <div className=" mb-2 lg:mb-4 mt-[40px]">
