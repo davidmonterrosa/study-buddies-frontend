@@ -347,5 +347,6 @@ export async function deleteCommunityEvent(communityId: number, eventId: number,
 export const getEventsByCommunityId = async (communityId: number) => {
     const response = await fetch(`${url}CommunityEvents/getEventsByCommunityId/${communityId}`);
     const data = await response.json();
-    return data.Events || data.events || data || [];
+    const sessions = data.Events || data.events || data;
+    return Array.isArray(sessions) ? sessions : [];
 }
