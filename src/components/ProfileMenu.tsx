@@ -25,6 +25,7 @@ const DropdownMenuProfile: React.FC<DropdownMenuProfileProps> = ({ openNotificat
     const [userName, setUserName] = useState("");
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
+    const [requestNotifications, setRequestNotifications] = useState<number[]>([]);
 
     useEffect(() => {
         const fetchUserData = async () => {
@@ -36,6 +37,7 @@ const DropdownMenuProfile: React.FC<DropdownMenuProfileProps> = ({ openNotificat
                 setUserName(loggedIn.user.username || "");
                 setFirstName(loggedIn.user.firstName || "");
                 setLastName(loggedIn.user.lastName || "");
+                setRequestNotifications(loggedIn.user.communityRequests)
             }
         };
 
@@ -59,9 +61,13 @@ const DropdownMenuProfile: React.FC<DropdownMenuProfileProps> = ({ openNotificat
                         </p>
                     </div>
                     {/* Notification Badge */}
-                    <span className="absolute top-[-2px] right-[-2px] bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center z-10">
-                        3
-                    </span>
+                    { requestNotifications.length > 0 ?
+                        <span className="absolute top-[-2px] right-[-2px] bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center z-10">
+                            {requestNotifications.length}
+                        </span>
+                        :
+                        null
+                    }
                 </button>
 
             </DropdownMenuTrigger>
