@@ -2,7 +2,7 @@
 import { CommunityMember } from "@/utils/Interfaces/UserInterfaces";
 import { changeRole, currentUser, getLoggedInUserData, getToken, removeMember } from "@/utils/Services/DataServices";
 import { capitalizeTitle, getRoleStyling } from "@/utils/Services/StyleHelpers";
-import { EllipsisVertical } from "lucide-react";
+import { EllipsisVertical, UserMinus, UserCog } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "./ui/dropdown-menu";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "./ui/dialog";
@@ -110,8 +110,15 @@ const BuddiesComponent: React.FC<BuddyComponentProps> = ({
                               <DropdownMenuContent className="w-80 absolute top-0 right-0">
                                 <DropdownMenuLabel>{`Manage ${buddy.firstName} ${buddy.lastName}`}</DropdownMenuLabel>
                                 <DropdownMenuSeparator />
-                                <DropdownMenuItem className="hover:cursor-pointer" onClick={(() => removeMember(buddy.userId, communityGroupId, getToken()))}>Remove</DropdownMenuItem>
-                                <DropdownMenuItem className="hover:cursor-pointer" onClick={(() => { setSelectedBuddy(buddy); setShowRoleDialog(true); })}>Change Role</DropdownMenuItem>
+                                <DropdownMenuItem className="hover:cursor-pointer" onClick={async () => { await removeMember(buddy.userId, communityGroupId, getToken()); window.location.reload(); }}>
+                                  <UserMinus className="w-4 h-4 mr-2 inline text-red-500"  />
+                                  <p className="text-red-500">
+                                    Remove
+                                  </p> 
+                                </DropdownMenuItem>
+                                <DropdownMenuItem className="hover:cursor-pointer" onClick={() => { setSelectedBuddy(buddy); setShowRoleDialog(true); }}>
+                                  <UserCog className="w-4 h-4 mr-2 inline" /> Change Role
+                                </DropdownMenuItem>
                               </DropdownMenuContent>
                             </DropdownMenu>
                             <DialogContent>
@@ -125,13 +132,13 @@ const BuddiesComponent: React.FC<BuddyComponentProps> = ({
                                 <Select defaultValue={selectedBuddy?.role} onValueChange={async (newRole: string) => {
                                   if (selectedBuddy) {
                                     await changeRole(communityGroupId, selectedBuddy.userId, newRole, getToken());
-                                    // Update the buddiesList state to reflect the new role immediately
                                     setBuddiesList(prev =>
                                       prev.map(b =>
                                         b.userId === selectedBuddy.userId ? { ...b, role: newRole } : b
                                       )
                                     );
                                     setShowRoleDialog(false);
+                                    window.location.reload();
                                   }
                                 }}>
                                   <SelectTrigger className="hover:cursor-pointer">
@@ -148,7 +155,7 @@ const BuddiesComponent: React.FC<BuddyComponentProps> = ({
                               </div>
 
                               <DialogFooter>
-                                <Button variant="secondary" onClick={() => setShowRoleDialog(false)}>Cancel</Button>
+                                <Button className="bg-red-500 hover:bg-red-500 hover:brightness-110 text-white" onClick={() => setShowRoleDialog(false)}>Cancel</Button>
                               </DialogFooter>
                             </DialogContent>
                           </Dialog>

@@ -14,7 +14,6 @@ import { PanelLeft } from 'lucide-react'
 import SessionsComponent from './SessionsComponent'
 
 import { Dialog, DialogContent, DialogDescription, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
-import { Button } from 'flowbite-react'
 import CreateSessionModal from './CreateSession'
 import { DialogHeader } from './ui/dialog'
 import { useSidebar } from '@/app/(pages)/layout'
@@ -27,7 +26,7 @@ const CommunityDashboard: React.FC<CommunityDashboardProps> = ({ communityId }) 
   const [communityData, setCommunityData] = useState<ICommunityData>()
   const [showDM, setShowDM] = useState(false)
   const [buddyToDM, setBuddyToDm] = useState<number>(-1)
-  const [activeTab, setActiveTab] = useState('communityBoardTab')
+  const [activeTab, setActiveTab] = useState('communityBoardTab');
   const messageContainerRef = useRef<HTMLDivElement | null>(null)
   const [showModal, setShowModal] = useState(false);
   const [newSession, setNewSession] = useState<any>(null);
@@ -48,6 +47,17 @@ const CommunityDashboard: React.FC<CommunityDashboardProps> = ({ communityId }) 
       container.scrollTop = container.scrollHeight
     }
   }, [communityData?.communityChats])
+
+  useEffect(() => {
+    const stored = localStorage.getItem('dashboardTab');
+    if (stored && stored !== activeTab) {
+      setActiveTab(stored);
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('dashboardTab', activeTab);
+  }, [activeTab]);
 
   const handleMessaging = (buddyId: number) => {
     setBuddyToDm(buddyId);
@@ -92,7 +102,7 @@ const CommunityDashboard: React.FC<CommunityDashboardProps> = ({ communityId }) 
 
       {/* Tabs */}
       <Tabs value={activeTab} onValueChange={setActiveTab} className="flex flex-col  h-[90%] lg:h-[94%] xl:h-[96%]">
-        <TabsList className="bg-[#F6F6F6] dark:bg-[#140D34] dark:border dark:border-[#aa7dfc40] lg:border-0 lg:bg-transparent lg:dark:bg-transparent lg:dark:border-0 gap-6 w-full rounded-lg">
+        <TabsList className="bg-[#F6F6F6] dark:bg-[#140D34] dark:border dark:border-[#aa7dfc40] lg:border-0 lg:bg-transparent lg:dark:bg-transparent lg:dark:border-0  w-full rounded-lg">
           <TabsTrigger value="communityBoardTab" className="tab-trigger cursor-pointer">Community Board</TabsTrigger>
           <TabsTrigger value="sessionsTab" className="tab-trigger cursor-pointer">Sessions</TabsTrigger>
           <TabsTrigger value="buddiesTab" className="tab-trigger cursor-pointer">Buddies</TabsTrigger>
@@ -100,27 +110,30 @@ const CommunityDashboard: React.FC<CommunityDashboardProps> = ({ communityId }) 
 
         <Separator className="rounded-sm dark:border-white border-[1px]" />
 
-        <div className="flex flex-col flex-grow overflow-hidden">
-          <TabsContent value="communityBoardTab" className="flex flex-col flex-grow overflow-hidden">
+        <div className="flex flex-col flex-grow min-h-0 overflow-hidden">
+          <TabsContent value="communityBoardTab" className="flex flex-col flex-grow min-h-0 overflow-hidden">
             {communityData ? (
-              <div className="flex flex-col flex-grow h-full">
-                <CommunityBoard
-                  communityGroupId={communityId}
-                  chats={communityData.communityChats}
-                />
+              <div className="flex flex-col flex-1 min-h-0">
+                <div className="flex-1 min-h-0 overflow-y-auto">
+                  <CommunityBoard
+                    communityGroupId={communityId}
+                    chats={communityData.communityChats}
+                  />
+                </div>
+                {/* The input bar in CommunityBoard should be sticky or fixed as needed */}
               </div>
             ): <h1 className='text-2xl text-center'>This community no longer exists</h1>
             }
           </TabsContent>
 
-          <TabsContent value="sessionsTab" className="relative flex flex-col h-full overflow-hidden">
+          <TabsContent value="sessionsTab" className="relative flex flex-col flex-1 min-h-0 overflow-hidden">
             {/* Scrollable content */}
-            <div className="flex-1 overflow-y-auto scrollbar pt-4 pb-3"> {/* Add padding bottom so sticky button isn't overlapped */}
+            <div className="flex-1 min-h-0 overflow-y-auto scrollbar pt-4 pb-3"> {/* Add padding bottom so sticky button isn't overlapped */}
               <SessionsComponent communityId={communityId} newSession={newSession} fetchAfterCreate={true} />
             </div>
 
             {/* Sticky Button at Bottom (small screens only) */}
-            <div className="sticky bottom-0 h-[50px] z-10 p-2 border-t border-gray-200 dark:border-[#ffffff0f]">
+            <div className="sticky bottom-0 h-[50px] z-10 p-2 border-t border-gray-200 dark:border-[#ffffff0f] bg-white dark:bg-[#100B28]">
               <Dialog open={showModal} onOpenChange={setShowModal}>
                 <div className="flex justify-center">
                   <DialogTrigger asChild>
@@ -165,7 +178,7 @@ const CommunityDashboard: React.FC<CommunityDashboardProps> = ({ communityId }) 
                 buddies={communityData.communityMembers}
                 onMessageClick={ handleMessaging }
               />
-            ): <h1 className='text-2xl text-center'>This community no longer exists</h1>
+            ): <h1 className='text-xl text-center'>This community no longer exists</h1>
             }
             {showDM && <DirectMessage buddy={buddyToDM} onBackClick={() => setShowDM(false)} />}
           </TabsContent>

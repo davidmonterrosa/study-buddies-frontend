@@ -97,7 +97,7 @@ const CommunityAutoSuggest = () => {
     return (
         <>
             {/* Searchbar */}
-          <div className="flex bg-white items-center xl:w-xl w-lg rounded-2xl border-2 px-3 py-[3px] relative">
+          <div className="flex bg-white items-center min-w-[60%] sm:w-lg lg:min-w-[50%] xl:min-w-[65%] rounded-2xl border-2 px-3 py-[3px] relative">
             <button className="size-9 mx-2 cursor-pointer">
               <img className="w-[25px] h-[25px]" src="../assets/searchIcon.svg" alt="Search" />
             </button>
