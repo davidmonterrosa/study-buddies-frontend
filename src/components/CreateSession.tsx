@@ -55,7 +55,7 @@ const CreateSessionModal = ({ communityId, onSessionCreated }: CreateSessionModa
       } else {
         setError(result?.Message || result?.message || "Failed to create session");
       }
-    } catch (e) {
+    } catch {
       setError("Failed to create session");
     } finally {
       setLoading(false);

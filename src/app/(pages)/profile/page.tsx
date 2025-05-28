@@ -2,35 +2,37 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from "@/components/ui/separator";
-import CommunityCard from "@/components/Card";
-import { getLoggedInUserData, getToken, getAllCommunities, currentUser } from "@/utils/Services/DataServices";
+// import CommunityCard from "@/components/Card";
+import { getLoggedInUserData, getToken, getAllCommunities, currentUser, editUser } from "@/utils/Services/DataServices";
 import { useBreakpoint } from "@/hooks/use-mobile";
-import { ICommunityData } from "@/utils/Interfaces/UserInterfaces";
+import { ICommunityData, IEditUserDTO, IUserNameId } from "@/utils/Interfaces/UserInterfaces";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Button } from "flowbite-react";
 import EditCard from "@/components/EditCard";
 
 const ProfilePage: React.FC = () => {
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<IUserNameId | null>(null);
   const [allCommunities, setAllCommunities] = useState<ICommunityData[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [activeTab, setActiveTab] = useState<'joined' | 'owned'>("joined");
   const breakpoint = useBreakpoint();
   const pageSize = (breakpoint === 'xl' || breakpoint === '2xl' || breakpoint === '3xl') ? 16 : breakpoint === 'lg' ? 16 : 10;
   const [editModalOpen, setEditModalOpen] = useState(false);
+  const [edittedUser, setEdittedUser] = useState<IEditUserDTO | null>();
   const [editFirstName, setEditFirstName] = useState("");
   const [editLastName, setEditLastName] = useState("");
   const [editUsername, setEditUsername] = useState("");
-  const [editPassword, setEditPassword] = useState("");
+  // const [editPassword, setEditPassword] = useState("");
   const firstInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     const fetchData = async () => {
       const loggedInUser = await getLoggedInUserData(currentUser());
       if (loggedInUser) {
-        setUser(loggedInUser.user);
+        setUser(loggedInUser);
         const data = await getAllCommunities(getToken());
         setAllCommunities(data.communities);
+        // setEdittedUser(loggedInUser.user.firstName, loggedInUser.user.lastName, loggedInUser.user.username)
         setEditFirstName(loggedInUser.user.firstName);
         setEditLastName(loggedInUser.user.lastName);
         setEditUsername(loggedInUser.user.username);
@@ -39,29 +41,49 @@ const ProfilePage: React.FC = () => {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    setEdittedUser(buildEdittedUser(editFirstName, editLastName, editUsername))
+  }, [editFirstName, editLastName, editUsername])
+
   const openEditModal = () => {
-    setEditFirstName(user.firstName);
-    setEditLastName(user.lastName);
-    setEditUsername(user.username);
-    setEditPassword("");
+    if(user != null) {
+      setEditFirstName(user.user.firstName);
+      setEditLastName(user.user.lastName);
+      setEditUsername(user.user.username);
+    }
+    // setEditPassword("");
     setEditModalOpen(true);
     setTimeout(() => firstInputRef.current?.focus(), 100);
   };
 
-  const handleSaveProfile = () => {
-    // Logic to pass the save
+
+  const buildEdittedUser = (
+    FirstName: string,
+    LastName: string,
+    Username: string,
+  ) => ({
+    FirstName,
+    LastName,
+    Username
+  })
+
+  const handleSaveProfile = async () => {
+    if(edittedUser != null && edittedUser != undefined && user != null){
+      console.log(edittedUser)
+      editUser(user.user.id, edittedUser, getToken())
+    }
     setEditModalOpen(false);
   };
 
   // Add updateCommunities function
   const updateCommunities = (owned: number[], joined: number[]) => {
-    setUser((prev: any) => prev ? { ...prev, ownedCommunitys: owned, joinedCommunitys: joined } : prev);
+    setUser((prev: IUserNameId | null) => prev ? { ...prev, ownedCommunitys: owned, joinedCommunitys: joined } : prev);
   };
 
   if (!user) return null;
 
-  const joinedCommunities = allCommunities.filter((c: ICommunityData) => user.joinedCommunitys.includes(c.id));
-  const ownedCommunities = allCommunities.filter((c: ICommunityData) => user.ownedCommunitys.includes(c.id));
+  const joinedCommunities = allCommunities.filter((c: ICommunityData) => user.user.joinedCommunitys.includes(c.id));
+  const ownedCommunities = allCommunities.filter((c: ICommunityData) => user.user.ownedCommunitys.includes(c.id));
 
   const communitiesToShow = activeTab === 'joined' ? joinedCommunities : ownedCommunities;
   const totalPages = Math.ceil(communitiesToShow.length / pageSize);
@@ -74,10 +96,10 @@ const ProfilePage: React.FC = () => {
         <div className="flex flex-col items-center gap-2 md:flex-row md:items-center w-full justify-between">
           <div className="flex items-center gap-4">
             <div className="bg-gradient-to-b from-[#6F58DA] to-[#5131E7] rounded-full w-[50px] h-[50px] flex items-center justify-center">
-              <span className="text-white text-2xl font-bold">{user.firstName?.charAt(0).toUpperCase()}</span>
+              <span className="text-white text-2xl font-bold">{user.user.firstName?.charAt(0).toUpperCase()}</span>
             </div>
             <h1 className="text-xl md:text-2xl lg:text-[30px] font-bold text-black dark:text-white">
-              {user.firstName} {user.lastName}
+              {user.user.firstName} {user.user.lastName}
             </h1>
           </div>
           <Button className="mt-4 cursor-pointer md:mt-0 bg-gradient-to-r from-[#6F58DA] to-[#5131E7]" onClick={openEditModal}>
@@ -178,7 +200,7 @@ const ProfilePage: React.FC = () => {
                   isPublic={community.communityIsPublic}
                   description={community.communityDescription}
                   cardType={activeTab}
-                  currentUserId={user.id}
+                  currentUserId={user.user.id}
                   showDropdown={true}
                   updateCommunities={updateCommunities}
                 />
@@ -223,7 +245,7 @@ const ProfilePage: React.FC = () => {
                   isPublic={community.communityIsPublic}
                   description={community.communityDescription}
                   cardType={activeTab}
-                  currentUserId={user.id}
+                  currentUserId={user.user.id}
                   showDropdown={true}
                   updateCommunities={updateCommunities}
                 />

@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from './ui/alert-dialog'
 import { Trash } from 'lucide-react'
-import { currentUser, deleteCommunity, getCommunityById, getLoggedInUserData, getMyCommunities, getToken, removeMember } from '@/utils/Services/DataServices'
+import { currentUser, deleteCommunity, getCommunityById, getLoggedInUserData, /*getMyCommunities,*/ getToken, removeMember } from '@/utils/Services/DataServices'
 import { ICommunityData } from '@/utils/Interfaces/UserInterfaces'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './ui/tooltip'
 // import { useAppContext } from '@/context/CommunityContext'
@@ -160,7 +160,7 @@ const LeaveOrDelete: React.FC<LeaveOrDeleteProps> = ({
                             </AlertDialogDescription>
                         </AlertDialogHeader>
                         <AlertDialogFooter>
-                            <AlertDialogCancel onClick={e => { handleActiveState(); if (closeParentDialog) closeParentDialog(); }}>Cancel</AlertDialogCancel>
+                            <AlertDialogCancel onClick={() => { handleActiveState(); if (closeParentDialog) closeParentDialog(); }}>Cancel</AlertDialogCancel>
                             <AlertDialogAction onClick={e => { e.stopPropagation(); handleRemovalAction(); }}>Continue</AlertDialogAction>
                         </AlertDialogFooter>
                     </AlertDialogContent>

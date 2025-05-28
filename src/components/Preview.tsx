@@ -55,7 +55,7 @@ const CommunityPreview: React.FC<PreviewProps> = ({
         if(!myCommunities.includes(communityId)){
           const result = await joinCommunity(userId, communityId, getToken());
           if(result) {
-            onCancel;
+            onCancel();
           }
           console.log(result)
         } else {
@@ -72,7 +72,7 @@ const CommunityPreview: React.FC<PreviewProps> = ({
     if(!myCommunities.includes(communityId)) {
       const result = await requestJoin(userId, communityId, getToken());
       if(result) {
-        onCancel;
+        onCancel();
       }
       console.log(result)
     } else {

@@ -101,6 +101,12 @@ export interface IUserNameId {
     }
 }
 
+export interface IEditUserDTO {
+    FirstName: string
+    LastName: string
+    Username: string
+}
+
 // export interface IFirstAndLastName {
 //     firstName: string
 //     lastName: string

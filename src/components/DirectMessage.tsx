@@ -30,7 +30,7 @@ const DirectMessage: React.FC<DirectMessageProps> = ({ onBackClick, buddy }) => 
         }
   })
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
-  const [previousDay, setPreviousDay] = useState<string>('');
+  // const [previousDay, setPreviousDay] = useState<string>('');
   // const [isTheUser, setIsTheUser] = useState<boolean>(false)
   const router = useRouter();
 
