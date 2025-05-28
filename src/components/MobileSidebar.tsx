@@ -45,7 +45,20 @@ export const CollapseSection = ({
   icon: React.ElementType;
   children: React.ReactNode;
 }) => {
+  // Use a unique key for each section
+  const storageKey = `sidebarCollapse_${label.replace(/\s+/g, '')}`;
   const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    const stored = localStorage.getItem(storageKey);
+    if (stored !== null) {
+      setIsOpen(JSON.parse(stored));
+    }
+  }, [storageKey]);
+
+  useEffect(() => {
+    localStorage.setItem(storageKey, JSON.stringify(isOpen));
+  }, [isOpen, storageKey]);
 
   return (
     <div className="w-full">

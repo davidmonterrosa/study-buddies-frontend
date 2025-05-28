@@ -109,18 +109,18 @@ const CommunityPreview: React.FC<PreviewProps> = ({
         </div>
         <div className="flex gap-4">
           <button
-            className="px-4 py-2 bg-[#FF5C7F] text-white rounded-lg cursor-pointer"
+            className="px-4 py-2 hover:brightness-110 bg-[#FF5C7F] text-white rounded-lg cursor-pointer"
             onClick={onCancel}
           >
             Cancel
           </button>
           {
             isPublic ?
-            <button className="px-4 py-2 bg-[#0E9E6E] text-white rounded-lg cursor-pointer" onClick={handleJoinBtn}>
+            <button className="px-4 py-2 hover:brightness-110 bg-[#0E9E6E] text-white rounded-lg cursor-pointer" onClick={handleJoinBtn}>
               {myCommunities.includes(communityId) ? "Visit" : "Join"}
             </button>
             :
-            <button className="px-4 py-2 bg-[#0E9E6E] text-white rounded-lg cursor-pointer" onClick={handleRequestBtn}>
+            <button className="px-4 py-2 hover:brightness-110 bg-[#0E9E6E] text-white rounded-lg cursor-pointer" onClick={handleRequestBtn}>
               {myCommunities.includes(communityId) ? "Visit" : "Request"}
             </button>
           }

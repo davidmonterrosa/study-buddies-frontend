@@ -15,7 +15,7 @@ const ProfilePage: React.FC = () => {
   const [user, setUser] = useState<IUserNameId | null>(null);
   const [allCommunities, setAllCommunities] = useState<ICommunityData[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [activeTab, setActiveTab] = useState<'joined' | 'owned'>("joined");
+  const [activeTab, setActiveTab] = useState<'joined' | 'owned'>('joined');
   const breakpoint = useBreakpoint();
   const pageSize = (breakpoint === 'xl' || breakpoint === '2xl' || breakpoint === '3xl') ? 16 : breakpoint === 'lg' ? 16 : 10;
   const [editModalOpen, setEditModalOpen] = useState(false);
@@ -46,6 +46,17 @@ const ProfilePage: React.FC = () => {
   useEffect(() => {
     setEdittedUser(buildEdittedUser(editFirstName, editLastName, editUsername))
   }, [editFirstName, editLastName, editUsername])
+
+  useEffect(() => {
+    const stored = localStorage.getItem('profileTab');
+    if (stored && stored !== activeTab) {
+      setActiveTab(stored as 'joined' | 'owned');
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('profileTab', activeTab);
+  }, [activeTab]);
 
   const openEditModal = () => {
     if(user != null) {

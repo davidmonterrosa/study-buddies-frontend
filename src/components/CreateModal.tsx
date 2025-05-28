@@ -111,6 +111,7 @@ const CreateCommunityModal: React.FC<CreateCommunityModalProps> = ({ isOpen, onC
     if (result == true) {
       console.log("Successfully created group");
       onClose();
+      window.location.reload()
     } else {
       console.log("Not created");
     }
