@@ -73,13 +73,26 @@ export interface Event {
     eventDate: string; // ISO 8601 string
     eventUrl: string;
     eventLocation: string | null;
-    eventOrganizers: any[]; // You can replace `any` with a specific type if known
-    eventParticipants: any[]; // Same as above
+    // eventOrganizers: EventOrganizerDTO[] | null; // You can replace `any` with a specific type if known
+    // eventParticipants: EventParticipantDTO[] | null; // Same as above
     maxParticipants: number;
     currentParticipants: number;
     eventIsPublic: boolean;
     eventIsCancelled: boolean;
 }
+
+// export interface EventOrganizerDTO {
+//     Id: number
+//     UserId: number
+//     FirstName: string
+//     LastName: string
+// }
+// export interface EventParticipantDTO {
+//     Id: number
+//     UserId: number
+//     FirstName: string
+//     LastName: string
+// }
 
 export interface IUserCredentials {
     username: string

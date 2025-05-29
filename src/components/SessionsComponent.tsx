@@ -28,6 +28,8 @@ const SessionsComponent = ({ communityId, newSession, fetchAfterCreate }: Sessio
     }
   }, [newSession, fetchAfterCreate]);
 
+
+
   const getValidUrl = (url: string) =>
     url && !/^https?:\/\//i.test(url) ? `https://${url}` : url;
 
@@ -59,11 +61,6 @@ const SessionsComponent = ({ communityId, newSession, fetchAfterCreate }: Sessio
                   <div className="flex flex-col space-x-2">
                     <p className="font-semibold text-[18px]">{session.eventName}</p>
                     <p className="font-semibold text-sm">{formatSessionTime(session)}</p>
-                    <p className="text-xs text-gray-200 mt-1">
-                      Created by: {session.eventOrganizers && session.eventOrganizers.length > 0
-                        ? `${session.eventOrganizers[0].firstName || ''} ${session.eventOrganizers[0].lastName || ''}`.trim() || 'Unknown'
-                        : 'Unknown'}
-                    </p>
                   </div>
                   <a
                     href={getValidUrl(session.eventUrl) || undefined}
