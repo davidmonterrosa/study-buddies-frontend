@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import { getEventsByCommunityId } from '@/utils/Services/DataServices';
-import { SessionsEvent } from '@/utils/Interfaces/UserInterfaces';
+import { Event } from '@/utils/Interfaces/UserInterfaces';
 
 interface SessionsComponentProps {
   communityId: number;
-  newSession?: SessionsEvent;
+  newSession?: Event;
   fetchAfterCreate?: boolean;
 }
 
 const SessionsComponent = ({ communityId, newSession, fetchAfterCreate }: SessionsComponentProps) => {
-  const [sessions, setSessions] = useState<SessionsEvent[]>([]);
+  const [sessions, setSessions] = useState<Event[]>([]);
 
   const fetchSessions = async () => {
     const result = await getEventsByCommunityId(communityId);
@@ -32,7 +32,7 @@ const SessionsComponent = ({ communityId, newSession, fetchAfterCreate }: Sessio
     url && !/^https?:\/\//i.test(url) ? `https://${url}` : url;
 
   // Helper to format date and time in 12-hour format with AM/PM
-  const formatSessionTime = (session: SessionsEvent) => {
+  const formatSessionTime = (session: Event) => {
     const dateObj = new Date(session.eventDate);
     const mm = String(dateObj.getMonth() + 1).padStart(2, '0');
     const dd = String(dateObj.getDate()).padStart(2, '0');

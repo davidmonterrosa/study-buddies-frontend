@@ -59,7 +59,7 @@ export interface IRequestData {
     communityRequests: number[]
 }
 
-export interface SessionsEvent {
+export interface Event {
     id: number;
     communityId: number;
     eventName: string;
@@ -67,18 +67,8 @@ export interface SessionsEvent {
     eventDate: string; // ISO 8601 string
     eventUrl: string;
     eventLocation: string | null;
-    eventOrganizers: {
-        id: number,
-        userId: number,
-        firstName: string | null,
-        lastName: string | null
-    }[]; // You can replace `any` with a specific type if known
-    eventParticipants: {
-        id: number,
-        userId: number,
-        firstName: string | null,
-        lastName: string | null,
-    }[]; // Same as above
+    eventOrganizers: any[]; // You can replace `any` with a specific type if known
+    eventParticipants: any[]; // Same as above
     maxParticipants: number;
     currentParticipants: number;
     eventIsPublic: boolean;
