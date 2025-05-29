@@ -9,7 +9,7 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
 import { Button } from "./ui/button";
 import { Separator } from "./ui/separator";
-import { toast } from "sonner";
+// import { toast } from "sonner";
 
 interface BuddyComponentProps {
   communityGroupId: number;
@@ -29,6 +29,7 @@ const BuddiesComponent: React.FC<BuddyComponentProps> = ({
   const [selectedBuddy, setSelectedBuddy] = useState<CommunityMember | null>(null);
   const [showRoleDialog, setShowRoleDialog] = useState<boolean>(false);
   const [buddiesList, setBuddiesList] = useState<CommunityMember[]>(buddies);
+  const [userId, setUserId] = useState<number>(-1)
 
   // update buddies list when a new role is selected
   const [updateRole, setUpdateRole] = useState<boolean>(false);
@@ -48,6 +49,7 @@ const BuddiesComponent: React.FC<BuddyComponentProps> = ({
       console.log(loggedInUser);
       if (loggedInUser) {
         setOwnedCommunities(loggedInUser?.user.ownedCommunitys)
+        setUserId(loggedInUser.user.id)
       } else {
         console.log("Failed to return user data.")
       }
@@ -119,7 +121,7 @@ const BuddiesComponent: React.FC<BuddyComponentProps> = ({
                         </div>
                       }
                       {
-                        buddy.role !== "owner" &&
+                        buddy.userId !== userId &&
                         <button
                           onClick={() => onMessageClick(buddy.userId)}
                           className="ml-auto bg-[#818CF8] cursor-pointer rounded-full w-[30px] h-[30px] flex items-center justify-center"
