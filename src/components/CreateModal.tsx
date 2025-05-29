@@ -12,6 +12,7 @@ import {
 } from "@/utils/Services/DataServices";
 import { useRouter } from "next/navigation";
 import { SwitchToggle } from "./ui/SwitchToggle";
+import { toast } from "sonner";
 
 interface CreateCommunityModalProps {
   isOpen: boolean;
@@ -109,11 +110,11 @@ const CreateCommunityModal: React.FC<CreateCommunityModalProps> = ({ isOpen, onC
     console.log(communityGroup);
     const result = await createNewCommunity(communityGroup, getToken());
     if (result == true) {
-      console.log("Successfully created group");
-      onClose();
-      window.location.reload()
+      toast.success("Community Created!", {
+        description: "Your new community has been created successfully!"
+      });
     } else {
-      console.log("Not created");
+      toast.error("Error", { description: "Failed to create community." });
     }
   };
 

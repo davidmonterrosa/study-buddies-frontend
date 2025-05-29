@@ -75,6 +75,12 @@ const CommunityBoard: React.FC<CommunityBoardProps> = ({
     }
   }, [chatBoard]);
 
+  const handlekeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      handleSendMessage();
+    }
+  }
 
   return (
     <div className="flex flex-col h-full max-h-full min-h-0 overflow-hidden">
@@ -82,7 +88,6 @@ const CommunityBoard: React.FC<CommunityBoardProps> = ({
       <div className="flex-1 min-h-0 overflow-y-auto space-y-3 pt-4 pb-1 scrollbar">
         {chatBoard.map((chatItem, idx) => {
           const isSender = chatItem.userIdSender === senderId;
-
           return (
             <div
               key={idx}
@@ -153,6 +158,7 @@ const CommunityBoard: React.FC<CommunityBoardProps> = ({
             type="text"
             placeholder="Type your message..."
             value={messageText}
+            onKeyDown={handlekeyDown}
             onChange={(e) => setmessageText(e.target.value)}
             className="w-full pr-10 px-4 py-2 rounded-[15px] drop-shadow text-sm bg-[#F6F6F6] dark:bg-transparent dark:border dark:border-[#aa7dfc40] focus:outline-none focus:ring-2 focus:ring-[#818CF8] dark:focus:ring-[#a97dfc96]"
           />
