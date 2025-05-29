@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { getEventsByCommunityId } from '@/utils/Services/DataServices';
+import { getEventsByCommunityId, deleteCommunityEvent, getToken, getLoggedInUserData, currentUser, getCommunityById } from '@/utils/Services/DataServices';
 import { Event } from '@/utils/Interfaces/UserInterfaces';
+import { Trash } from 'lucide-react';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from './ui/alert-dialog';
+import { toast } from 'sonner';
 
 interface SessionsComponentProps {
   communityId: number;
@@ -10,6 +13,9 @@ interface SessionsComponentProps {
 
 const SessionsComponent = ({ communityId, newSession, fetchAfterCreate }: SessionsComponentProps) => {
   const [sessions, setSessions] = useState<Event[]>([]);
+  const [pendingDeleteId, setPendingDeleteId] = useState<number | null>(null);
+  const [userId, setUserId] = useState<number | null>(null);
+  const [communityOwnerId, setCommunityOwnerId] = useState<number | null>(null);
 
   const fetchSessions = async () => {
     const result = await getEventsByCommunityId(communityId);
@@ -28,7 +34,27 @@ const SessionsComponent = ({ communityId, newSession, fetchAfterCreate }: Sessio
     }
   }, [newSession, fetchAfterCreate]);
 
+  useEffect(() => {
+    const fetchUserAndCommunity = async () => {
+      const userData = await getLoggedInUserData(currentUser());
+      if (userData && userData.user) setUserId(userData.user.id);
+      const communityData = await getCommunityById(communityId);
+      if (communityData && communityData.community) setCommunityOwnerId(communityData.community.communityOwnerID);
+      else if (communityData && communityData.id) setCommunityOwnerId(communityData.communityOwnerID);
+    };
+    fetchUserAndCommunity();
+  }, [communityId]);
 
+  const handleDeleteSession = async (session: Event) => {
+    const result = await deleteCommunityEvent(session.communityId, session.id, getToken());
+    if (result.Success || result.success) {
+      toast.success('Session deleted', { description: 'The session was deleted successfully.' });
+      fetchSessions();
+    } else {
+      toast.error('Error', { description: result.Message || result.message || 'Failed to delete session.' });
+    }
+    setPendingDeleteId(null);
+  };
 
   const getValidUrl = (url: string) =>
     url && !/^https?:\/\//i.test(url) ? `https://${url}` : url;
@@ -76,6 +102,32 @@ const SessionsComponent = ({ communityId, newSession, fetchAfterCreate }: Sessio
                       Join
                     </button>
                   </a>
+                  {/* Only show delete if user is owner */}
+                  {(userId && communityOwnerId && userId === communityOwnerId) && (
+                    <>
+                      <button
+                        className="ml-2 p-1 rounded hover:bg-red-100 dark:hover:bg-[#3D3179]"
+                        onClick={() => setPendingDeleteId(session.id)}
+                        title="Delete Session"
+                      >
+                        <Trash className="text-red-500" size={20} />
+                      </button>
+                      {pendingDeleteId === session.id && (
+                        <AlertDialog open={true}>
+                          <AlertDialogContent>
+                            <AlertDialogHeader>
+                              <AlertDialogTitle className="font-bold text-red-500">Are you sure you want to delete this session?</AlertDialogTitle>
+                              <AlertDialogDescription>This action cannot be undone.</AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                              <AlertDialogCancel onClick={() => setPendingDeleteId(null)}>Cancel</AlertDialogCancel>
+                              <AlertDialogAction onClick={() => handleDeleteSession(session)}>Delete</AlertDialogAction>
+                            </AlertDialogFooter>
+                          </AlertDialogContent>
+                        </AlertDialog>
+                      )}
+                    </>
+                  )}
                 </div>
               </div>
             </div>

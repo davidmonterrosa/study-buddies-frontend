@@ -110,7 +110,7 @@ const CreateSessionModal = ({ communityId, onSessionCreated }: CreateSessionModa
           className="dark:[color-scheme:dark]"
         />
       </div>
-      <div className="grid gap-2">
+      {/* <div className="grid gap-2">
         <Label>End Time</Label>
         <Input
           type="time"
@@ -118,7 +118,7 @@ const CreateSessionModal = ({ communityId, onSessionCreated }: CreateSessionModa
           onChange={(e) => setEndTime(e.target.value)}
           className="dark:[color-scheme:dark]"
         />
-      </div>
+      </div> */}
       <div className="grid gap-2">
         <Label htmlFor="link">Link</Label>
         <Input

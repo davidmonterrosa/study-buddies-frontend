@@ -89,10 +89,10 @@ const CommunityDashboard: React.FC<CommunityDashboardProps> = ({ communityId }) 
             {/* Difficulty & Subject badges */}
             <div className="flex flex-wrap justify-center mb-1 lg:mb-0 gap-4 md:gap-5">
               <div className={`${getDifficultyColor(communityData?.communityDifficulty || 'Beginner')}
-                  text-center text-black rounded-[10px] py-[2px] px-[5px] max-h-10 w-25 text-sm font-semibold`}>
+                  text-center text-black rounded-[10px] py-[2px] px-[5px] max-h-10 text-sm font-semibold`}>
                 <p>{communityData?.communityDifficulty || 'Beginner'}</p>
               </div>
-              <div className="bg-[#818CF8] text-center rounded-[10px] py-[2px] px-[5px] max-h-10 w-25 text-sm font-semibold">
+              <div className="bg-[#818CF8] text-center rounded-[10px] py-[2px] px-[5px] max-h-10  text-sm font-semibold">
                 <p>{communityData?.communitySubject || 'Subject'}</p>
               </div>
             </div>
