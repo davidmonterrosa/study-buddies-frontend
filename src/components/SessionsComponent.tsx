@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { getEventsByCommunityId } from '@/utils/Services/DataServices';
+import { currentUser, getEventsByCommunityId, getLoggedInUserData } from '@/utils/Services/DataServices';
 import { Event } from '@/utils/Interfaces/UserInterfaces';
 
 interface SessionsComponentProps {
@@ -10,6 +10,7 @@ interface SessionsComponentProps {
 
 const SessionsComponent = ({ communityId, newSession, fetchAfterCreate }: SessionsComponentProps) => {
   const [sessions, setSessions] = useState<Event[]>([]);
+  const [userId, setUserId] = useState<number>(-1);
 
   const fetchSessions = async () => {
     const result = await getEventsByCommunityId(communityId);
@@ -27,6 +28,16 @@ const SessionsComponent = ({ communityId, newSession, fetchAfterCreate }: Sessio
       setSessions((prev) => [newSession, ...prev]);
     }
   }, [newSession, fetchAfterCreate]);
+
+  useEffect(() => {
+    const getUserInfo = async () => {
+      const userdata = await getLoggedInUserData(currentUser());
+      if(userdata) {
+        setUserId(userdata.user.id)
+      }
+    }
+    getUserInfo()
+  }, [])
 
   const getValidUrl = (url: string) =>
     url && !/^https?:\/\//i.test(url) ? `https://${url}` : url;
@@ -60,9 +71,10 @@ const SessionsComponent = ({ communityId, newSession, fetchAfterCreate }: Sessio
                     <p className="font-semibold text-[18px]">{session.eventName}</p>
                     <p className="font-semibold text-sm">{formatSessionTime(session)}</p>
                     <p className="text-xs text-gray-200 mt-1">
-                      Created by: {session.eventOrganizers && session.eventOrganizers.length > 0
+                      {userId !== -1 && `Created by: ${userId}`} 
+                      {/*session.eventOrganizers && session.eventOrganizers.length > 0
                         ? `${session.eventOrganizers[0].firstName || ''} ${session.eventOrganizers[0].lastName || ''}`.trim() || 'Unknown'
-                        : 'Unknown'}
+                        : 'Unknown'*/}
                     </p>
                   </div>
                   <a
