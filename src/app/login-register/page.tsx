@@ -76,7 +76,7 @@ const SignIn = () => {
             router.push('/landing');
           }
         } else {
-          alert("Account created, but automatic login failed. Please try logging in.");
+          toast.error("Account created, but automatic login failed.", { description: "Please try logging in." });
         }
       } else {
         console.log("Username already exists");
@@ -96,7 +96,7 @@ const SignIn = () => {
           router.push('/landing');
         }
       } else {
-        alert("Invalid credentials");
+        toast.error("Invalid credentials", { description: "Please check your email and password." });
       }
     }
   }
@@ -196,7 +196,7 @@ const SignIn = () => {
             </div>
 
             <div className=" mb-2 lg:mb-4 mt-[40px]">
-              <button onClick={handleSubmit} type="reset" className="bg-linear-to-r from-[#6F58DA] to-[#5131E7] hover:from-[#7e6ae6] hover:to-[#6F58DA] hover:brightness-110 text-xl text-white p-3 w-full lg:h-[60px] border rounded-[15px] cursor-pointer">
+              <button onClick={e => { e.preventDefault(); handleSubmit(); }} type="button" className="bg-linear-to-r from-[#6F58DA] to-[#5131E7] hover:from-[#7e6ae6] hover:to-[#6F58DA] hover:brightness-110 text-xl text-white p-3 w-full lg:h-[60px] border rounded-[15px] cursor-pointer">
                 {isUserAlready ? "Log In" : "Sign Up"}
               </button>
             </div>
