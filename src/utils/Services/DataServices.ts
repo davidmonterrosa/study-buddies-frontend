@@ -369,3 +369,21 @@ export const getEventsByCommunityId = async (communityId: number) => {
     const sessions = data.Events || data.events || data;
     return Array.isArray(sessions) ? sessions : [];
 }
+
+export const deleteCommunityChatMessage = async (communityId: number, chatId: number, token: string) => {
+    const response = await fetch(`${url}Community/DeleteCommunityPost/${communityId}/${chatId}/true`, {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + token,
+        }
+    });
+    if (!response.ok) {
+        const errorData = await response.json();
+        const message = errorData.message;
+        console.log(message);
+        return false;
+    }
+    const data = await response.json();
+    return data;
+}

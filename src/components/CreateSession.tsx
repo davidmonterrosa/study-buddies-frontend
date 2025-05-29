@@ -36,8 +36,8 @@ const CreateSessionModal = ({ communityId, onSessionCreated }: CreateSessionModa
       currentParticipants: 0,
       eventIsPublic: true,
       eventIsCancelled: false,
-      eventOrganizers: [],
-      eventParticipants: [],
+      // eventOrganizers: [],
+      // eventParticipants: [],
     };
     console.log("Sending sessionData:", sessionData);
     try {

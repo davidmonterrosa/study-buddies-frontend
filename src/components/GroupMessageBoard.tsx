@@ -7,11 +7,14 @@ import {
   getLoggedInUserData,
   getToken,
   sendCommunityMessage,
+  deleteCommunityChatMessage,
 } from '@/utils/Services/DataServices';
 import { formatPostTimeStamp } from '@/utils/Services/StyleHelpers';
-import { EllipsisVertical, MessageSquareReply, ThumbsUp } from 'lucide-react';
+import { EllipsisVertical, MessageSquareReply, ThumbsUp, Trash2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState, useRef } from 'react';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from './ui/alert-dialog';
+import { toast } from 'sonner';
 
 interface CommunityBoardProps {
   communityGroupId: number;
@@ -28,6 +31,8 @@ const CommunityBoard: React.FC<CommunityBoardProps> = ({
   const [chatBoard, setChatBoard] = useState<CommunityChats[]>(chats)
   const router = useRouter();
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
+  const [openMenuIdx, setOpenMenuIdx] = useState<number | null>(null);
+  const [pendingDeleteIdx, setPendingDeleteIdx] = useState<number | null>(null);
 
   const handleSendMessage = async () => {
     if (!messageText || messageText.trim() === '') return;
@@ -51,6 +56,15 @@ const CommunityBoard: React.FC<CommunityBoardProps> = ({
       const updatedCommunityData = await getCommunityById(communityGroupId);
       setChatBoard(updatedCommunityData.community.communityChats)
     }
+  };
+
+  const handleDeleteMessage = async (chatId: number) => {
+    await deleteCommunityChatMessage(communityGroupId, chatId, getToken());
+    const updatedCommunityData = await getCommunityById(communityGroupId);
+    setChatBoard(updatedCommunityData.community.communityChats);
+    setOpenMenuIdx(null);
+    setPendingDeleteIdx(null);
+    toast.success('Message deleted', { description: 'Your message was deleted successfully.' });
   };
 
   useEffect(() => {
@@ -118,9 +132,42 @@ const CommunityBoard: React.FC<CommunityBoardProps> = ({
                     <p>{formatPostTimeStamp(chatItem.timestamp)}</p>
                   </div>
                   {isSender && (
-                    <button className="-mt-5">
-                      <EllipsisVertical size={20} />
-                    </button>
+                    <div className="relative -mt-5">
+                      <button onClick={() => setOpenMenuIdx(idx)}>
+                        <EllipsisVertical size={20} />
+                      </button>
+                      {openMenuIdx === idx && (
+                        <div className="absolute right-0 mt-2 w-32 bg-white dark:bg-[#2a2250] border border-gray-200 dark:border-[#aa7dfc] rounded shadow-lg z-20">
+                          <button
+                            className="flex items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-gray-100 dark:hover:bg-[#3D3179] w-full"
+                            onClick={() => { setPendingDeleteIdx(idx); }}
+                          >
+                            <Trash2 size={16} /> Delete
+                          </button>
+                          <button
+                            className="flex items-center gap-2 px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-[#3D3179] w-full"
+                            onClick={() => setOpenMenuIdx(null)}
+                          >
+                            Cancel
+                          </button>
+                        </div>
+                      )}
+                      {/* Confirmation Dialog */}
+                      {pendingDeleteIdx === idx && (
+                        <AlertDialog open={true}>
+                          <AlertDialogContent>
+                            <AlertDialogHeader>
+                              <AlertDialogTitle className="font-bold text-red-500">Are you sure you want to delete this message?</AlertDialogTitle>
+                              <AlertDialogDescription>This action cannot be undone.</AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                              <AlertDialogCancel onClick={() => { setPendingDeleteIdx(null); setOpenMenuIdx(null); }}>Cancel</AlertDialogCancel>
+                              <AlertDialogAction onClick={() => handleDeleteMessage(chatItem.id)}>Delete</AlertDialogAction>
+                            </AlertDialogFooter>
+                          </AlertDialogContent>
+                        </AlertDialog>
+                      )}
+                    </div>
                   )}
                 </div>
                 <p>{chatItem.message}</p>
