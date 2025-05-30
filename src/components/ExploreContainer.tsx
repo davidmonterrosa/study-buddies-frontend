@@ -40,7 +40,7 @@ const CommunityContainer: React.FC = () => {
         <div className="flex items-center gap-2">
           <button
             onClick={toggleSidebar}
-            className="text-black cursor-pointer dark:text-white hidden lg:block"
+            className="text-black cursor-pointer hover:bg-slate-200 dark:hover:bg-slate-600 p-1 dark:text-white hidden lg:block"
           >
             <PanelLeft />
           </button>
