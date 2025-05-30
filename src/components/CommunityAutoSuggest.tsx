@@ -4,6 +4,8 @@ import { ICommunityData } from '@/utils/Interfaces/UserInterfaces';
 import { useRouter } from "next/navigation";
 import PrivateCommunityModal from './PrivateCommunityModalProps ';
 import { currentUser, getLoggedInUserData, getToken, requestJoin } from '@/utils/Services/DataServices';
+import CommunityPreview from './Preview';
+import { Dialog, DialogContent, DialogTitle } from './ui/dialog';
 
 const CommunityAutoSuggest = () => {
   const [allCommunities, setAllCommunities] = useState<ICommunityData[]>([]);
@@ -17,6 +19,9 @@ const CommunityAutoSuggest = () => {
   const [isSuggestionsOpen, setIsSuggestionsOpen] = useState(false); // NEW
   const [isPrivateModalOpen, setIsPrivateModalOpen] = useState(false);
   const [selectedPrivateCommunity, setSelectedPrivateCommunity] = useState<ICommunityData | null>(null);
+  const [showPreview, setShowPreview] = useState(false);
+  const [previewCommunity, setPreviewCommunity] = useState<ICommunityData | null>(null);
+  const [dialogOpen, setDialogOpen] = useState(false);
 
   const filterRef = useRef<HTMLDivElement | null>(null);
   const searchRef = useRef<HTMLDivElement | null>(null);
@@ -121,18 +126,12 @@ const CommunityAutoSuggest = () => {
   };
 
   const handleSelectCommunity = (community: ICommunityData) => {
-    setQuery(community.communityName);
+    setPreviewCommunity(community);
+    setDialogOpen(true);
     setSuggestions([]);
     setIsSuggestionsOpen(false);
-    if (community.communityIsPublic === true) {
-      console.log("Selected community:", community);// Log the selected community
-      router.push(`/communities/${community.id}`);
-    } else {
-      setSelectedPrivateCommunity(community);
-      setIsPrivateModalOpen(true);
-    }
-    setQuery(""); // Clear the search input after selection
-    setSelectedSubjects([]); // Clear selected subjects
+    setQuery("");
+    setSelectedSubjects([]);
   };
 
   const handleSubjectToggle = (subject: string) => {
@@ -164,13 +163,13 @@ const CommunityAutoSuggest = () => {
   // };
 
   return (
-    <>
-      {/* Searchbar */}
-      <PrivateCommunityModal
-        isOpen={isPrivateModalOpen}
-        onClose={() => setIsPrivateModalOpen(false)}
-        // onRequestAccess={handleRequestAccess}
-      />
+    <Dialog
+      open={dialogOpen}
+      onOpenChange={(open) => {
+        setDialogOpen(open);
+        if (!open) setPreviewCommunity(null);
+      }}
+    >
       <div
         ref={searchRef}
         className="flex bg-white items-center min-w-[60%] sm:w-lg lg:min-w-[50%] xl:min-w-[65%] rounded-2xl border-2 px-3 py-[3px] relative"
@@ -184,7 +183,7 @@ const CommunityAutoSuggest = () => {
           onChange={handleInputChange}
           placeholder="Search Communities..."
           className="border-0 w-full focus:outline-none text-black"
-          onFocus={() => setIsSuggestionsOpen(true)} // OPEN SUGGESTIONS ON FOCUS
+          onFocus={() => setIsSuggestionsOpen(true)}
         />
 
         {isSuggestionsOpen && suggestions.length > 0 && (
@@ -240,7 +239,40 @@ const CommunityAutoSuggest = () => {
           </div>
         )}
       </div>
-    </>
+      <PrivateCommunityModal
+        isOpen={isPrivateModalOpen}
+        onClose={() => setIsPrivateModalOpen(false)}
+      />
+      {previewCommunity && (
+        <DialogContent aria-description="Preview of Community Content">
+          <DialogTitle className="text-4xl font-bold text-black dark:text-white">
+            {previewCommunity.communityName}
+          </DialogTitle>
+          <CommunityPreview
+            communityId={previewCommunity.id}
+            directLink={`/communities/${previewCommunity.id}`}
+            communityName={''}
+            subject={previewCommunity.communitySubject}
+            buddies={previewCommunity.communityMemberCount}
+            difficulty={previewCommunity.communityDifficulty}
+            initials={
+              previewCommunity.communityOwnerName
+                ? previewCommunity.communityOwnerName
+                    .split(' ')
+                    .map((n) => n[0])
+                    .join('')
+                    .toUpperCase()
+                : ''
+            }
+            userName={previewCommunity.communityOwnerName || ''}
+            isPublic={previewCommunity.communityIsPublic}
+            description={previewCommunity.communityDescription}
+            onCancel={() => setDialogOpen(false)}
+            onJoinOrVisit={() => setDialogOpen(false)}
+          />
+        </DialogContent>
+      )}
+    </Dialog>
   );
 };
 

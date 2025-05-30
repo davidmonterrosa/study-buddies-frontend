@@ -15,7 +15,8 @@ interface PreviewProps {
   userName: string;
   isPublic: boolean;
   description: string;
-  onCancel: () => void; // <- new prop
+  onCancel: () => void;
+  onJoinOrVisit?: () => void;
 }
 
 const CommunityPreview: React.FC<PreviewProps> = ({
@@ -30,6 +31,7 @@ const CommunityPreview: React.FC<PreviewProps> = ({
   isPublic,
   description,
   onCancel,
+  onJoinOrVisit,
 }) => {
 
   const router = useRouter();
@@ -61,6 +63,7 @@ const CommunityPreview: React.FC<PreviewProps> = ({
               description: `You have joined ${communityName} successfully!`
             });
             setTimeout(() => {
+              if (onJoinOrVisit) onJoinOrVisit();
               router.push(directLink);
             }, 1000);
           } else {
@@ -70,6 +73,7 @@ const CommunityPreview: React.FC<PreviewProps> = ({
           }
           console.log(result)
         } else {
+          if (onJoinOrVisit) onJoinOrVisit();
           router.push(directLink)
         }
         // if (result.valueOf() == true) {

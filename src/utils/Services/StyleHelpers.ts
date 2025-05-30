@@ -31,7 +31,7 @@ export const capitalizeTitle = (textToUpperCase: string) => {
 
 export const formatPostTimeStamp = (timeStamp: string) => {
   const dateTimeObject = new Date(timeStamp);
-  return  dateTimeObject.toLocaleTimeString("en-US", {
+  return dateTimeObject.toLocaleTimeString("en-US", {
     hour: "numeric",
     minute: "numeric",
     hour12: true,
