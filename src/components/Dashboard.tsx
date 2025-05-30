@@ -92,7 +92,7 @@ const CommunityDashboard: React.FC<CommunityDashboardProps> = ({ communityId }) 
           {/* Sidebar button (only visible on lg) */}
           <button
             onClick={toggleSidebar}
-            className="text-black cursor-pointer dark:text-white hidden lg:block"
+            className="text-black cursor-pointer hover:bg-slate-200 dark:hover:bg-slate-600 p-1 rounded-lg  dark:text-white hidden lg:block"
           >
             <PanelLeft />
           </button>
