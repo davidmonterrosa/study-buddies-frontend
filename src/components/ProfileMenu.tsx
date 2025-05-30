@@ -16,6 +16,7 @@ import { Bell, User, LogOut } from "lucide-react";
 import { currentUser, getAllRequestsToOwner, getLoggedInUserData, getToken } from "@/utils/Services/DataServices";
 import { ThemeToggleDropdownItem } from "./ui/toggleTheme";
 import { IRequestData } from "@/utils/Interfaces/UserInterfaces";
+import { requestCounter } from "@/utils/Services/StyleHelpers";
 
 interface DropdownMenuProfileProps {
     openNotificationsSidebar: () => void;
@@ -27,8 +28,9 @@ const DropdownMenuProfile: React.FC<DropdownMenuProfileProps> = ({ openNotificat
     const [userName, setUserName] = useState("");
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
-    const [requestNotifications, setRequestNotifications] = useState<IRequestData[]>();
-
+    const [requestNotifications, setRequestNotifications] = useState<IRequestData[]>([]);
+    const [requestCount, setRequestCount] = useState<number>(0);
+    
     useEffect(() => {
         const fetchUserData = async () => {
             const user = await getLoggedInUserData(currentUser());
@@ -42,7 +44,9 @@ const DropdownMenuProfile: React.FC<DropdownMenuProfileProps> = ({ openNotificat
                 setFirstName(loggedIn.user.firstName || "");
                 setLastName(loggedIn.user.lastName || "");
                 console.log("Request Data", notificationData)
-                setRequestNotifications(notificationData);
+                setRequestNotifications(notificationData.communities);
+                const count = requestCounter(notificationData.communities)
+                setRequestCount(count)
             }
         };
 
@@ -60,9 +64,13 @@ const DropdownMenuProfile: React.FC<DropdownMenuProfileProps> = ({ openNotificat
 
       useEffect(() => {
         const getUpdatedNotifications = async () => {
-          const notificationData = await getAllRequestsToOwner(userId, getToken())
-          console.log("This is the shape of the request data: ", notificationData)
-          setRequestNotifications(notificationData)
+            if(userId !== -1) {
+                const notificationData = await getAllRequestsToOwner(userId, getToken())
+                console.log("This is the shape of the request data: ", notificationData)
+                setRequestNotifications(notificationData.communities);
+                const count = requestCounter(notificationData.communities);
+                setRequestCount(count)
+            }
         }
         getUpdatedNotifications()
     
@@ -82,7 +90,7 @@ const DropdownMenuProfile: React.FC<DropdownMenuProfileProps> = ({ openNotificat
                     {/* Notification Badge */}
                     { requestNotifications && requestNotifications.length > 0 ?
                         <span className="absolute top-[-2px] right-[-2px] bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center z-10">
-                            {requestNotifications[0].communityRequestCountNumber}
+                            {requestCount}
                         </span>
                         :
                         null
@@ -115,7 +123,7 @@ const DropdownMenuProfile: React.FC<DropdownMenuProfileProps> = ({ openNotificat
                         {
                             requestNotifications ?
                             <span className="ml-auto bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                                {requestNotifications.length}
+                                {requestCount}
                             </span>
                             : null
                         }

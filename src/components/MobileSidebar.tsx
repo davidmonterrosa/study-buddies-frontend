@@ -25,6 +25,7 @@ import Image from 'next/image';
 import CreateCommunityModal from "./CreateModal";
 import { currentUser, getAllRequestsToOwner, getLoggedInUserData, getToken } from "@/utils/Services/DataServices";
 import { IRequestData } from "@/utils/Interfaces/UserInterfaces";
+import { requestCounter } from "@/utils/Services/StyleHelpers";
 
 
 interface MyCommunitiesSidebarProps {
@@ -120,6 +121,7 @@ const MyCommunitiesSidebar: React.FC<MyCommunitiesSidebarProps> = ({
   const [ownedCommunities, setOwnedCommunities] = useState<number[]>([])
   const [joinedCommunities, setJoinedCommunities] = useState<number[]>([])
   const [requestNotifications, setRequestNotifications] = useState<IRequestData[]>([]);
+  const [requestCount, setRequestCount] = useState<number>(0);
   // Lock body scroll when drawer is open
   useEffect(() => {
     if (isOpen) {
@@ -148,7 +150,9 @@ const MyCommunitiesSidebar: React.FC<MyCommunitiesSidebarProps> = ({
         setOwnedCommunities(loggedIn.user.ownedCommunitys);
         setJoinedCommunities(loggedIn.user.joinedCommunitys);
         console.log("Request data: ", notificationData)
-        setRequestNotifications(notificationData)
+        setRequestNotifications(notificationData.communities)
+        const count = requestCounter(notificationData.communities)
+        setRequestCount(count)
       }
     };
 
@@ -171,7 +175,7 @@ const MyCommunitiesSidebar: React.FC<MyCommunitiesSidebarProps> = ({
       if(userId != -1) {
         const notificationData = await getAllRequestsToOwner(userId, getToken())
         console.log("This is the shape of the request data: ", notificationData)
-        setRequestNotifications(notificationData)
+        setRequestNotifications(notificationData.communities)
       }
     }
     getUpdatedNotifications()
@@ -250,7 +254,7 @@ const MyCommunitiesSidebar: React.FC<MyCommunitiesSidebarProps> = ({
                 {
                   requestNotifications ?
                   <span className="absolute top-[-4px] right-[-4px] bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center z-10">
-                    {requestNotifications.length}
+                    {requestCount}
                   </span>
                   : null
                 }
@@ -289,7 +293,7 @@ const MyCommunitiesSidebar: React.FC<MyCommunitiesSidebarProps> = ({
                     {
                       requestNotifications && requestNotifications.length > 0 ?
                       <span className="ml-auto bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                        {requestNotifications[0].communityRequestCountNumber}
+                        {requestCount}
                       </span>
                       : null
                     }

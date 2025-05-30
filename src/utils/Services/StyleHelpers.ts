@@ -1,3 +1,6 @@
+import { IRequestData, IRequestEntry } from "../Interfaces/UserInterfaces";
+import { getUserById } from "./DataServices";
+
 export const getDifficultyColor = (difficulty: string) => {
     switch (difficulty) {
       case 'Beginner':
@@ -38,3 +41,36 @@ export const formatPostTimeStamp = (timeStamp: string) => {
     hour12: true,
   });
 }
+
+export const requestCounter = (requestArr: IRequestData[]) => {
+  let totalRequests: number = 0;
+  requestArr.map(requestItem => {
+    totalRequests += requestItem.communityRequestCountNumber;
+    console.log(totalRequests)
+  })
+  return totalRequests;
+}
+
+export const getCommunityRequestDetails = async (
+  communities: IRequestData[]
+): Promise<IRequestEntry[]> => {
+  const requestDetails: IRequestEntry[] = [];
+
+  // Flatten all requests with the community name
+  for (const community of communities) {
+    const { communityName, communityRequests } = community;
+
+    for (const userId of communityRequests) {
+      const userData = await getUserById(userId);
+
+      if (userData && userData.success) {
+        requestDetails.push({
+          username: userData.user.username,
+          communityName: communityName,
+        });
+      }
+    }
+  }
+
+  return requestDetails;
+};

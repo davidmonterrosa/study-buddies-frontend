@@ -59,6 +59,11 @@ export interface IRequestData {
     communityRequests: number[]
 }
 
+export interface IRequestEntry {
+  username: string;
+  communityName: string;
+}
+
 export interface Event {
     id: number;
     communityId: number;
