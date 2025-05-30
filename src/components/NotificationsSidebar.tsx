@@ -79,7 +79,12 @@ const NotificationsSidebar: React.FC<NotificationsSidebarProps> = ({ isOpen, onB
           window.location.reload();
         }
       } catch (err) {
-        toast.error("Failed to reject request", { description: "An error occurred." });
+        localStorage.setItem("postReloadToast", JSON.stringify({
+          type: "error",
+          message: "Failed to reject request",
+          description: "An error occurred."
+        }));
+        window.location.reload();
       }
     }
 
