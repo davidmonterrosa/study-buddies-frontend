@@ -24,7 +24,7 @@ import Link from "next/link";
 import Image from 'next/image';
 import CreateCommunityModal from "./CreateModal";
 import { currentUser, getAllRequestsToOwner, getLoggedInUserData, getToken } from "@/utils/Services/DataServices";
-import { IRequestData } from "@/utils/Interfaces/UserInterfaces";
+// import { IRequestData } from "@/utils/Interfaces/UserInterfaces";
 import { requestCounter } from "@/utils/Services/StyleHelpers";
 
 
@@ -120,7 +120,7 @@ const MyCommunitiesSidebar: React.FC<MyCommunitiesSidebarProps> = ({
   const [lastName, setLastName] = useState<string>("");
   const [ownedCommunities, setOwnedCommunities] = useState<number[]>([])
   const [joinedCommunities, setJoinedCommunities] = useState<number[]>([])
-  const [requestNotifications, setRequestNotifications] = useState<IRequestData[]>([]);
+  // const [requestNotifications, setRequestNotifications] = useState<IRequestData[]>([]);
   const [requestCount, setRequestCount] = useState<number>(0);
   // Lock body scroll when drawer is open
   useEffect(() => {
@@ -150,7 +150,7 @@ const MyCommunitiesSidebar: React.FC<MyCommunitiesSidebarProps> = ({
         setOwnedCommunities(loggedIn.user.ownedCommunitys);
         setJoinedCommunities(loggedIn.user.joinedCommunitys);
         console.log("Request data: ", notificationData)
-        setRequestNotifications(notificationData.communities)
+        // setRequestNotifications(notificationData.communities)
         const count = requestCounter(notificationData.communities)
         setRequestCount(count)
       }
@@ -175,7 +175,7 @@ const MyCommunitiesSidebar: React.FC<MyCommunitiesSidebarProps> = ({
       if(userId != -1) {
         const notificationData = await getAllRequestsToOwner(userId, getToken())
         console.log("This is the shape of the request data: ", notificationData)
-        setRequestNotifications(notificationData.communities)
+        // setRequestNotifications(notificationData.communities)
       }
     }
     getUpdatedNotifications()
