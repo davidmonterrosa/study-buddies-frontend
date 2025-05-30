@@ -1,5 +1,10 @@
 "use client";
+import { IRequestData, IRequestEntry } from "@/utils/Interfaces/UserInterfaces";
+import { approveRequest, currentUser, getAllRequestsToOwner, getLoggedInUserData, getToken, removeRequest } from "@/utils/Services/DataServices";
+import { getCommunityRequestDetails } from "@/utils/Services/StyleHelpers";
 import { Undo2, X } from "lucide-react";
+import Image from "next/image";
+import { useEffect, useState } from "react";
 
 interface NotificationsSidebarProps {
   isOpen: boolean;
@@ -8,6 +13,41 @@ interface NotificationsSidebarProps {
 }
 
 const NotificationsSidebar: React.FC<NotificationsSidebarProps> = ({ isOpen, onClose, onBack }) => {
+
+  const [requestData, setRequestData] = useState<IRequestData[]>([])
+  const [requestNotifications, setRequestNotifications] = useState<IRequestEntry[]>([])
+    useEffect(() => {
+      const getLoggedInData = async () => {
+        const user = await getLoggedInUserData(currentUser());
+        if (!user || !user.user.username) return;
+  
+        const loggedIn = await getLoggedInUserData(user.user.username);
+        if (loggedIn) {
+          const notificationData = await getAllRequestsToOwner(loggedIn.user.id, getToken())
+          console.log("Request data: ", notificationData)
+          setRequestData(notificationData);
+          const data = await getCommunityRequestDetails(notificationData.communities);
+          setRequestNotifications(data);
+          console.log(data);
+        }
+      };
+  
+      getLoggedInData();
+    }, []);
+
+    const handleAccept = async (communityRequest: IRequestEntry) => {
+      // export const approveRequest = async (communityId: number, userId: number, approveOrNot: boolean, token: string) => {
+      const response = await approveRequest(communityRequest.communityId, communityRequest.userId, true, getToken())
+      console.log(`${response}`)
+    }
+    
+    const handleReject = async (communityRequest: IRequestEntry) => {
+      const response = await removeRequest(communityRequest.communityId, communityRequest.userId, getToken())
+      console.log(`${response}`)
+    }
+
+    
+  
   return (
     <div className={`fixed top-0 right-0 h-full w-80 bg-white dark:bg-[#140D34] shadow-lg z-50 transition-transform duration-300 ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}>
       <div className="relative w-full h-full p-4 overflow-y-scroll scrollbar ">
@@ -56,6 +96,33 @@ const NotificationsSidebar: React.FC<NotificationsSidebarProps> = ({ isOpen, onC
             </div>
           </div>
         </div> */}
+        {
+          (requestNotifications && requestNotifications.length > 0) ? requestNotifications.map( (notification, idx) => {
+            return (
+            <div key={idx} className="flex items-start gap-2 pt-2">
+              <div className="bg-[#3730A3] dark:bg-[#140D34] dark:border-[1px] dark:border-[#aa7dfc40] px-3 py-2 rounded-lg w-full text-sm">
+                <div className="flex gap-2 items-center">
+                  <div className="bg-[#818CF8] rounded-full w-[50px] h-[50px] flex items-center justify-center shrink-0">                
+                    <Image src="/assets/join.svg" alt="join Icon" width={28} height={28}/>
+                  </div>
+                  <div className="flex flex-col gap-1 w-full">
+                    <p className="text-sm font-semibold text-white">{`${notification.firstName} ${notification.lastName} wants to join ${notification.communityName}`}</p>
+                    <div className="flex flex-col space-y-1">
+                      <button className="text-white font-semibold text-sm border-2 border-[#818CF8] rounded-[30px] px-2 py-1 mt-2 w-full hover:cursor-pointer hover:bg-[#818CF8]" onClick={() => handleAccept(notification)}>
+                        Accept
+                      </button>
+                      <button className="text-white font-semibold text-sm border-2 border-red-500 rounded-[30px] px-2 py-1 mt-2 w-full hover:cursor-pointer hover:bg-red-500" onClick={() => handleReject(notification)}>
+                        Reject
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            )
+          }) :
+          <p>You're all caught up!</p>
+        }
 
       </div>
     </div>

@@ -13,8 +13,10 @@ import {
 // import { Button } from "@/components/ui/button";
 import { Bell, User, LogOut } from "lucide-react";
 // import { DarkThemeToggle } from "flowbite-react";
-import { currentUser, getLoggedInUserData } from "@/utils/Services/DataServices";
+import { currentUser, getAllRequestsToOwner, getLoggedInUserData, getToken } from "@/utils/Services/DataServices";
 import { ThemeToggleDropdownItem } from "./ui/toggleTheme";
+import { IRequestData } from "@/utils/Interfaces/UserInterfaces";
+import { requestCounter } from "@/utils/Services/StyleHelpers";
 
 interface DropdownMenuProfileProps {
     openNotificationsSidebar: () => void;
@@ -22,11 +24,13 @@ interface DropdownMenuProfileProps {
 
 const DropdownMenuProfile: React.FC<DropdownMenuProfileProps> = ({ openNotificationsSidebar }) => {
     const router = useRouter();
+    const [userId, setUserId] = useState<number>(-1)
     const [userName, setUserName] = useState("");
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
-    const [requestNotifications, setRequestNotifications] = useState<number[]>([]);
-
+    const [requestNotifications, setRequestNotifications] = useState<IRequestData[]>([]);
+    const [requestCount, setRequestCount] = useState<number>(0);
+    
     useEffect(() => {
         const fetchUserData = async () => {
             const user = await getLoggedInUserData(currentUser());
@@ -34,20 +38,43 @@ const DropdownMenuProfile: React.FC<DropdownMenuProfileProps> = ({ openNotificat
 
             const loggedIn = await getLoggedInUserData(user.user.username);
             if (loggedIn) {
+                const notificationData = await getAllRequestsToOwner(loggedIn.user.id, getToken())
+                setUserId(loggedIn.user.id)
                 setUserName(loggedIn.user.username || "");
                 setFirstName(loggedIn.user.firstName || "");
                 setLastName(loggedIn.user.lastName || "");
-                setRequestNotifications(loggedIn.user.communityRequests)
+                console.log("Request Data", notificationData)
+                setRequestNotifications(notificationData.communities);
+                const count = requestCounter(notificationData.communities)
+                setRequestCount(count)
             }
         };
 
         fetchUserData();
     }, []);
 
+    useEffect(() => {
+
+    }, [requestNotifications])
+
     const logout = () => {
         localStorage.removeItem("Token");
         router.push("/");
     };
+
+      useEffect(() => {
+        const getUpdatedNotifications = async () => {
+            if(userId !== -1) {
+                const notificationData = await getAllRequestsToOwner(userId, getToken())
+                console.log("This is the shape of the request data: ", notificationData)
+                setRequestNotifications(notificationData.communities);
+                const count = requestCounter(notificationData.communities);
+                setRequestCount(count)
+            }
+        }
+        getUpdatedNotifications()
+    
+      }, [])
 
     return (
         <DropdownMenu>
@@ -61,9 +88,9 @@ const DropdownMenuProfile: React.FC<DropdownMenuProfileProps> = ({ openNotificat
                         </p>
                     </div>
                     {/* Notification Badge */}
-                    { requestNotifications.length > 0 ?
+                    { requestNotifications && requestNotifications.length > 0 ?
                         <span className="absolute top-[-2px] right-[-2px] bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center z-10">
-                            {requestNotifications.length}
+                            {requestCount}
                         </span>
                         :
                         null
@@ -93,9 +120,13 @@ const DropdownMenuProfile: React.FC<DropdownMenuProfileProps> = ({ openNotificat
                     <DropdownMenuItem className="cursor-pointer" onClick={openNotificationsSidebar}>
                         <Bell className="mr-2 h-4 w-4 text-black dark:text-white" />
                         Notifications
-                        <span className="ml-auto bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                            3
-                        </span>
+                        {
+                            requestNotifications ?
+                            <span className="ml-auto bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                                {requestCount}
+                            </span>
+                            : null
+                        }
                     </DropdownMenuItem>
                     <DropdownMenuItem >
                        <ThemeToggleDropdownItem/>

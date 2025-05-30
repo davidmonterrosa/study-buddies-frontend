@@ -50,19 +50,21 @@ export interface DirectMessages {
     editedAt: string | null
 }
 
-export interface DirectMessages {
-    id: number 
-    senderId: number 
-    receiverId: number 
-    message: string 
-    attachmentUrl: string | null
-    dateTime: string 
-    isRead: boolean 
-    recieverRead: boolean 
-    isDeleted: boolean 
-    deletedAt: string
-    isEdited: boolean 
-    editedAt: string | null
+export interface IRequestData {
+    communityId: number
+    communityName: string
+    communityOwnerName: string
+    communityRequestCount: string
+    communityRequestCountNumber: number
+    communityRequests: number[]
+}
+
+export interface IRequestEntry {
+  userId: number;  
+  firstName: string;
+  lastName: string;
+  communityName: string;
+  communityId: number;
 }
 
 export interface Event {

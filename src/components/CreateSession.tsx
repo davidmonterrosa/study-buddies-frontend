@@ -24,7 +24,8 @@ const CreateSessionModal = ({ communityId, onSessionCreated }: CreateSessionModa
   const handleSubmit = async () => {
     setLoading(true);
     setError("");
-    const sessionData: Partial<Event> = {
+    const sessionData: Event = {
+      id: 0,
       communityId,
       eventName: sessionName,
       eventDate: new Date(`${date}T${startTime}`).toISOString(),

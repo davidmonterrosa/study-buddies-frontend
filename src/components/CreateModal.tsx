@@ -52,6 +52,7 @@ const CreateCommunityModal: React.FC<CreateCommunityModalProps> = ({ isOpen, onC
     };
 
     if (!checkToken()) {
+      localStorage.removeItem("Token");
       router.push("/");
     } else {
       getLoggedInData();
@@ -103,7 +104,7 @@ const CreateCommunityModal: React.FC<CreateCommunityModalProps> = ({ isOpen, onC
           lastName: lastName,
         },
       ],
-      communityRequests: [-1],
+      communityRequests: [],
       communityDifficulty: comDifficulty,
       communityDescription: comDescription,
     };

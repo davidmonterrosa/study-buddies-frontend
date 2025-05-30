@@ -22,7 +22,7 @@ const LeaveOrDelete: React.FC<LeaveOrDeleteProps> = ({
     closeParentDialog,
     cardType
 }) => {
-    const router = useRouter();
+    // const router = useRouter();
     const [isActive, setIsActive] = useState<boolean>(false)
     const [userId, setUserId] = useState<number>(-1)
     // const [userName, setUserName] = useState<string>("");

@@ -1,4 +1,4 @@
-import { CommunityChats, ICommunityData, IEditUserDTO, IUserCredentials, } from "../Interfaces/UserInterfaces";
+import { CommunityChats, Event, ICommunityData, IEditUserDTO, IUserCredentials, } from "../Interfaces/UserInterfaces";
 
 const url = "https://study-buddys-backend.azurewebsites.net/";
 
@@ -315,6 +315,24 @@ export const changeRole = async (communityId: number, userId: number, role: stri
     return data;
 }
 
+export const getAllRequestsToOwner = async (userId: number, token: string) => {
+    const requestsReponse = await fetch(`${url}Community/GetAllOwnersRequsdtsFromEachCommunityAsync/${userId}`, {
+        method: "GET",
+        headers: {
+            "Authorization": "Bearer " + token,
+        }
+    });
+    if(!requestsReponse.ok) {
+        const data = await requestsReponse.json();
+        const message = data.message;
+        console.log(message);
+        return null;
+    }
+    const data = await requestsReponse.json();
+    console.log(data);
+    return data;
+}
+
 export const requestJoin = async (userId: number, communityId: number, token: string) => {
     const addRequestToCommunity = await fetch(`${url}Community/addRequestToCommunity/${communityId}/${userId}`, {
         method: "POST",
@@ -334,10 +352,49 @@ export const requestJoin = async (userId: number, communityId: number, token: st
     const data = await addRequestToCommunity.json();
     return data;
 }
+export const removeRequest = async (communityId: number, userId: number, token: string) => {
+    const response = await fetch(`${url}Community/removeRequestFromCommunity/${communityId}/${userId}`, {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + token
+        },
+    });
+
+    if(!response.ok) {
+        const errorData = await response.json();
+        console.log(errorData)
+        const message = errorData.message;
+        console.log(message);
+        return false;
+    }
+    const data = await response.json();
+    return data;
+}
+export const approveRequest = async (communityId: number, userId: number, approveOrNot: boolean, token: string) => {
+    const response = await fetch(`${url}Community/approveRequest/${communityId}/${userId}/${approveOrNot}`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + token
+        },
+    });
+
+    if(!response.ok) {
+        const errorData = await response.json();
+        console.log(errorData)
+        const message = errorData.message;
+        console.log(message);
+        return false;
+    }
+    const data = await response.json();
+    return data;
+}
+
 
 // ----------------------------- Events/Sessions Management -------------------------------
 // Add Sessions
-export async function createCommunityEvent(eventData: any, token: string) {
+export async function createCommunityEvent(eventData: Event, token: string) {
     // Creates a new community event
     const response = await fetch(`${url}CommunityEvents/createEvent`, {
         method: 'POST',
