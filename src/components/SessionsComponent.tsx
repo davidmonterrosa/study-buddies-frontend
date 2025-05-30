@@ -106,7 +106,7 @@ const SessionsComponent = ({ communityId, newSession, fetchAfterCreate }: Sessio
                   {(userId && communityOwnerId && userId === communityOwnerId) ? (
                     <>
                       <button
-                        className="ml-2 p-1 rounded hover:bg-red-100 dark:hover:bg-[#3D3179]"
+                        className="ml-2 p-1 cursor-pointer rounded hover:bg-red-100 dark:hover:bg-[#3D3179]"
                         onClick={() => setPendingDeleteId(session.id)}
                         title="Delete Session"
                       >
