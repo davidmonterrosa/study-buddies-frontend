@@ -5,7 +5,7 @@ import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs'
 import { Separator } from './ui/separator'
 import { getCommunityById } from '@/utils/Services/DataServices'
-import { ICommunityData } from '@/utils/Interfaces/UserInterfaces'
+import { Event, ICommunityData } from '@/utils/Interfaces/UserInterfaces'
 import BuddiesComponent from './BuddiesComponent'
 import DirectMessage from './DirectMessage'
 import CommunityBoard from './GroupMessageBoard'
@@ -30,7 +30,21 @@ const CommunityDashboard: React.FC<CommunityDashboardProps> = ({ communityId }) 
   const [activeTab, setActiveTab] = useState('communityBoardTab');
   const messageContainerRef = useRef<HTMLDivElement | null>(null)
   const [showModal, setShowModal] = useState(false);
-  const [newSession, setNewSession] = useState<any>(null);
+  const [newSession, setNewSession] = useState<Event>({
+    id: 0,
+    communityId: 0,
+    eventName: "",
+    eventDescription: null,
+    eventDate: "", // ISO 8601 ",
+    eventUrl: "",
+    eventLocation: null,
+    // eventOrganizers: EventOrganizerDTO[] | null; // You can replace `any` with a specific type if know,
+    // eventParticipants: EventParticipantDTO[] | null; // Same as abov,
+    maxParticipants: 0,
+    currentParticipants: 0,
+    eventIsPublic: false,
+    eventIsCancelled: false,
+  });
 
   const { toggleSidebar } = useSidebar();
 
@@ -64,7 +78,7 @@ const CommunityDashboard: React.FC<CommunityDashboardProps> = ({ communityId }) 
     setBuddyToDm(buddyId);
     setShowDM(true)
   }
-  const handleSessionCreated = (session: any) => {
+  const handleSessionCreated = (session: Event) => {
     setNewSession(session);
     setShowModal(false);
   };
