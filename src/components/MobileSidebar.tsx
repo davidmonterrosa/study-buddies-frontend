@@ -277,7 +277,7 @@ const MyCommunitiesSidebar: React.FC<MyCommunitiesSidebarProps> = ({
                 <div className="py-0">
                   <Link href="/profile" passHref legacyBehavior>
                     <a className="flex items-center gap-2 py-2 px-3 rounded-md text-sm transition hover:bg-[rgba(129,140,248,0.25)]">
-                      <User className="w-4 h-4" /> Account
+                      <User className="w-4 h-4" /> Profile
                     </a>
                   </Link>
                   <DropdownItem
