@@ -44,7 +44,7 @@ const NotificationsSidebar: React.FC<NotificationsSidebarProps> = ({ isOpen, onC
           <div className="bg-[#3730A3] dark:bg-[#140D34] dark:border-[1px] dark:border-[#aa7dfc40] px-3 py-2 rounded-lg w-full text-sm">
             <div className="flex gap-2 items-center">
               <div className="bg-[#818CF8] rounded-full w-[50px] h-[50px] flex items-center justify-center shrink-0">
-                <img className="w-[28px] h-[28px] object-contain" src="/assets/join.svg" alt="join Icon" />
+                <Image className="w-[28px] h-[28px] object-contain" src="/assets/join.svg" alt="join Icon" width={28} height={28} />
               </div>
               <div className="flex flex-col gap-1 w-full">
                 <p className="text-sm font-semibold text-white">You created a Community</p>

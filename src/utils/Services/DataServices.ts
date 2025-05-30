@@ -1,8 +1,7 @@
-import { CommunityChats, ICommunityData, IEditUserDTO, IUserCredentials, IUserNameId, SessionsEvent } from "../Interfaces/UserInterfaces";
+import { CommunityChats, Event, ICommunityData, IEditUserDTO, IUserCredentials, } from "../Interfaces/UserInterfaces";
 
 const url = "https://study-buddys-backend.azurewebsites.net/";
 
-let userData: IUserNameId;
 // let displayName: IFirstAndLastName;
 
 
@@ -55,10 +54,9 @@ export const getLoggedInUserData = async (userName: string) => {
         return null;
     }
 
-    userData = await response.json();
+    const userData = await response.json();
     console.log(userData);
     return userData;
-
 }
 
 export const currentUser = () => {
@@ -357,7 +355,7 @@ export const requestJoin = async (userId: number, communityId: number, token: st
 
 // ----------------------------- Events/Sessions Management -------------------------------
 // Add Sessions
-export async function createCommunityEvent(eventData: SessionsEvent, token: string) {
+export async function createCommunityEvent(eventData: Event, token: string) {
     // Creates a new community event
     const response = await fetch(`${url}CommunityEvents/createEvent`, {
         method: 'POST',
@@ -386,4 +384,22 @@ export const getEventsByCommunityId = async (communityId: number) => {
     const data = await response.json();
     const sessions = data.Events || data.events || data;
     return Array.isArray(sessions) ? sessions : [];
+}
+
+export const deleteCommunityChatMessage = async (communityId: number, chatId: number, token: string) => {
+    const response = await fetch(`${url}Community/DeleteCommunityPost/${communityId}/${chatId}/true`, {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + token,
+        }
+    });
+    if (!response.ok) {
+        const errorData = await response.json();
+        const message = errorData.message;
+        console.log(message);
+        return false;
+    }
+    const data = await response.json();
+    return data;
 }

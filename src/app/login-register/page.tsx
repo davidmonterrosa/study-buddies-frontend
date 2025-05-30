@@ -5,6 +5,7 @@ import { Eye, EyeClosed } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import React, { Suspense, useState, useEffect } from 'react';
 import { toast } from "sonner";
+import Image from 'next/image';
 
 const SignIn = () => {
   const [isUserAlready, setIsUserAlready] = useState<boolean>(false);
@@ -40,10 +41,6 @@ const SignIn = () => {
   //   getDataBack();
   // }, [])
 
-  const toggleLogIn = () => {
-    setIsUserAlready(!isUserAlready);
-  }
-
   const handleSubmit = async () => {
     const inputCredentials = {
       username: username,
@@ -76,7 +73,7 @@ const SignIn = () => {
             router.push('/landing');
           }
         } else {
-          alert("Account created, but automatic login failed. Please try logging in.");
+          toast.error("Account created, but automatic login failed.", { description: "Please try logging in." });
         }
       } else {
         console.log("Username already exists");
@@ -96,7 +93,7 @@ const SignIn = () => {
           router.push('/landing');
         }
       } else {
-        alert("Invalid credentials");
+        toast.error("Invalid credentials", { description: "Please check your email and password." });
       }
     }
   }
@@ -122,7 +119,7 @@ const SignIn = () => {
       <div className="w-full min-h-screen lg:w-[30%] bg-white dark:bg-linear-to-b dark:from-[#271E55] dark:to-[#100B28] dark:border-[1px] dark:border-[#aa7dfc40] flex flex-col items-center justify-center p-8">
         <div className="w-full max-w-[700px] mx-auto flex flex-col justify-center">
           <div className="flex justify-center lg:mb-8">
-            <img src="/assets/SBLogo.png" alt="Logo" className="lg:w-24 lg:h-24 w-15 h-15" />
+            <Image src="/assets/SBLogo.png" alt="Logo" width={96} height={96} className="lg:w-24 lg:h-24 w-15 h-15" />
           </div>
 
           <form>
@@ -196,7 +193,7 @@ const SignIn = () => {
             </div>
 
             <div className=" mb-2 lg:mb-4 mt-[40px]">
-              <button onClick={handleSubmit} type="reset" className="bg-linear-to-r from-[#6F58DA] to-[#5131E7] hover:from-[#7e6ae6] hover:to-[#6F58DA] hover:brightness-110 text-xl text-white p-3 w-full lg:h-[60px] border rounded-[15px] cursor-pointer">
+              <button onClick={e => { e.preventDefault(); handleSubmit(); }} type="button" className="bg-linear-to-r from-[#6F58DA] to-[#5131E7] hover:from-[#7e6ae6] hover:to-[#6F58DA] hover:brightness-110 text-xl text-white p-3 w-full lg:h-[60px] border rounded-[15px] cursor-pointer">
                 {isUserAlready ? "Log In" : "Sign Up"}
               </button>
             </div>
@@ -206,7 +203,7 @@ const SignIn = () => {
             <p className="text-lg font-medium">
               {isUserAlready ? "Not a study buddy yet?" : "Already have an account?"}
               <span className="text-[#aa7dfc] px-2">
-                <button className='hover:underline cursor-pointer' onClick={toggleLogIn}>
+                <button className='hover:underline cursor-pointer' onClick={() => setIsUserAlready(!isUserAlready)}>
                   {isUserAlready ? "Create Account" : "Log In"}
                 </button>
               </span>

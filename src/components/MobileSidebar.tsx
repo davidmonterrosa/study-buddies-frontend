@@ -21,13 +21,9 @@ import {
 } from "lucide-react";
 import { useAppContext } from "@/context/CommunityContext";
 import Link from "next/link";
-
-import { currentUser, getAllRequestsToOwner, getLoggedInUserData, getToken } from "@/utils/Services/DataServices";
-// import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
-// import { Dialog } from "./ui/dialog";
-// import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "./ui/alert-dialog";
-// import LeaveOrDelete from "./LeaveOrDelete";
+import Image from 'next/image';
 import CreateCommunityModal from "./CreateModal";
+import { currentUser, getAllRequestsToOwner, getLoggedInUserData, getToken } from "@/utils/Services/DataServices";
 import { IRequestData } from "@/utils/Interfaces/UserInterfaces";
 
 
@@ -83,7 +79,6 @@ export const SidebarLink = ({
   href,
   isActive = false,
   onClick,
-  // updateFunction,
 }: {
   text: string;
   href: string;
@@ -194,7 +189,7 @@ const MyCommunitiesSidebar: React.FC<MyCommunitiesSidebarProps> = ({
               onClick={onClose}
               aria-label="Close"
             >
-              <img src="/assets/panelClose.svg" className="cursor-pointer size-6 dark:invert" alt="Close panel Icon" />
+              <Image src="/assets/panelClose.svg" className="cursor-pointer size-6 dark:invert" alt="Close panel Icon" width={24} height={24} />
             </button>
 
             <button

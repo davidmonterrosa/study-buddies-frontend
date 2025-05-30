@@ -17,7 +17,6 @@ const CreateSessionModal = ({ communityId, onSessionCreated }: CreateSessionModa
   const [sessionName, setSessionName] = useState("");
   const [date, setDate] = useState("");
   const [startTime, setStartTime] = useState("");
-  const [endTime, setEndTime] = useState("");
   const [link, setLink] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -37,8 +36,8 @@ const CreateSessionModal = ({ communityId, onSessionCreated }: CreateSessionModa
       currentParticipants: 0,
       eventIsPublic: true,
       eventIsCancelled: false,
-      eventOrganizers: [],
-      eventParticipants: [],
+      // eventOrganizers: [],
+      // eventParticipants: [],
     };
     console.log("Sending sessionData:", sessionData);
     try {
@@ -52,7 +51,6 @@ const CreateSessionModal = ({ communityId, onSessionCreated }: CreateSessionModa
         setSessionName("");
         setDate("");
         setStartTime("");
-        setEndTime("");
         setLink("");
         localStorage.setItem("postReloadToast", JSON.stringify({
           type: "success",
@@ -111,7 +109,7 @@ const CreateSessionModal = ({ communityId, onSessionCreated }: CreateSessionModa
           className="dark:[color-scheme:dark]"
         />
       </div>
-      <div className="grid gap-2">
+      {/* <div className="grid gap-2">
         <Label>End Time</Label>
         <Input
           type="time"
@@ -119,7 +117,7 @@ const CreateSessionModal = ({ communityId, onSessionCreated }: CreateSessionModa
           onChange={(e) => setEndTime(e.target.value)}
           className="dark:[color-scheme:dark]"
         />
-      </div>
+      </div> */}
       <div className="grid gap-2">
         <Label htmlFor="link">Link</Label>
         <Input

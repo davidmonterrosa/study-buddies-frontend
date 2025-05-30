@@ -17,6 +17,7 @@ import { Dialog, DialogContent, DialogDescription, DialogTitle, DialogTrigger } 
 import CreateSessionModal from './CreateSession'
 import { DialogHeader } from './ui/dialog'
 import { useSidebar } from '@/app/(pages)/layout'
+import Image from 'next/image'
 
 interface CommunityDashboardProps {
   communityId: number;
@@ -89,10 +90,10 @@ const CommunityDashboard: React.FC<CommunityDashboardProps> = ({ communityId }) 
             {/* Difficulty & Subject badges */}
             <div className="flex flex-wrap justify-center mb-1 lg:mb-0 gap-4 md:gap-5">
               <div className={`${getDifficultyColor(communityData?.communityDifficulty || 'Beginner')}
-                  text-center text-black rounded-[10px] py-[2px] px-[5px] max-h-10 w-25 text-sm font-semibold`}>
+                  text-center text-black rounded-[10px] py-[2px] px-[5px] max-h-10 text-sm font-semibold`}>
                 <p>{communityData?.communityDifficulty || 'Beginner'}</p>
               </div>
-              <div className="bg-[#818CF8] text-center rounded-[10px] py-[2px] px-[5px] max-h-10 w-25 text-sm font-semibold">
+              <div className="bg-[#818CF8] text-center rounded-[10px] py-[2px] px-[5px] max-h-10  text-sm font-semibold">
                 <p>{communityData?.communitySubject || 'Subject'}</p>
               </div>
             </div>
@@ -140,10 +141,12 @@ const CommunityDashboard: React.FC<CommunityDashboardProps> = ({ communityId }) 
                 <div className="flex justify-center">
                   <DialogTrigger asChild>
                     <button className="w-[50%] cursor-pointer min-w-[185px] max-w-[700px] flex items-center justify-center px-4 py-2 text-white bg-gradient-to-r from-[#6F58DA] to-[#5131E7] hover:from-[#7e6ae6] hover:to-[#6F58DA] hover:brightness-110 rounded-full shadow-md gap-2">
-                      <img
+                      <Image
                         className="w-[25px] h-[25px] invert"
                         src="/assets/sessions.svg"
                         alt="Join Sessions"
+                        width={25}
+                        height={25}
                       />
                       <span className="text-md font-medium">Create Session</span>
                     </button>
@@ -153,10 +156,12 @@ const CommunityDashboard: React.FC<CommunityDashboardProps> = ({ communityId }) 
                   <DialogHeader>
                     <div className="flex flex-col items-center">
                       <div className="bg-[#818CF8] w-[50px] h-[50px] rounded-full flex items-center justify-center">
-                        <img
+                        <Image
                           className="w-[35px] h-[35px]"
                           src="/assets/sessions.svg"
                           alt="Join Sessions"
+                          width={35}
+                          height={35}
                         />
                       </div>
                       <DialogTitle className="text-xl font-bold mt-2">Create a Session</DialogTitle>

@@ -1,6 +1,6 @@
 "use client";
-// import { getAllDirectMessages } from "@/utils/Services/DirectMessageSerices";
 import { useRouter } from "next/navigation";
+import Image from 'next/image';
 
 export default function Home() {
   const { push } = useRouter();
@@ -23,7 +23,7 @@ export default function Home() {
       <div className="w-full lg:w-[30%] mt-[-15px] lg:mt-0 bg-white dark:bg-linear-to-b dark:from-[#271E55] dark:to-[#100B28] dark:border-[1px] dark:border-[#aa7dfc40] flex flex-col items-center justify-center rounded-t-[15px] lg:rounded-none p-8 h-full">
         <div className="w-full max-w-md mx-auto flex flex-col justify-center h-full">
           <div className="flex justify-center mb-8">
-            <img src="/assets/SBLogo.png" alt="Logo" className="w-24 h-24" />
+            <Image src="/assets/SBLogo.png" alt="Logo" width={96} height={96} />
           </div>
           <h2 className="text-[28px] md:text-[32px] text-center font-bold mb-6">Study Buddies</h2>
           <form>

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { getDifficultyColor } from "@/utils/Services/StyleHelpers";
 import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "./ui/dialog";
 import CommunityPreview from "./Preview";
+import Image from 'next/image';
 // import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from "./ui/dropdown-menu";
 // import { EllipsisVertical } from "lucide-react";
 // import LeaveOrDelete from "@/components/LeaveOrDelete";
@@ -60,8 +61,9 @@ const CommunityCard: React.FC<CommunityCardProps> = ({
             <h1 className="font-bold text-[20px] overflow-hidden text-nowrap">
               {communityName}
             </h1>
-              <img
-                className="w-[30px]"
+              <Image
+                width={30}
+                height={30}
                 src={isPublic ? "/assets/Unlock.svg" : "/assets/Lock.svg"}
                 alt={isPublic ? "Public Community" : "Private Community"}
               />

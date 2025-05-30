@@ -15,7 +15,8 @@ interface PreviewProps {
   userName: string;
   isPublic: boolean;
   description: string;
-  onCancel: () => void; // <- new prop
+  onCancel: () => void;
+  onJoinOrVisit?: () => void;
 }
 
 const CommunityPreview: React.FC<PreviewProps> = ({
@@ -30,10 +31,11 @@ const CommunityPreview: React.FC<PreviewProps> = ({
   isPublic,
   description,
   onCancel,
+  onJoinOrVisit,
 }) => {
 
   const router = useRouter();
-  const [userId, setUserId] = useState<number>(0)
+  const [userId, setUserId] = useState<number | null>(null)
   const [myCommunities, setMyCommunities] = useState<number[]>([])
 
   useEffect(() => {
@@ -53,12 +55,17 @@ const CommunityPreview: React.FC<PreviewProps> = ({
   }, [])
 
   const handleJoinBtn = async () => {
+        if(userId === null) return;
         if(!myCommunities.includes(communityId)){
           const result = await joinCommunity(userId, communityId, getToken());
           if(result) {
             toast.success("Joined Community", {
               description: `You have joined ${communityName} successfully!`
             });
+            setTimeout(() => {
+              if (onJoinOrVisit) onJoinOrVisit();
+              router.push(directLink);
+            }, 1000);
           } else {
             toast.error("Error", {
               description: `Failed to join ${communityName}.`
@@ -66,6 +73,7 @@ const CommunityPreview: React.FC<PreviewProps> = ({
           }
           console.log(result)
         } else {
+          if (onJoinOrVisit) onJoinOrVisit();
           router.push(directLink)
         }
         // if (result.valueOf() == true) {
@@ -76,6 +84,7 @@ const CommunityPreview: React.FC<PreviewProps> = ({
   }
 
   const handleRequestBtn = async () => {
+    if(userId === null) return;
     if(!myCommunities.includes(communityId)) {
       const result = await requestJoin(userId, communityId, getToken());
       if(result) {
@@ -121,16 +130,16 @@ const CommunityPreview: React.FC<PreviewProps> = ({
           >
             Cancel
           </button>
-          {
+          {userId && (
             isPublic ?
-            <button className="px-4 py-2 hover:brightness-110 bg-[#0E9E6E] text-white rounded-lg cursor-pointer" onClick={handleJoinBtn}>
-              {myCommunities.includes(communityId) ? "Visit" : "Join"}
-            </button>
+              <button className="px-4 py-2 hover:brightness-110 bg-[#0E9E6E] text-white rounded-lg cursor-pointer" onClick={handleJoinBtn}>
+                {myCommunities.includes(communityId) ? "Visit" : "Join"}
+              </button>
             :
-            <button className="px-4 py-2 hover:brightness-110 bg-[#0E9E6E] text-white rounded-lg cursor-pointer" onClick={handleRequestBtn}>
-              {myCommunities.includes(communityId) ? "Visit" : "Request"}
-            </button>
-          }
+              <button className="px-4 py-2 hover:brightness-110 bg-[#0E9E6E] text-white rounded-lg cursor-pointer" onClick={handleRequestBtn}>
+                {myCommunities.includes(communityId) ? "Visit" : "Request"}
+              </button>
+          )}
         </div>
       </div>
     </>
