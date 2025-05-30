@@ -58,15 +58,18 @@ export const getCommunityRequestDetails = async (
 
   // Flatten all requests with the community name
   for (const community of communities) {
-    const { communityName, communityRequests } = community;
+    const { communityId, communityName, communityRequests } = community;
 
     for (const userId of communityRequests) {
       const userData = await getUserById(userId);
 
       if (userData && userData.success) {
         requestDetails.push({
-          username: userData.user.username,
+          userId: userData.user.id, 
+          firstName:  userData.user.firstName,
+          lastName: userData.user.lastName,
           communityName: communityName,
+          communityId: communityId,
         });
       }
     }

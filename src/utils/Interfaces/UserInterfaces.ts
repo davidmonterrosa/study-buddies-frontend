@@ -60,8 +60,11 @@ export interface IRequestData {
 }
 
 export interface IRequestEntry {
-  username: string;
+  userId: number;  
+  firstName: string;
+  lastName: string;
   communityName: string;
+  communityId: number;
 }
 
 export interface Event {

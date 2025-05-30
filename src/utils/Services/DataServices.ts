@@ -352,6 +352,45 @@ export const requestJoin = async (userId: number, communityId: number, token: st
     const data = await addRequestToCommunity.json();
     return data;
 }
+export const removeRequest = async (communityId: number, userId: number, token: string) => {
+    const response = await fetch(`${url}Community/removeRequestFromCommunity/${communityId}/${userId}`, {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + token
+        },
+    });
+
+    if(!response.ok) {
+        const errorData = await response.json();
+        console.log(errorData)
+        const message = errorData.message;
+        console.log(message);
+        return false;
+    }
+    const data = await response.json();
+    return data;
+}
+export const approveRequest = async (communityId: number, userId: number, approveOrNot: boolean, token: string) => {
+    const response = await fetch(`${url}Community/approveRequest/${communityId}/${userId}/${approveOrNot}`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + token
+        },
+    });
+
+    if(!response.ok) {
+        const errorData = await response.json();
+        console.log(errorData)
+        const message = errorData.message;
+        console.log(message);
+        return false;
+    }
+    const data = await response.json();
+    return data;
+}
+
 
 // ----------------------------- Events/Sessions Management -------------------------------
 // Add Sessions
