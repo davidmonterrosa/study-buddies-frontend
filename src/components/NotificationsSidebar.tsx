@@ -50,7 +50,7 @@ const NotificationsSidebar: React.FC<NotificationsSidebarProps> = ({ isOpen, onB
           }));
           window.location.reload();
         }
-      } catch (err) {
+      } catch {
         localStorage.setItem("postReloadToast", JSON.stringify({
           type: "error",
           message: "Failed to accept request",
@@ -78,7 +78,7 @@ const NotificationsSidebar: React.FC<NotificationsSidebarProps> = ({ isOpen, onB
           }));
           window.location.reload();
         }
-      } catch (err) {
+      } catch {
         localStorage.setItem("postReloadToast", JSON.stringify({
           type: "error",
           message: "Failed to reject request",

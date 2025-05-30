@@ -2,7 +2,7 @@
 import { checkToken, currentUser, getLoggedInUserData, getToken, joinCommunity, requestJoin } from "@/utils/Services/DataServices";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import { toast } from "sonner";
+// import { toast } from "sonner";
 
 interface PreviewProps {
   communityId: number;
