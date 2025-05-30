@@ -88,13 +88,11 @@ const DropdownMenuProfile: React.FC<DropdownMenuProfileProps> = ({ openNotificat
                         </p>
                     </div>
                     {/* Notification Badge */}
-                    { requestNotifications && requestNotifications.length > 0 ?
+                    { requestCount > 0 && (
                         <span className="absolute top-[-2px] right-[-2px] bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center z-10">
                             {requestCount}
                         </span>
-                        :
-                        null
-                    }
+                    )}
                 </button>
 
             </DropdownMenuTrigger>
@@ -120,13 +118,11 @@ const DropdownMenuProfile: React.FC<DropdownMenuProfileProps> = ({ openNotificat
                     <DropdownMenuItem className="cursor-pointer" onClick={openNotificationsSidebar}>
                         <Bell className="mr-2 h-4 w-4 text-black dark:text-white" />
                         Notifications
-                        {
-                            requestNotifications ?
+                        {requestCount > 0 && (
                             <span className="ml-auto bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
                                 {requestCount}
                             </span>
-                            : null
-                        }
+                        )}
                     </DropdownMenuItem>
                     <DropdownMenuItem >
                        <ThemeToggleDropdownItem/>

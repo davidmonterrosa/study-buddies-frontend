@@ -65,7 +65,7 @@ const NavBarComponent: React.FC = () => {
 
       {/* Sidebars and Modals */}
       <MyCommunitiesSidebar isOpen={isOpenRight} onClose={closeMyCommunities} openNotificationsSidebar={openNotificationsSidebar} />
-      <NotificationsSidebar isOpen={isOpenNotifications} onBack={() => setIsOpenNotifications(false)} onClose={() => { setIsOpenNotifications(false);  /*setIsOpenProfile(false);*/ }}/> 
+      <NotificationsSidebar isOpen={isOpenNotifications} onBack={() => setIsOpenNotifications(false)} /> 
       <CreateCommunityModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}

@@ -103,7 +103,7 @@ const SessionsComponent = ({ communityId, newSession, fetchAfterCreate }: Sessio
                     </button>
                   </a>
                   {/* Only show delete if user is owner */}
-                  {(userId && communityOwnerId && userId === communityOwnerId) && (
+                  {(userId && communityOwnerId && userId === communityOwnerId) ? (
                     <>
                       <button
                         className="ml-2 p-1 rounded hover:bg-red-100 dark:hover:bg-[#3D3179]"
@@ -127,7 +127,7 @@ const SessionsComponent = ({ communityId, newSession, fetchAfterCreate }: Sessio
                         </AlertDialog>
                       )}
                     </>
-                  )}
+                  ) : null}
                 </div>
               </div>
             </div>

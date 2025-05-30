@@ -2,18 +2,16 @@
 import { IRequestEntry } from "@/utils/Interfaces/UserInterfaces";
 import { approveRequest, currentUser, getAllRequestsToOwner, getLoggedInUserData, getToken, removeRequest } from "@/utils/Services/DataServices";
 import { getCommunityRequestDetails } from "@/utils/Services/StyleHelpers";
-import { Undo2, X } from "lucide-react";
+import { Undo2,} from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { toast } from "sonner";
 
 interface NotificationsSidebarProps {
   isOpen: boolean;
-  onClose: () => void;  // Closes both sidebars
   onBack: () => void;   // Only closes notification sidebar
 }
 
-const NotificationsSidebar: React.FC<NotificationsSidebarProps> = ({ isOpen, onClose, onBack }) => {
+const NotificationsSidebar: React.FC<NotificationsSidebarProps> = ({ isOpen, onBack }) => {
 
   const [requestNotifications, setRequestNotifications] = useState<IRequestEntry[]>([])
     useEffect(() => {
@@ -38,12 +36,27 @@ const NotificationsSidebar: React.FC<NotificationsSidebarProps> = ({ isOpen, onC
       try {
         const response = await approveRequest(communityRequest.communityId, communityRequest.userId, true, getToken())
         if (response && response.Success !== false) {
-          toast.success("Request accepted", { description: `${communityRequest.firstName} ${communityRequest.lastName} has been added to ${communityRequest.communityName}.` });
+          localStorage.setItem("postReloadToast", JSON.stringify({
+            type: "success",
+            message: "Request accepted",
+            description: `${communityRequest.firstName} ${communityRequest.lastName} has been added to ${communityRequest.communityName}.`
+          }));
+          window.location.reload();
         } else {
-          toast.error("Failed to accept request", { description: response?.message || "An error occurred." });
+          localStorage.setItem("postReloadToast", JSON.stringify({
+            type: "error",
+            message: "Failed to accept request",
+            description: response?.message || "An error occurred."
+          }));
+          window.location.reload();
         }
       } catch (err) {
-        toast.error("Failed to accept request", { description: "An error occurred." });
+        localStorage.setItem("postReloadToast", JSON.stringify({
+          type: "error",
+          message: "Failed to accept request",
+          description: "An error occurred."
+        }));
+        window.location.reload();
       }
     }
     
@@ -51,12 +64,27 @@ const NotificationsSidebar: React.FC<NotificationsSidebarProps> = ({ isOpen, onC
       try {
         const response = await removeRequest(communityRequest.communityId, communityRequest.userId, getToken())
         if (response && response.Success !== false) {
-          toast.success("Request rejected", { description: `${communityRequest.firstName} ${communityRequest.lastName} was rejected from ${communityRequest.communityName}.` });
+          localStorage.setItem("postReloadToast", JSON.stringify({
+            type: "success",
+            message: "Request rejected",
+            description: `${communityRequest.firstName} ${communityRequest.lastName} was rejected from ${communityRequest.communityName}.`
+          }));
+          window.location.reload();
         } else {
-          toast.error("Failed to reject request", { description: response?.message || "An error occurred." });
+          localStorage.setItem("postReloadToast", JSON.stringify({
+            type: "error",
+            message: "Failed to reject request",
+            description: response?.message || "An error occurred."
+          }));
+          window.location.reload();
         }
       } catch (err) {
-        toast.error("Failed to reject request", { description: "An error occurred." });
+        localStorage.setItem("postReloadToast", JSON.stringify({
+          type: "error",
+          message: "Failed to reject request",
+          description: "An error occurred."
+        }));
+        window.location.reload();
       }
     }
 
@@ -66,14 +94,14 @@ const NotificationsSidebar: React.FC<NotificationsSidebarProps> = ({ isOpen, onC
     <div className={`fixed top-0 right-0 h-full w-80 bg-white dark:bg-[#140D34] shadow-lg z-50 transition-transform duration-300 ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}>
       <div className="relative w-full h-full p-4 overflow-y-scroll scrollbar ">
         {/* Top Row: Back Button, Title, Close Button */}
-        <div className="flex justify-between items-center mb-4">
-          <button onClick={onBack} className="flex items-center text-gray-500 dark:text-white hover:text-black dark:hover:text-white">
-            <Undo2 className="w-5 h-5 mr-2" />
+        <div className="flex items-center justify-center mb-4 gap-2">
+          <button 
+            onClick={onBack} 
+            className="flex items-center cursor-pointer text-gray-500 dark:text-white hover:text-black dark:hover:text-white rounded-full transition hover:bg-gray-100 dark:hover:bg-[#3D3179] p-1">
+            <Undo2 className="w-5 h-5 " />
           </button>
-          <h2 className="text-lg font-semibold">Notifications</h2>
-          <button onClick={onClose} className="text-gray-500 dark:text-white hover:text-black dark:hover:text-white" aria-label="Close">
-            <X className="w-5 h-5" />
-          </button>
+          <h2 className="text-lg font-semibold text-center flex-1">Notifications</h2>
+          
         </div>
 
         {/* DM Notification */}

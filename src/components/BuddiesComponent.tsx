@@ -125,7 +125,7 @@ const BuddiesComponent: React.FC<BuddyComponentProps> = ({
                         buddy.userId !== userId &&
                         <button
                           onClick={() => onMessageClick(buddy.userId)}
-                          className="ml-auto bg-[#818CF8] cursor-pointer rounded-full w-[30px] h-[30px] flex items-center justify-center"
+                          className="ml-auto bg-[#818CF8] cursor-pointer rounded-full w-[30px] h-[30px] flex items-center justify-center transition-colors hover:bg-[#6366f1] dark:hover:bg-[#3D3179] focus-visible:ring-2 focus-visible:ring-[#818CF8]"
                         >
                           <Image width={20} height={20} src="/assets/Message.svg" alt="Message Icon" />
                         </button>

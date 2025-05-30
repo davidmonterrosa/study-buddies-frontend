@@ -59,17 +59,19 @@ const CommunityPreview: React.FC<PreviewProps> = ({
         if(!myCommunities.includes(communityId)){
           const result = await joinCommunity(userId, communityId, getToken());
           if(result) {
-            toast.success("Joined Community", {
+            localStorage.setItem("postReloadToast", JSON.stringify({
+              type: "success",
+              message: "Joined Community",
               description: `You have joined ${communityName} successfully!`
-            });
-            setTimeout(() => {
-              if (onJoinOrVisit) onJoinOrVisit();
-              router.push(directLink);
-            }, 1000);
+            }));
+            window.location.reload();
           } else {
-            toast.error("Error", {
+            localStorage.setItem("postReloadToast", JSON.stringify({
+              type: "error",
+              message: "Error",
               description: `Failed to join ${communityName}.`
-            });
+            }));
+            window.location.reload();
           }
           console.log(result)
         } else {

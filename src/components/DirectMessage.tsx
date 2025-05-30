@@ -128,7 +128,7 @@ const DirectMessage: React.FC<DirectMessageProps> = ({ onBackClick, buddy }) => 
         {onBackClick && (
           <button
             onClick={onBackClick}
-            className="flex items-center gap-2 bg-gradient-to-r from-[#6F58DA] to-[#5131E7] text-white px-3 py-1 rounded-full shadow-lg hover:brightness-110 focus:outline-none focus:ring-2 focus:ring-[#818CF8] transition ml-2"
+            className="flex items-center cursor-pointer gap-2 bg-gradient-to-r from-[#6F58DA] to-[#5131E7] text-white px-3 py-1 rounded-full shadow-lg hover:brightness-110 focus:outline-none focus:ring-2 focus:ring-[#818CF8] transition ml-2"
             title="Back to Buddies"
           >
             <ArrowLeft className="w-5 h-5" />

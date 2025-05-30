@@ -251,13 +251,11 @@ const MyCommunitiesSidebar: React.FC<MyCommunitiesSidebarProps> = ({
                 </div>
 
                 {/* Notification Badge */}
-                {
-                  requestNotifications ?
+                {requestCount > 0 && (
                   <span className="absolute top-[-4px] right-[-4px] bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center z-10">
                     {requestCount}
                   </span>
-                  : null
-                }
+                )}
               </div>
 
               <div className="flex-1">
@@ -290,13 +288,11 @@ const MyCommunitiesSidebar: React.FC<MyCommunitiesSidebarProps> = ({
                     onClick={openNotificationsSidebar}
                   >
                     Notifications
-                    {
-                      requestNotifications && requestNotifications.length > 0 ?
+                    {requestCount > 0 && (
                       <span className="ml-auto bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
                         {requestCount}
                       </span>
-                      : null
-                    }
+                    )}
                   </DropdownItem>
                   
                   <button
