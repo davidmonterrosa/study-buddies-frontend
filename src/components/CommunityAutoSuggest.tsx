@@ -1,9 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Dropdown from './FilterDropdown';
 import { ICommunityData } from '@/utils/Interfaces/UserInterfaces';
-import { useRouter } from "next/navigation";
 import PrivateCommunityModal from './PrivateCommunityModalProps ';
-import { currentUser, getLoggedInUserData, getToken, requestJoin } from '@/utils/Services/DataServices';
 import CommunityPreview from './Preview';
 import { Dialog, DialogContent, DialogTitle } from './ui/dialog';
 import Image from 'next/image';

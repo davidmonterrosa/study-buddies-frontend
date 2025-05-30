@@ -1,6 +1,5 @@
 "use client";
 import { Undo2, X } from "lucide-react";
-import Image from 'next/image';
 
 interface NotificationsSidebarProps {
   isOpen: boolean;

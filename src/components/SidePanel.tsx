@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from 'react';
 import { currentUser, getLoggedInUserData, getMyCommunities, getToken } from '@/utils/Services/DataServices';
 import { useAppContext } from '@/context/CommunityContext';
-
 import { Group, Users } from 'lucide-react';
 import { CollapseSection, SidebarLink } from './MobileSidebar';
 

@@ -5,7 +5,6 @@ import CommunityCard from '@/components/Card'
 import { getAllCommunities, getToken } from '@/utils/Services/DataServices'
 import { ICommunityData } from '@/utils/Interfaces/UserInterfaces'
 import { useBreakpoint } from '@/hooks/use-mobile'
-import { useSidebar } from '@/app/(pages)/layout'
 
 const CommunityContainer: React.FC = () => {
   const [communityGroups, setCommunityGroups] = useState<ICommunityData[]>([])
