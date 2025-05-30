@@ -9,8 +9,6 @@ import { ICommunityData, IEditUserDTO, IUserNameId } from "@/utils/Interfaces/Us
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Button } from "flowbite-react";
 import EditCard from "@/components/EditCard";
-import { useRouter } from "next/navigation";
-import { toast } from "sonner";
 
 const ProfilePage: React.FC = () => {
   const [user, setUser] = useState<IUserNameId | null>(null);
@@ -26,7 +24,6 @@ const ProfilePage: React.FC = () => {
   const [editUsername, setEditUsername] = useState("");
   // const [editPassword, setEditPassword] = useState("");
   const firstInputRef = useRef<HTMLInputElement>(null);
-  const router = useRouter();
 
   useEffect(() => {
     const fetchData = async () => {

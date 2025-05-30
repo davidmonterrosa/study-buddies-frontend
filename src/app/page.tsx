@@ -1,5 +1,4 @@
 "use client";
-import { getAllDirectMessages } from "@/utils/Services/DirectMessageSerices";
 import { useRouter } from "next/navigation";
 import Image from 'next/image';
 

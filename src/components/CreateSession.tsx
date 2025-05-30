@@ -17,7 +17,6 @@ const CreateSessionModal = ({ communityId, onSessionCreated }: CreateSessionModa
   const [sessionName, setSessionName] = useState("");
   const [date, setDate] = useState("");
   const [startTime, setStartTime] = useState("");
-  const [endTime, setEndTime] = useState("");
   const [link, setLink] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -51,7 +50,6 @@ const CreateSessionModal = ({ communityId, onSessionCreated }: CreateSessionModa
         setSessionName("");
         setDate("");
         setStartTime("");
-        setEndTime("");
         setLink("");
         localStorage.setItem("postReloadToast", JSON.stringify({
           type: "success",

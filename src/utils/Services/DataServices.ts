@@ -1,4 +1,4 @@
-import { CommunityChats, ICommunityData, IEditUserDTO, IUserCredentials, IUserNameId } from "../Interfaces/UserInterfaces";
+import { CommunityChats, ICommunityData, IEditUserDTO, IUserCredentials, } from "../Interfaces/UserInterfaces";
 
 const url = "https://study-buddys-backend.azurewebsites.net/";
 

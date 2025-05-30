@@ -17,7 +17,6 @@ const DirectMessage: React.FC<DirectMessageProps> = ({ onBackClick, buddy }) => 
   const [messages, setMessages] = useState<DirectMessages[]>([])
   const [messageText, setMessageText] = useState<string>('')
   const [senderId, setSenderId] = useState<number>(-1)
-  const [senderName, setSenderName] = useState<string>('');
   const [buddyInfo, setBuddyInfo] = useState<IUserNameId>({
         success: false,
         user: {
@@ -47,7 +46,6 @@ const DirectMessage: React.FC<DirectMessageProps> = ({ onBackClick, buddy }) => 
       const buddyResponse = await getUserById(buddy);
       if (loggedIn) {
         setSenderId(loggedIn.user.id);
-        setSenderName(loggedIn.user.username);
       }
       if(buddyResponse) {
         console.log(buddyResponse)

@@ -22,10 +22,6 @@ import {
 import { useAppContext } from "@/context/CommunityContext";
 import Link from "next/link";
 import Image from 'next/image';
-// import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
-// import { Dialog } from "./ui/dialog";
-// import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "./ui/alert-dialog";
-import LeaveOrDelete from "./LeaveOrDelete";
 import CreateCommunityModal from "./CreateModal";
 import { currentUser, getLoggedInUserData } from "@/utils/Services/DataServices";
 
@@ -82,7 +78,6 @@ export const SidebarLink = ({
   href,
   isActive = false,
   onClick,
-  updateFunction,
 }: {
   text: string;
   href: string;
