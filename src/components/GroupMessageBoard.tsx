@@ -10,7 +10,7 @@ import {
   deleteCommunityChatMessage,
 } from '@/utils/Services/DataServices';
 import { formatPostTimeStamp } from '@/utils/Services/StyleHelpers';
-import { EllipsisVertical, MessageSquareReply, ThumbsUp, Trash2 } from 'lucide-react';
+import { EllipsisVertical, Trash2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState, useRef } from 'react';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from './ui/alert-dialog';

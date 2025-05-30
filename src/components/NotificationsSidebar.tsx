@@ -1,5 +1,5 @@
 "use client";
-import { IRequestData, IRequestEntry } from "@/utils/Interfaces/UserInterfaces";
+import { IRequestEntry } from "@/utils/Interfaces/UserInterfaces";
 import { approveRequest, currentUser, getAllRequestsToOwner, getLoggedInUserData, getToken, removeRequest } from "@/utils/Services/DataServices";
 import { getCommunityRequestDetails } from "@/utils/Services/StyleHelpers";
 import { Undo2, X } from "lucide-react";
@@ -14,7 +14,6 @@ interface NotificationsSidebarProps {
 
 const NotificationsSidebar: React.FC<NotificationsSidebarProps> = ({ isOpen, onClose, onBack }) => {
 
-  const [requestData, setRequestData] = useState<IRequestData[]>([])
   const [requestNotifications, setRequestNotifications] = useState<IRequestEntry[]>([])
     useEffect(() => {
       const getLoggedInData = async () => {
@@ -25,7 +24,6 @@ const NotificationsSidebar: React.FC<NotificationsSidebarProps> = ({ isOpen, onC
         if (loggedIn) {
           const notificationData = await getAllRequestsToOwner(loggedIn.user.id, getToken())
           console.log("Request data: ", notificationData)
-          setRequestData(notificationData);
           const data = await getCommunityRequestDetails(notificationData.communities);
           setRequestNotifications(data);
           console.log(data);
@@ -121,7 +119,7 @@ const NotificationsSidebar: React.FC<NotificationsSidebarProps> = ({ isOpen, onC
             </div>
             )
           }) :
-          <p>You're all caught up!</p>
+          <p>You&#39;re all caught up!</p>
         }
 
       </div>
