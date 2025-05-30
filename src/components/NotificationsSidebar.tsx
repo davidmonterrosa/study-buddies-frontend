@@ -5,6 +5,7 @@ import { getCommunityRequestDetails } from "@/utils/Services/StyleHelpers";
 import { Undo2, X } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 interface NotificationsSidebarProps {
   isOpen: boolean;
@@ -36,14 +37,29 @@ const NotificationsSidebar: React.FC<NotificationsSidebarProps> = ({ isOpen, onC
     }, []);
 
     const handleAccept = async (communityRequest: IRequestEntry) => {
-      // export const approveRequest = async (communityId: number, userId: number, approveOrNot: boolean, token: string) => {
-      const response = await approveRequest(communityRequest.communityId, communityRequest.userId, true, getToken())
-      console.log(`${response}`)
+      try {
+        const response = await approveRequest(communityRequest.communityId, communityRequest.userId, true, getToken())
+        if (response && response.Success !== false) {
+          toast.success("Request accepted", { description: `${communityRequest.firstName} ${communityRequest.lastName} has been added to ${communityRequest.communityName}.` });
+        } else {
+          toast.error("Failed to accept request", { description: response?.message || "An error occurred." });
+        }
+      } catch (err) {
+        toast.error("Failed to accept request", { description: "An error occurred." });
+      }
     }
     
     const handleReject = async (communityRequest: IRequestEntry) => {
-      const response = await removeRequest(communityRequest.communityId, communityRequest.userId, getToken())
-      console.log(`${response}`)
+      try {
+        const response = await removeRequest(communityRequest.communityId, communityRequest.userId, getToken())
+        if (response && response.Success !== false) {
+          toast.success("Request rejected", { description: `${communityRequest.firstName} ${communityRequest.lastName} was rejected from ${communityRequest.communityName}.` });
+        } else {
+          toast.error("Failed to reject request", { description: response?.message || "An error occurred." });
+        }
+      } catch (err) {
+        toast.error("Failed to reject request", { description: "An error occurred." });
+      }
     }
 
     
