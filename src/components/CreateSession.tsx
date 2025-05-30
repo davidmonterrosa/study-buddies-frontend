@@ -5,12 +5,12 @@ import { useState } from "react";
 import { CalendarIcon, Clock } from "lucide-react";
 import { createCommunityEvent } from "@/utils/Services/DataServices";
 import { getToken } from "@/utils/Services/DataServices";
-import { SessionsEvent } from "@/utils/Interfaces/UserInterfaces";
+import { Event } from "@/utils/Interfaces/UserInterfaces";
 import { toast } from "sonner";
 
 interface CreateSessionModalProps {
   communityId: number;
-  onSessionCreated: (session: SessionsEvent) => void;
+  onSessionCreated: (session: Event) => void;
 }
 
 const CreateSessionModal = ({ communityId, onSessionCreated }: CreateSessionModalProps) => {
@@ -24,7 +24,7 @@ const CreateSessionModal = ({ communityId, onSessionCreated }: CreateSessionModa
   const handleSubmit = async () => {
     setLoading(true);
     setError("");
-    const sessionData: SessionsEvent = {
+    const sessionData: Event = {
       id: 0,
       communityId,
       eventName: sessionName,

@@ -5,7 +5,7 @@ import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs'
 import { Separator } from './ui/separator'
 import { getCommunityById } from '@/utils/Services/DataServices'
-import { ICommunityData, SessionsEvent } from '@/utils/Interfaces/UserInterfaces'
+import { ICommunityData, Event } from '@/utils/Interfaces/UserInterfaces'
 import BuddiesComponent from './BuddiesComponent'
 import DirectMessage from './DirectMessage'
 import CommunityBoard from './GroupMessageBoard'
@@ -30,7 +30,7 @@ const CommunityDashboard: React.FC<CommunityDashboardProps> = ({ communityId }) 
   const [activeTab, setActiveTab] = useState('communityBoardTab');
   const messageContainerRef = useRef<HTMLDivElement | null>(null)
   const [showModal, setShowModal] = useState(false);
-  const [newSession, setNewSession] = useState<SessionsEvent | null>(null);
+  const [newSession, setNewSession] = useState<Event | null>(null);
 
   const { toggleSidebar } = useSidebar();
 
@@ -64,7 +64,7 @@ const CommunityDashboard: React.FC<CommunityDashboardProps> = ({ communityId }) 
     setBuddyToDm(buddyId);
     setShowDM(true)
   }
-  const handleSessionCreated = (session: SessionsEvent) => {
+  const handleSessionCreated = (session: Event) => {
     setNewSession(session);
     setShowModal(false);
   };
