@@ -189,7 +189,7 @@ const BuddiesComponent: React.FC<BuddyComponentProps> = ({
             </Select>
           </div>
           <DialogFooter>
-            <Button className="bg-red-500 hover:bg-red-500 hover:brightness-110 text-white" onClick={() => setShowRoleDialog(false)}>Cancel</Button>
+            <Button className="bg-red-500 hover:bg-red-500 hover:brightness-110 text-white cursor-pointer" onClick={() => setShowRoleDialog(false)}>Cancel</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

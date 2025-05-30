@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { getEventsByCommunityId, deleteCommunityEvent, getToken, getLoggedInUserData, currentUser, getCommunityById } from '@/utils/Services/DataServices';
 import { Event } from '@/utils/Interfaces/UserInterfaces';
-import { Trash } from 'lucide-react';
+import { Trash2 } from 'lucide-react';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from './ui/alert-dialog';
 import { toast } from 'sonner';
 
@@ -110,7 +110,7 @@ const SessionsComponent = ({ communityId, newSession, fetchAfterCreate }: Sessio
                         onClick={() => setPendingDeleteId(session.id)}
                         title="Delete Session"
                       >
-                        <Trash className="text-red-500" size={20} />
+                        <Trash2 className="text-red-500" size={20} />
                       </button>
                       {pendingDeleteId === session.id && (
                         <AlertDialog open={true}>
@@ -120,8 +120,8 @@ const SessionsComponent = ({ communityId, newSession, fetchAfterCreate }: Sessio
                               <AlertDialogDescription>This action cannot be undone.</AlertDialogDescription>
                             </AlertDialogHeader>
                             <AlertDialogFooter>
-                              <AlertDialogCancel onClick={() => setPendingDeleteId(null)}>Cancel</AlertDialogCancel>
-                              <AlertDialogAction onClick={() => handleDeleteSession(session)}>Delete</AlertDialogAction>
+                              <AlertDialogCancel className='cursor-pointer' onClick={() => setPendingDeleteId(null)}>Cancel</AlertDialogCancel>
+                              <AlertDialogAction className='cursor-pointer' onClick={() => handleDeleteSession(session)}>Delete</AlertDialogAction>
                             </AlertDialogFooter>
                           </AlertDialogContent>
                         </AlertDialog>

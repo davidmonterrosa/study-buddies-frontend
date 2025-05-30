@@ -296,7 +296,7 @@ const MyCommunitiesSidebar: React.FC<MyCommunitiesSidebarProps> = ({
                   </DropdownItem>
                   
                   <button
-                    className="flex items-center gap-2 py-2 px-3 rounded-md text-sm transition hover:bg-[rgba(129,140,248,0.25)] w-full"
+                    className="flex cursor-pointer items-center gap-2 py-2 px-3 rounded-md text-sm transition hover:bg-[rgba(129,140,248,0.25)] w-full"
                     onClick={() => {
                       const storedTheme = localStorage.getItem("theme");
                       const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;

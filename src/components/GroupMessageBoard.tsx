@@ -134,7 +134,7 @@ const CommunityBoard: React.FC<CommunityBoardProps> = ({
                   {isSender && (
                     <div className="relative -mt-5">
                       <button onClick={() => setOpenMenuIdx(idx)}
-                        className="transition-colors duration-200 rounded-full p-1 hover:bg-gray-100 dark:hover:bg-[#3D3179] focus-visible:ring-2 focus-visible:ring-[#818CF8]"
+                        className="cursor-pointer transition-colors duration-200 rounded-full p-1 hover:bg-gray-100 dark:hover:bg-[#3D3179] focus-visible:ring-2 focus-visible:ring-[#818CF8]"
                         aria-label="Open message menu"
                       >
                         <EllipsisVertical size={20} />
@@ -142,13 +142,13 @@ const CommunityBoard: React.FC<CommunityBoardProps> = ({
                       {openMenuIdx === idx && (
                         <div className="absolute right-0 mt-2 w-32 bg-white dark:bg-[#2a2250] border border-gray-200 dark:border-[#aa7dfc] rounded shadow-lg z-20">
                           <button
-                            className="flex items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-gray-100 dark:hover:bg-[#3D3179] w-full focus-visible:ring-2 focus-visible:ring-[#818CF8]"
+                            className="flex cursor-pointer items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-gray-100 dark:hover:bg-[#3D3179] w-full focus-visible:ring-2 focus-visible:ring-[#818CF8]"
                             onClick={() => { setPendingDeleteIdx(idx); }}
                           >
                             <Trash2 size={16} /> Delete
                           </button>
                           <button
-                            className="flex items-center gap-2 px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-[#3D3179] w-full focus-visible:ring-2 focus-visible:ring-[#818CF8]"
+                            className="flex cursor-pointer items-center gap-2 px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-[#3D3179] w-full focus-visible:ring-2 focus-visible:ring-[#818CF8]"
                             onClick={() => setOpenMenuIdx(null)}
                           >
                             Cancel

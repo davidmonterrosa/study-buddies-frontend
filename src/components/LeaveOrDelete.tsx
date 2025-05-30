@@ -1,7 +1,7 @@
 'use client'
 import React, { useEffect, useState } from 'react'
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from './ui/alert-dialog'
-import { Trash } from 'lucide-react'
+import { Trash2 } from 'lucide-react'
 import { currentUser, deleteCommunity, getCommunityById, getLoggedInUserData, /*getMyCommunities,*/ getToken, removeMember } from '@/utils/Services/DataServices'
 import { ICommunityData } from '@/utils/Interfaces/UserInterfaces'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './ui/tooltip'
@@ -158,7 +158,7 @@ const LeaveOrDelete: React.FC<LeaveOrDeleteProps> = ({
                         <TooltipProvider>
                             <Tooltip>
                                 <TooltipTrigger>
-                                    <Trash className={`${isActive ? "stroke-red-500" : "dark:stroke-white stroke-black"}`} />
+                                    <Trash2 className={`${isActive ? "stroke-red-500" : "dark:stroke-white stroke-white"}`} />
                                 </TooltipTrigger>
                                 <TooltipContent>
                                     <span className="text-sm dark:text-black text-white select-none">
