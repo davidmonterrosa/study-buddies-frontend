@@ -42,7 +42,7 @@ const NotificationsSidebar: React.FC<NotificationsSidebarProps> = ({ isOpen, onC
         } else {
           toast.error("Failed to accept request", { description: response?.message || "An error occurred." });
         }
-      } catch (err) {
+      } catch {
         toast.error("Failed to accept request", { description: "An error occurred." });
       }
     }
@@ -55,7 +55,7 @@ const NotificationsSidebar: React.FC<NotificationsSidebarProps> = ({ isOpen, onC
         } else {
           toast.error("Failed to reject request", { description: response?.message || "An error occurred." });
         }
-      } catch (err) {
+      } catch {
         toast.error("Failed to reject request", { description: "An error occurred." });
       }
     }

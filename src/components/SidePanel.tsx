@@ -2,9 +2,9 @@
 import React, { useEffect, useState } from 'react';
 import { currentUser, getLoggedInUserData, getMyCommunities, getToken } from '@/utils/Services/DataServices';
 import { useAppContext } from '@/context/CommunityContext';
-import { Group, Users, PanelLeft } from 'lucide-react';
+import { Group, Users, /*PanelLeft*/ } from 'lucide-react';
 import { CollapseSection, SidebarLink } from './MobileSidebar';
-import { useSidebar } from '@/app/(pages)/layout';
+// import { useSidebar } from '@/app/(pages)/layout';
 
 interface Props {
   visible: boolean;
@@ -15,7 +15,7 @@ const MyCommunitiesPanel: React.FC<Props> = ({ visible }) => {
   const { communityGroups, setCommunityGroups } = useAppContext();
   const [ownedCommunities, setOwnedCommunities] = useState<number[]>([])
   const [joinedCommunities, setJoinedCommunities] = useState<number[]>([])
-  const { toggleSidebar } = useSidebar();
+  // const { toggleSidebar } = useSidebar();
 
   useEffect(() => {
     const fetchMyCommunities = async () => {
