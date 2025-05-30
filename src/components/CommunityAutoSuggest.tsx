@@ -6,6 +6,7 @@ import PrivateCommunityModal from './PrivateCommunityModalProps ';
 import { currentUser, getLoggedInUserData, getToken, requestJoin } from '@/utils/Services/DataServices';
 import CommunityPreview from './Preview';
 import { Dialog, DialogContent, DialogTitle } from './ui/dialog';
+import Image from 'next/image';
 
 const CommunityAutoSuggest = () => {
   const [allCommunities, setAllCommunities] = useState<ICommunityData[]>([]);
@@ -172,7 +173,7 @@ const CommunityAutoSuggest = () => {
         className="flex bg-white items-center min-w-[60%] sm:w-lg lg:min-w-[50%] xl:min-w-[65%] rounded-2xl border-2 px-3 py-[3px] relative"
       >
         <button className="size-9 mx-2 cursor-pointer">
-          <img className="w-[25px] h-[25px]" src="../assets/searchIcon.svg" alt="Search" />
+          <Image className="w-[25px] h-[25px]" src="../assets/searchIcon.svg" alt="Search" width={25} height={25} />
         </button>
         <input
           type="text"
@@ -208,7 +209,7 @@ const CommunityAutoSuggest = () => {
         {error && <p className="text-red-500 mt-2">{error}</p>}
 
         <button onClick={() => setIsFilterOpen(!isFilterOpen)} className="relative">
-          <img className="w-[25px] h-[25px] cursor-pointer" src="/assets/filter.svg" alt="Filter" />
+          <Image className="w-[25px] h-[25px] cursor-pointer" src="/assets/filter.svg" alt="Filter" width={25} height={25} />
         </button>
 
         {isFilterOpen && (
