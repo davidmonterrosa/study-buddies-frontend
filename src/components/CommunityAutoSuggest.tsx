@@ -18,15 +18,12 @@ const CommunityAutoSuggest = () => {
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [isSuggestionsOpen, setIsSuggestionsOpen] = useState(false); // NEW
   const [isPrivateModalOpen, setIsPrivateModalOpen] = useState(false);
-  const [selectedPrivateCommunity, setSelectedPrivateCommunity] = useState<ICommunityData | null>(null);
-  const [showPreview, setShowPreview] = useState(false);
   const [previewCommunity, setPreviewCommunity] = useState<ICommunityData | null>(null);
   const [dialogOpen, setDialogOpen] = useState(false);
 
   const filterRef = useRef<HTMLDivElement | null>(null);
   const searchRef = useRef<HTMLDivElement | null>(null);
 
-  const router = useRouter();
 
   useEffect(() => {
     const fetchData = async () => {
