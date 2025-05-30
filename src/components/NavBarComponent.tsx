@@ -11,6 +11,7 @@ import CommunityAutoSuggest from "./CommunityAutoSuggest";
 
 import MyCommunitiesSidebar from "./MobileSidebar";
 import CreateCommunityModal from "./CreateModal";
+import Image from 'next/image';
 
 
 const NavBarComponent: React.FC = () => {
@@ -24,9 +25,7 @@ const NavBarComponent: React.FC = () => {
   const closeMyCommunities = () => setIsOpenRight(false);
 
   // Function to open notifications sidebar
-  const openNotificationsSidebar = () => {
-    setIsOpenNotifications(true);
-  };
+  const openNotificationsSidebar = () => setIsOpenNotifications(true);
 
   return (
     <>
@@ -35,7 +34,7 @@ const NavBarComponent: React.FC = () => {
           {/* Logo */}
           <div className="flex items-center gap-2">
             <NavbarBrand as={Link} href="/landing" className="flex items-center">
-              <img src="/assets/SBLogo.png" className="h-9" alt="Logo" />
+              <Image src="/assets/SBLogo.png" width={36} height={36} alt="Logo" />
               <span className="hidden md:block text-nowrap text-[18px] lg:text-[32px] font-semibold dark:text-white ml-2">
                 Study Buddies
               </span>
@@ -58,7 +57,7 @@ const NavBarComponent: React.FC = () => {
 
             {/* Hamburger Icon */}
             <button className="lg:hidden cursor-pointer" onClick={() => setIsOpenRight(true)}>
-              <img className="size-10 dark:invert" src="/assets/menu-burger.svg" alt="Menu" />
+              <Image className="size-10 dark:invert" src="/assets/menu-burger.svg" width={40} height={40} alt="Menu" />
             </button>
           </div>
         </div>

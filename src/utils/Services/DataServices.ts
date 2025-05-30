@@ -2,7 +2,6 @@ import { CommunityChats, ICommunityData, IEditUserDTO, IUserCredentials, IUserNa
 
 const url = "https://study-buddys-backend.azurewebsites.net/";
 
-let userData: IUserNameId;
 // let displayName: IFirstAndLastName;
 
 
@@ -55,10 +54,9 @@ export const getLoggedInUserData = async (userName: string) => {
         return null;
     }
 
-    userData = await response.json();
+    const userData = await response.json();
     console.log(userData);
     return userData;
-
 }
 
 export const currentUser = () => {

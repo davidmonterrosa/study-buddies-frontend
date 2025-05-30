@@ -13,6 +13,7 @@ import {
 import { useRouter } from "next/navigation";
 import { SwitchToggle } from "./ui/SwitchToggle";
 import { toast } from "sonner";
+import Image from 'next/image';
 
 interface CreateCommunityModalProps {
   isOpen: boolean;
@@ -123,7 +124,7 @@ const CreateCommunityModal: React.FC<CreateCommunityModalProps> = ({ isOpen, onC
         <DialogHeader>
           <div className="flex flex-col items-center">
             <div className="bg-[#818CF8] w-[50px] h-[50px] rounded-full flex items-center justify-center">
-              <img className="w-[25px] h-[25px]" src="/assets/join.svg" alt="Join Icon" />
+              <Image className="w-[25px] h-[25px]" src="/assets/join.svg" alt="Join Icon" width={25} height={25} />
             </div>
             <DialogTitle className="text-xl font-bold mt-2">Create a Community</DialogTitle>
           </div>

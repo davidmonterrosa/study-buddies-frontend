@@ -9,6 +9,7 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
 import { Button } from "./ui/button";
 import { Separator } from "./ui/separator";
+import Image from 'next/image';
 // import { toast } from "sonner";
 
 interface BuddyComponentProps {
@@ -126,7 +127,7 @@ const BuddiesComponent: React.FC<BuddyComponentProps> = ({
                           onClick={() => onMessageClick(buddy.userId)}
                           className="ml-auto bg-[#818CF8] cursor-pointer rounded-full w-[30px] h-[30px] flex items-center justify-center"
                         >
-                          <img className="w-5" src="/assets/Message.svg" alt="Message Icon" />
+                          <Image width={20} height={20} src="/assets/Message.svg" alt="Message Icon" />
                         </button>
                       }
                       {

@@ -5,6 +5,7 @@ import { Eye, EyeClosed } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import React, { Suspense, useState, useEffect } from 'react';
 import { toast } from "sonner";
+import Image from 'next/image';
 
 const SignIn = () => {
   const [isUserAlready, setIsUserAlready] = useState<boolean>(false);
@@ -39,10 +40,6 @@ const SignIn = () => {
   //   }; 
   //   getDataBack();
   // }, [])
-
-  const toggleLogIn = () => {
-    setIsUserAlready(!isUserAlready);
-  }
 
   const handleSubmit = async () => {
     const inputCredentials = {
@@ -122,7 +119,7 @@ const SignIn = () => {
       <div className="w-full min-h-screen lg:w-[30%] bg-white dark:bg-linear-to-b dark:from-[#271E55] dark:to-[#100B28] dark:border-[1px] dark:border-[#aa7dfc40] flex flex-col items-center justify-center p-8">
         <div className="w-full max-w-[700px] mx-auto flex flex-col justify-center">
           <div className="flex justify-center lg:mb-8">
-            <img src="/assets/SBLogo.png" alt="Logo" className="lg:w-24 lg:h-24 w-15 h-15" />
+            <Image src="/assets/SBLogo.png" alt="Logo" width={96} height={96} className="lg:w-24 lg:h-24 w-15 h-15" />
           </div>
 
           <form>
@@ -206,7 +203,7 @@ const SignIn = () => {
             <p className="text-lg font-medium">
               {isUserAlready ? "Not a study buddy yet?" : "Already have an account?"}
               <span className="text-[#aa7dfc] px-2">
-                <button className='hover:underline cursor-pointer' onClick={toggleLogIn}>
+                <button className='hover:underline cursor-pointer' onClick={() => setIsUserAlready(!isUserAlready)}>
                   {isUserAlready ? "Create Account" : "Log In"}
                 </button>
               </span>

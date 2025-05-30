@@ -26,7 +26,8 @@ export const getRoleStyling = (role: string) => {
 };
 
 export const capitalizeTitle = (textToUpperCase: string) => {
-  return `${textToUpperCase.toUpperCase().charAt(0)}${textToUpperCase.slice(1)}`
+  if (textToUpperCase.toLowerCase() === 'ta') return 'TA';
+  return `${textToUpperCase.toUpperCase().charAt(0)}${textToUpperCase.slice(1)}`;
 }
 
 export const formatPostTimeStamp = (timeStamp: string) => {

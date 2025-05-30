@@ -11,7 +11,7 @@ const CommunityContainer: React.FC = () => {
   const [communityGroups, setCommunityGroups] = useState<ICommunityData[]>([])
   const [currentPage, setCurrentPage] = useState<number>(1)
 
-  const { /*sidebarOpen,*/ toggleSidebar } = useSidebar();
+  // const { /*sidebarOpen,*/ toggleSidebar } = useSidebar();
   const breakpoint = useBreakpoint()
   const pageSize = (breakpoint === 'xl' || breakpoint === '2xl' || breakpoint === '3xl') ? 16 : breakpoint === 'lg' ? 12 : 12
 
@@ -39,7 +39,7 @@ const CommunityContainer: React.FC = () => {
       <div className="flex items-center justify-center lg:justify-between mb-4">
         <div className="flex items-center gap-2">
           <button
-            onClick={toggleSidebar}
+            // onClick={toggleSidebar}
             className="text-black cursor-pointer dark:text-white hidden lg:block"
           >
             <PanelLeft />
