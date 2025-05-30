@@ -5,7 +5,7 @@ import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs'
 import { Separator } from './ui/separator'
 import { getCommunityById } from '@/utils/Services/DataServices'
-import { ICommunityData, Event } from '@/utils/Interfaces/UserInterfaces'
+import { ICommunityData } from '@/utils/Interfaces/UserInterfaces'
 import BuddiesComponent from './BuddiesComponent'
 import DirectMessage from './DirectMessage'
 import CommunityBoard from './GroupMessageBoard'
@@ -30,7 +30,7 @@ const CommunityDashboard: React.FC<CommunityDashboardProps> = ({ communityId }) 
   const [activeTab, setActiveTab] = useState('communityBoardTab');
   const messageContainerRef = useRef<HTMLDivElement | null>(null)
   const [showModal, setShowModal] = useState(false);
-  const [newSession, setNewSession] = useState<Event | null>(null);
+  const [newSession, setNewSession] = useState<any>(null);
 
   const { toggleSidebar } = useSidebar();
 
@@ -64,7 +64,7 @@ const CommunityDashboard: React.FC<CommunityDashboardProps> = ({ communityId }) 
     setBuddyToDm(buddyId);
     setShowDM(true)
   }
-  const handleSessionCreated = (session: Event) => {
+  const handleSessionCreated = (session: any) => {
     setNewSession(session);
     setShowModal(false);
   };
@@ -130,9 +130,7 @@ const CommunityDashboard: React.FC<CommunityDashboardProps> = ({ communityId }) 
           <TabsContent value="sessionsTab" className="relative flex flex-col flex-1 min-h-0 overflow-hidden">
             {/* Scrollable content */}
             <div className="flex-1 min-h-0 overflow-y-auto scrollbar pt-4 pb-3"> {/* Add padding bottom so sticky button isn't overlapped */}
-              {newSession &&
-                <SessionsComponent communityId={communityId} newSession={newSession} fetchAfterCreate={true} />
-              }
+              <SessionsComponent communityId={communityId} newSession={newSession} fetchAfterCreate={true} />
             </div>
 
             {/* Sticky Button at Bottom (small screens only) */}
