@@ -175,7 +175,7 @@ const CommunityBoard: React.FC<CommunityBoardProps> = ({
                 </div>
                 <p>{chatItem.message}</p>
                 <div className="flex justify-end gap-3 mt-2">
-                  <div className="flex items-center gap-1">
+                  {/* <div className="flex items-center gap-1">
                     <p>12</p>
                     <div
                       className={`rounded-full w-[30px] h-[30px] flex items-center justify-center ${isSender ? 'bg-[#3730A3] text-white' : 'bg-[#818CF8] text-black'
@@ -191,11 +191,10 @@ const CommunityBoard: React.FC<CommunityBoardProps> = ({
                         }`}
                     >
                       <MessageSquareReply size={20} />
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               </div>
-            </div>
           );
         })}
         <div ref={messagesEndRef} />
