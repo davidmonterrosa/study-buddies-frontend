@@ -164,8 +164,8 @@ const CommunityBoard: React.FC<CommunityBoardProps> = ({
                               <AlertDialogDescription>This action cannot be undone.</AlertDialogDescription>
                             </AlertDialogHeader>
                             <AlertDialogFooter>
-                              <AlertDialogCancel onClick={() => { setPendingDeleteIdx(null); setOpenMenuIdx(null); }}>Cancel</AlertDialogCancel>
-                              <AlertDialogAction onClick={() => handleDeleteMessage(chatItem.id)}>Delete</AlertDialogAction>
+                              <AlertDialogCancel className='cursor-pointer' onClick={() => { setPendingDeleteIdx(null); setOpenMenuIdx(null); }}>Cancel</AlertDialogCancel>
+                              <AlertDialogAction className='cursor-pointer' onClick={() => handleDeleteMessage(chatItem.id)}>Delete</AlertDialogAction>
                             </AlertDialogFooter>
                           </AlertDialogContent>
                         </AlertDialog>
