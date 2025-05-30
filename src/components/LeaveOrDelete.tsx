@@ -5,7 +5,6 @@ import { Trash } from 'lucide-react'
 import { currentUser, deleteCommunity, getCommunityById, getLoggedInUserData, /*getMyCommunities,*/ getToken, removeMember } from '@/utils/Services/DataServices'
 import { ICommunityData } from '@/utils/Interfaces/UserInterfaces'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './ui/tooltip'
-import { useRouter } from 'next/navigation'
 import { toast } from "sonner";
 // import { useAppContext } from '@/context/CommunityContext'
 
